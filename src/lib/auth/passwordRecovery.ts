@@ -2,8 +2,36 @@ import { AppRoutes } from "../navigation/routes";
 
 export const MIN_PASSWORD_LENGTH = 8;
 
+const LOCALHOST_ORIGIN_PATTERN =
+  /^https?:\/\/(localhost|127\.0\.0\.1|\[::1\])(:\d+)?$/i;
+
+export function isLocalhostOrigin(origin: string): boolean {
+  return LOCALHOST_ORIGIN_PATTERN.test(origin.replace(/\/$/, ""));
+}
+
+/**
+ * Origine publique pour les e-mails Supabase Auth.
+ * En production, VITE_APP_ORIGIN prime pour éviter un redirectTo localhost
+ * si le build ou la config Supabase ne reflète pas le domaine Netlify.
+ */
+export function resolvePasswordResetRedirectOrigin(runtimeOrigin: string): string {
+  const runtime = runtimeOrigin.replace(/\/$/, "");
+  const configured = import.meta.env.VITE_APP_ORIGIN?.trim().replace(/\/$/, "");
+
+  if (import.meta.env.PROD && configured) {
+    return configured;
+  }
+
+  return runtime;
+}
+
+export function resolvePasswordResetRedirectTo(runtimeOrigin: string): string {
+  const origin = resolvePasswordResetRedirectOrigin(runtimeOrigin);
+  return `${origin}${AppRoutes.RESET_PASSWORD}`;
+}
+
 export function buildPasswordResetRedirectUrl(origin: string): string {
-  return `${origin.replace(/\/$/, "")}${AppRoutes.RESET_PASSWORD}`;
+  return resolvePasswordResetRedirectTo(origin);
 }
 
 export function isPasswordRecoveryCallback(location: {

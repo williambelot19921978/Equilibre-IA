@@ -2,6 +2,9 @@
   command = "npm run build"
   publish = "dist"
 
+[build.environment]
+  VITE_APP_ORIGIN = "https://equilibre-ia.netlify.app"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"

@@ -1,14 +1,17 @@
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import {
   buildPasswordResetRedirectUrl,
+  isLocalhostOrigin,
   isPasswordRecoveryCallback,
   mapPasswordRecoveryError,
   MIN_PASSWORD_LENGTH,
   PASSWORD_RESET_EMAIL_SENT_MESSAGE,
+  resolvePasswordResetRedirectOrigin,
+  resolvePasswordResetRedirectTo,
   validateNewPassword,
 } from "../auth/passwordRecovery";
 import { AppRoutes } from "../navigation/routes";
@@ -22,12 +25,64 @@ function readSrc(relativePath: string): string {
 }
 
 describe("Mot de passe oublié — passwordRecovery", () => {
-  it("construit l'URL de redirection vers /reset-password", () => {
-    expect(buildPasswordResetRedirectUrl("https://equilibre-ia.netlify.app")).toBe(
+  it("construit l'URL de redirection vers /reset-password en production", () => {
+    vi.stubEnv("PROD", true);
+    vi.stubEnv("VITE_APP_ORIGIN", "https://equilibre-ia.netlify.app");
+
+    expect(
+      resolvePasswordResetRedirectTo("http://localhost:5173"),
+    ).toBe(`https://equilibre-ia.netlify.app${AppRoutes.RESET_PASSWORD}`);
+
+    expect(
+      resolvePasswordResetRedirectTo("https://equilibre-ia.netlify.app"),
+    ).toBe(`https://equilibre-ia.netlify.app${AppRoutes.RESET_PASSWORD}`);
+
+    vi.unstubAllEnvs();
+  });
+
+  it("conserve l'origine runtime en développement local", () => {
+    vi.stubEnv("PROD", false);
+    vi.stubEnv("VITE_APP_ORIGIN", "https://equilibre-ia.netlify.app");
+
+    expect(
+      resolvePasswordResetRedirectTo("http://localhost:5173"),
+    ).toBe(`http://localhost:5173${AppRoutes.RESET_PASSWORD}`);
+
+    vi.unstubAllEnvs();
+  });
+
+  it("n'utilise pas localhost comme redirectTo en production Netlify", () => {
+    vi.stubEnv("PROD", true);
+    vi.stubEnv("VITE_APP_ORIGIN", "https://equilibre-ia.netlify.app");
+
+    const redirectTo = resolvePasswordResetRedirectTo("http://localhost:5173");
+    expect(redirectTo).not.toMatch(/localhost/i);
+    expect(redirectTo).toBe(
       `https://equilibre-ia.netlify.app${AppRoutes.RESET_PASSWORD}`,
     );
-    expect(buildPasswordResetRedirectUrl("http://localhost:5173/")).toBe(
-      `http://localhost:5173${AppRoutes.RESET_PASSWORD}`,
+
+    vi.unstubAllEnvs();
+  });
+
+  it("détecte une origine localhost", () => {
+    expect(isLocalhostOrigin("http://localhost:5173")).toBe(true);
+    expect(isLocalhostOrigin("https://equilibre-ia.netlify.app")).toBe(false);
+  });
+
+  it("resolvePasswordResetRedirectOrigin sans VITE_APP_ORIGIN utilise le runtime", () => {
+    vi.stubEnv("PROD", true);
+    vi.stubEnv("VITE_APP_ORIGIN", "");
+
+    expect(
+      resolvePasswordResetRedirectOrigin("https://equilibre-ia.netlify.app"),
+    ).toBe("https://equilibre-ia.netlify.app");
+
+    vi.unstubAllEnvs();
+  });
+
+  it("buildPasswordResetRedirectUrl reste compatible", () => {
+    expect(buildPasswordResetRedirectUrl("https://equilibre-ia.netlify.app")).toBe(
+      `https://equilibre-ia.netlify.app${AppRoutes.RESET_PASSWORD}`,
     );
   });
 
@@ -89,11 +144,31 @@ describe("Mot de passe oublié — intégration shell", () => {
     expect(login).toContain("AppRoutes.FORGOT_PASSWORD");
   });
 
-  it("service utilise resetPasswordForEmail avec redirectTo", () => {
+  it("service utilise resetPasswordForEmail avec redirectTo dynamique", () => {
     const service = readSrc("services/passwordRecoveryService.ts");
     expect(service).toContain("resetPasswordForEmail");
-    expect(service).toContain("buildPasswordResetRedirectUrl");
+    expect(service).toContain("resolvePasswordResetRedirectTo");
+    expect(service).toContain("window.location.origin");
     expect(service).toContain("updateUser");
+    expect(service).not.toMatch(/localhost:\d+/);
+    expect(service).not.toContain("http://localhost");
+  });
+
+  it("ProtectedRoute ne bloque pas /reset-password", () => {
+    const router = readSrc("app/router/AppRouter.tsx");
+    const protectedRoute = readSrc("app/router/ProtectedRoute.tsx");
+    expect(router).toContain(
+      '<Route path={AppRoutes.RESET_PASSWORD} element={<ResetPasswordPage />} />',
+    );
+    expect(protectedRoute).not.toContain("RESET_PASSWORD");
+  });
+
+  it("ResetPasswordPage gère updateUser et redirection login", () => {
+    const page = readSrc("pages/ResetPasswordPage.tsx");
+    expect(page).toContain("updatePasswordAfterRecovery");
+    expect(page).toContain("PASSWORD_RECOVERY");
+    expect(page).toContain("AppRoutes.LOGIN");
+    expect(page).toContain("validateNewPassword");
   });
 
   it("routes publiques forgot/reset enregistrées", () => {

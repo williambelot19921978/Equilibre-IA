@@ -82,8 +82,11 @@ Cela garantit que **toutes les routes React survivent au F5**.
 | `VITE_SUPABASE_URL` | `https://<PROJECT_REF>.supabase.co` | ✅ |
 | `VITE_SUPABASE_PUBLISHABLE_KEY` | Clé **anon / publishable** Supabase | ✅ |
 | `VITE_GOOGLE_CALENDAR_ENABLED` | `false` | ✅ (V1 bêta) |
+| `VITE_APP_ORIGIN` | `https://equilibre-ia.netlify.app` | ✅ (e-mails Auth / reset password) |
 
 Copier les noms depuis `.env.example` — **jamais** de vraies clés dans Git.
+
+> `VITE_APP_ORIGIN` garantit que les liens de réinitialisation de mot de passe pointent vers le domaine Netlify et non vers localhost.
 
 > Les variables `VITE_*` sont injectées **au moment du build**. Après modification, relancer un déploiement.
 
@@ -104,8 +107,10 @@ Dans **Supabase Dashboard → Authentication → URL Configuration** :
 ### Site URL
 
 ```
-https://<nom-du-site>.netlify.app
+https://equilibre-ia.netlify.app
 ```
+
+> Si la Site URL reste sur `http://localhost:5173`, Supabase enverra des liens localhost même si l'app passe un `redirectTo` production.
 
 ### Redirect URLs (ajouter toutes les URLs utilisées)
 
