@@ -85,13 +85,23 @@ export function WorkoutPlayerProvider({ children }: { children: ReactNode }) {
   const [workoutStartedAt, setWorkoutStartedAt] = useState<string | null>(null);
   const restoredForUserIdRef = useRef<string | null>(null);
 
+  const clearTransientWorkoutUi = useCallback(() => {
+    setSportMissingEntry(null);
+    setWorkoutFeedback(null);
+  }, []);
+
+  const clearActiveWorkoutState = useCallback(() => {
+    setIsWorkoutPlayerOpen(false);
+    setActiveWorkoutEntry(null);
+    setActiveWorkoutSession(null);
+    setWorkoutStartedAt(null);
+    clearTransientWorkoutUi();
+  }, [clearTransientWorkoutUi]);
+
   useEffect(() => {
     if (!user?.id) {
       restoredForUserIdRef.current = null;
-      setIsWorkoutPlayerOpen(false);
-      setActiveWorkoutEntry(null);
-      setActiveWorkoutSession(null);
-      setWorkoutStartedAt(null);
+      clearActiveWorkoutState();
       return;
     }
 
@@ -100,13 +110,11 @@ export function WorkoutPlayerProvider({ children }: { children: ReactNode }) {
     }
 
     restoredForUserIdRef.current = user.id;
+    clearTransientWorkoutUi();
 
     const persisted = loadPersistedWorkoutPlayer(user.id);
     if (!persisted) {
-      setIsWorkoutPlayerOpen(false);
-      setActiveWorkoutEntry(null);
-      setActiveWorkoutSession(null);
-      setWorkoutStartedAt(null);
+      clearActiveWorkoutState();
       return;
     }
 
@@ -114,7 +122,7 @@ export function WorkoutPlayerProvider({ children }: { children: ReactNode }) {
     setActiveWorkoutSession(persisted.session);
     setWorkoutStartedAt(persisted.startedAt);
     setIsWorkoutPlayerOpen(true);
-  }, [user?.id]);
+  }, [user?.id, clearActiveWorkoutState, clearTransientWorkoutUi]);
 
   const persistActiveWorkout = useCallback(
     (
