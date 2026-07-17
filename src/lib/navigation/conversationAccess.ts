@@ -28,6 +28,13 @@ export function shouldShowConversationBar({
     return false;
   }
 
+  if (
+    pathname === AppRoutes.FORGOT_PASSWORD ||
+    pathname === AppRoutes.RESET_PASSWORD
+  ) {
+    return false;
+  }
+
   if (progressLoading) {
     return true;
   }

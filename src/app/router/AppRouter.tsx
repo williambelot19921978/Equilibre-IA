@@ -7,6 +7,8 @@ import { PublicAuthRoute, RootRedirect } from "./PublicAuthRoute";
 
 import { LoginPage } from "../../pages/LoginPage";
 import { SignupPage } from "../../pages/SignupPage";
+import { ForgotPasswordPage } from "../../pages/ForgotPasswordPage";
+import { ResetPasswordPage } from "../../pages/ResetPasswordPage";
 import { HomePage } from "../../pages/HomePage";
 import { HouseholdPage } from "../../pages/HouseholdPage";
 import { ChildrenPage } from "../../pages/ChildrenPage";
@@ -46,6 +48,17 @@ export function AppRouter() {
           </PublicAuthRoute>
         }
       />
+
+      <Route
+        path={AppRoutes.FORGOT_PASSWORD}
+        element={
+          <PublicAuthRoute>
+            <ForgotPasswordPage />
+          </PublicAuthRoute>
+        }
+      />
+
+      <Route path={AppRoutes.RESET_PASSWORD} element={<ResetPasswordPage />} />
 
       <Route element={<ProtectedRoute />}>
         <Route path={AppRoutes.HOUSEHOLD} element={<HouseholdPage />} />

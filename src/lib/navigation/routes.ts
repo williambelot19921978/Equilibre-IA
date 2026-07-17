@@ -1,6 +1,8 @@
 export const AppRoutes = {
   LOGIN: "/login",
   SIGNUP: "/signup",
+  FORGOT_PASSWORD: "/forgot-password",
+  RESET_PASSWORD: "/reset-password",
   HOUSEHOLD: "/onboarding/household",
   CHILDREN: "/onboarding/children",
   PROFILE: "/onboarding/profile",

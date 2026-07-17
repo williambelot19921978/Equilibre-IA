@@ -115,6 +115,14 @@ http://localhost:4173/**
 https://<nom-du-site>.netlify.app/**
 ```
 
+Pour la **réinitialisation de mot de passe**, ajouter aussi les URLs exactes :
+
+```
+http://localhost:5173/reset-password
+http://localhost:4173/reset-password
+https://<nom-du-site>.netlify.app/reset-password
+```
+
 Conserver **localhost** pour le développement local.
 
 ### Email templates
@@ -128,6 +136,7 @@ Aucun changement obligatoire pour la bêta. Vérifier que les liens de confirmat
 Checklist sur l’URL Netlify :
 
 - [ ] Inscription / connexion
+- [ ] Mot de passe oublié → e-mail → `/reset-password` → nouveau mot de passe
 - [ ] F5 sur `/home`, `/planning`, `/calendar`, `/profile`
 - [ ] Ajout tâche et rendez-vous
 - [ ] Génération planning
