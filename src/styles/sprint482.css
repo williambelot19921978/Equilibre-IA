@@ -1,0 +1,67 @@
+.planning-top-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.planning-header-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.planning-header-subtitle {
+  margin: 0;
+  color: var(--color-text-muted, #5f7369);
+}
+
+.planning-calendar-aside {
+  width: min(280px, 36vw);
+  flex-shrink: 0;
+}
+
+.month-calendar-planning-compact {
+  width: 100%;
+  max-width: 280px;
+  padding: 8px;
+  border-radius: 14px;
+  background: var(--color-surface-elevated, #fff);
+  box-shadow: 0 8px 24px rgba(31, 55, 45, 0.06);
+}
+
+.month-calendar-planning-compact .month-calendar-header h2 {
+  font-size: 0.95rem;
+}
+
+.month-calendar-planning-compact .month-calendar-day {
+  min-height: 34px;
+  padding: 2px;
+  font-size: 0.78rem;
+}
+
+.month-calendar-planning-compact .month-calendar-weekdays span {
+  font-size: 0.65rem;
+}
+
+.planning-mobile-calendar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.edit-block-modal-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+@media (max-width: 768px) {
+  .planning-top-row {
+    flex-direction: column;
+  }
+
+  .planning-calendar-aside {
+    width: 100%;
+    max-width: none;
+  }
+}

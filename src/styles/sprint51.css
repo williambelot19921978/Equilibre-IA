@@ -1,0 +1,153 @@
+.my-ai-knowledge-panel,
+.my-ai-mission-card,
+.my-ai-section,
+.my-ai-trend-card,
+.my-ai-adapt-card,
+.my-ai-goal-card {
+  margin-bottom: 16px;
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--color-surface-elevated, #fff);
+  box-shadow: 0 8px 24px rgba(31, 55, 45, 0.06);
+}
+
+.my-ai-knowledge-panel {
+  display: grid;
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .my-ai-knowledge-panel {
+    grid-template-columns: 2fr 1fr;
+    align-items: center;
+  }
+}
+
+.my-ai-knowledge-label,
+.my-ai-mission-label,
+.my-ai-adapt-domain,
+.my-ai-trend-direction {
+  margin: 0 0 4px;
+  font-size: 0.85rem;
+  color: var(--color-text-muted, #5f7369);
+  text-transform: capitalize;
+}
+
+.my-ai-knowledge-stats {
+  display: grid;
+  gap: 8px;
+}
+
+.my-ai-knowledge-stats strong {
+  display: block;
+  font-size: 1.6rem;
+}
+
+.my-ai-knowledge-stats span {
+  color: var(--color-text-muted, #5f7369);
+  font-size: 0.85rem;
+}
+
+.my-ai-knowledge-next,
+.my-ai-insight-reasoning,
+.my-ai-insight-deferred,
+.my-ai-insight-trend {
+  color: var(--color-text-muted, #5f7369);
+  font-size: 0.92rem;
+}
+
+.my-ai-section-header h2 {
+  margin-bottom: 4px;
+}
+
+.my-ai-section-header p {
+  color: var(--color-text-muted, #5f7369);
+}
+
+.my-ai-evidence-list {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  color: var(--color-text-muted, #5f7369);
+  font-size: 0.9rem;
+}
+
+.my-ai-trends-grid,
+.my-ai-adapt-grid,
+.my-ai-goals-grid {
+  display: grid;
+  gap: 12px;
+}
+
+@media (min-width: 768px) {
+  .my-ai-trends-grid,
+  .my-ai-adapt-grid,
+  .my-ai-goals-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.my-ai-trend-card.is-improving {
+  border-left: 4px solid var(--color-success, #2f7a4f);
+}
+
+.my-ai-trend-card.is-degrading {
+  border-left: 4px solid #b45309;
+}
+
+.my-ai-trend-card.is-stable {
+  border-left: 4px solid #64748b;
+}
+
+.my-ai-mission-card.is-weekly {
+  background: linear-gradient(135deg, #f7fbff, #eef8f1);
+}
+
+.daily-mission-banner {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: var(--color-surface-elevated, #fff);
+  border: 1px solid rgba(47, 122, 79, 0.12);
+}
+
+.daily-mission-label {
+  margin: 0 0 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-success, #2f7a4f);
+}
+
+.daily-mission-description {
+  margin: 0;
+  font-weight: 600;
+}
+
+.daily-mission-reasoning {
+  margin: 6px 0 0;
+  color: var(--color-text-muted, #5f7369);
+  font-size: 0.92rem;
+}
+
+.daily-mission-link {
+  white-space: nowrap;
+  font-size: 0.9rem;
+}
+
+.spiritual-relaxation-modal .spiritual-relaxation-timer {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 12px 0;
+}
+
+.spiritual-step-active {
+  font-weight: 700;
+  color: var(--space-spiritual-accent, #6b4fa0);
+}
+
+.my-ai-insight-summary h3 {
+  margin-top: 0;
+}

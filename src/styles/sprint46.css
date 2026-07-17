@@ -1,0 +1,154 @@
+/* Sprint 4.6 — Player sport, check-in, replanification dynamique */
+
+.workout-player-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3);
+  pointer-events: auto;
+}
+
+.workout-feedback-banner {
+  position: fixed;
+  top: calc(var(--header-height, 64px) + 12px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1001;
+  width: min(560px, calc(100vw - 24px));
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  border: 2px solid var(--color-danger, #c0392b);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
+  pointer-events: auto;
+}
+
+.workout-feedback-banner p {
+  margin: 0 0 var(--space-2);
+}
+
+.workout-feedback-banner button {
+  border: none;
+  background: transparent;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.workout-player {
+  width: min(720px, 100%);
+  max-height: 92vh;
+  overflow: auto;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  padding: var(--space-4);
+}
+
+.workout-player-header {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.workout-player-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.75rem;
+  list-style: none;
+  padding: 0;
+  margin: var(--space-2) 0;
+  font-size: 0.85rem;
+}
+
+.workout-player-timer {
+  text-align: center;
+  padding: var(--space-4) var(--space-2);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-sunken);
+  margin: var(--space-3) 0;
+}
+
+.workout-player-time {
+  font-size: clamp(2.5rem, 10vw, 4rem);
+  font-weight: 700;
+  margin: 0;
+}
+
+.workout-player-exercise {
+  font-size: 1.1rem;
+  margin: var(--space-2) 0 0;
+}
+
+.workout-player-actions,
+.workout-player-preferences {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.workout-player-progress {
+  height: 6px;
+  background: var(--color-border);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: var(--space-3);
+}
+
+.workout-player-progress span {
+  display: block;
+  height: 100%;
+  background: var(--color-accent);
+}
+
+.workout-player-stop-sheet {
+  margin-top: var(--space-3);
+  padding: var(--space-3);
+  border: 2px solid var(--color-accent);
+  border-radius: var(--radius-md);
+}
+
+.workout-player-stop-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.daily-checkin-compact {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  align-items: flex-start;
+}
+
+.daily-checkin-panel {
+  margin-top: var(--space-3);
+}
+
+.daily-checkin-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.daily-checkin-intensity {
+  display: block;
+  margin: var(--space-3) 0;
+}
+
+@media (max-width: 767px) {
+  .workout-player-actions {
+    flex-direction: column;
+  }
+
+  .workout-player-actions .block-action-button {
+    width: 100%;
+  }
+
+  .daily-checkin-options {
+    flex-direction: column;
+  }
+}

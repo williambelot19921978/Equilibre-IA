@@ -1,0 +1,27 @@
+.planning-header-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.planning-header-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.planning-header-subtitle {
+  margin: 0;
+  color: var(--color-text-muted, #5f7369);
+}
+
+.planning-calendar-link {
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.edit-block-modal-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}

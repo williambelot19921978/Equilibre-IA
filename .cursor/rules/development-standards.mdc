@@ -1,0 +1,64 @@
+---
+description: Règles permanentes de développement Equilibre IA — port Vite, qualité, architecture, journal de sprint
+alwaysApply: true
+---
+
+# Règles permanentes de développement — Equilibre IA
+
+## 1. Serveur Vite
+
+- **Toujours** `http://localhost:5173`
+- `vite.config.ts` : `server: { port: 5173, strictPort: true }`
+- **Ne jamais** basculer vers 5174, 5175, 5176…
+- Si le port est occupé : identifier le processus, le fermer (script `predev` → `scripts/ensure-vite-port.mjs`), ne pas changer de port
+
+## 2. Une seule instance Vite
+
+- Avant `npm run dev` : `predev` arrête les anciennes instances
+- Ne jamais laisser plusieurs serveurs Vite tourner
+
+## 3. Pas de modification silencieuse
+
+Ne jamais modifier sans **indiquer explicitement** à l'utilisateur :
+- routes, ports, variables d'environnement
+- configuration Supabase, Netlify
+- structure du projet
+
+## 4. Pas de régression
+
+Avant de terminer un sprint, exécuter :
+- `npm run build`
+- `npm run lint`
+- `npm test`
+- `npm run verify:schema`
+- `npm run verify:supabase`
+
+## 5. Ne pas casser l'UX
+
+Une nouvelle fonctionnalité ne doit jamais faire disparaître une ancienne :
+- menu toujours visible
+- conversation IA toujours visible
+- planning et calendrier toujours fonctionnels
+
+## 6. Ne pas dupliquer
+
+Réutiliser les composants existants. Créer un nouveau composant uniquement si nécessaire.
+
+## 7. Architecture
+
+Privilégier : composants réutilisables, hooks dédiés, services, moteurs IA.
+Éviter la logique directement dans les pages.
+
+## 8. Journal des modifications (fin de sprint)
+
+Fournir : ce qui a été modifié, pourquoi, fichiers impactés, migrations éventuelles, points de test manuel, limites connues.
+Rapport dans `Docs/SPRINT_X_X_REPORT.md`.
+
+## 9. Priorité
+
+1. Stabilité
+2. Fluidité
+3. Expérience utilisateur
+4. Nouvelles fonctionnalités
+
+Une fonctionnalité incomplète mais stable > fonctionnalité ambitieuse mais instable.

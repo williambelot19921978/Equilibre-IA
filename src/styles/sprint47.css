@@ -1,0 +1,80 @@
+/* Sprint 4.7 — Accomplissements et encouragements */
+
+.day-timeline-completed {
+  border-left-width: 4px;
+  background: color-mix(in srgb, var(--color-success, #2f855a) 8%, white);
+}
+
+.day-timeline-status-completed {
+  color: var(--color-success, #2f855a);
+  font-weight: 700;
+}
+
+.day-timeline-completion-hint {
+  font-size: 0.8rem;
+  color: var(--color-success, #2f855a);
+  font-weight: 600;
+}
+
+.day-timeline-achievement {
+  margin: var(--space-2) 0 0;
+  font-size: 0.92rem;
+  color: var(--color-text);
+}
+
+.day-timeline-actual-end {
+  margin: 0.25rem 0 0;
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+
+.block-actions-completed-label {
+  font-size: 0.85rem;
+  color: var(--color-success, #2f855a);
+  font-weight: 600;
+}
+
+.recent-achievement {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: var(--space-3);
+  align-items: start;
+  padding: var(--space-3);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  box-shadow: 0 8px 24px rgba(31, 55, 45, 0.08);
+}
+
+.recent-achievement-important {
+  border-color: color-mix(in srgb, var(--color-success, #2f855a) 40%, var(--color-border));
+}
+
+.recent-achievement-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.recent-achievement-title {
+  margin: 0;
+  font-weight: 700;
+}
+
+.recent-achievement-message {
+  margin: 0.25rem 0 0;
+}
+
+.recent-achievement-meta,
+.recent-achievement-followup {
+  margin: 0.35rem 0 0;
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+}
+
+.recent-achievement-dismiss {
+  border: none;
+  background: transparent;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 0.85rem;
+}

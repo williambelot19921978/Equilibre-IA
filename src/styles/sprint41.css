@@ -1,0 +1,240 @@
+/* Sprint 4.1 — Accueil épuré + personnalisation */
+
+.home-page-clean .dashboard-container {
+  max-width: 720px;
+  margin-inline: auto;
+}
+
+.home-compact-header {
+  margin-bottom: var(--space-4);
+}
+
+.home-compact-header h1 {
+  font-size: var(--text-2xl);
+  margin: var(--space-1) 0 0;
+}
+
+.home-widgets-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  margin-top: var(--space-4);
+}
+
+.home-calendar-shell {
+  min-width: min(100%, 320px);
+  width: 100%;
+}
+
+.home-calendar-shell .month-calendar {
+  width: 100%;
+}
+
+.home-customize-footer {
+  margin-top: var(--space-6);
+  padding-bottom: calc(var(--space-8) + 72px);
+}
+
+.home-customization-modal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.home-customization-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.home-customization-row label {
+  flex: 1;
+  cursor: pointer;
+}
+
+.home-customization-actions {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.home-floating-success {
+  position: fixed;
+  bottom: 88px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+}
+
+/* Conversation bar — exemples rapides + debug NLP */
+.floating-conversation-examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.floating-conversation-example-chip {
+  font-size: var(--text-xs);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-out);
+}
+
+.floating-conversation-example-chip:hover:not(:disabled) {
+  background: var(--color-surface-raised);
+  color: var(--color-text);
+}
+
+.floating-conversation-example-chip:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.floating-conversation-help {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  margin: 0 0 var(--space-2);
+}
+
+.floating-conversation-nlp-debug {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.65rem;
+  line-height: 1.4;
+  background: #1a1a2e;
+  color: #a8e6cf;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-3);
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+@media (min-width: 768px) {
+  .home-page-clean .dashboard-container {
+    max-width: 840px;
+  }
+
+  .home-calendar-shell {
+    min-width: 360px;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-widgets-stack {
+    gap: var(--space-4);
+  }
+}
+
+/* ─── Couleurs cellules calendrier (rythme profil) ───
+   Priorité sur index.css legacy (.month-calendar-day, .month-calendar-selected) */
+
+.month-calendar-day-work {
+  background: var(--day-work) !important;
+  color: var(--day-work-text) !important;
+  border-color: color-mix(in srgb, var(--day-work-text) 25%, transparent) !important;
+}
+
+.month-calendar-day-rest {
+  background: var(--day-rest) !important;
+  color: var(--day-rest-text) !important;
+  border-color: color-mix(in srgb, var(--day-rest-text) 20%, transparent) !important;
+}
+
+.month-calendar-day-vacation {
+  background: var(--day-vacation) !important;
+  color: var(--day-vacation-text) !important;
+  border-color: color-mix(in srgb, var(--day-vacation-text) 25%, transparent) !important;
+}
+
+.month-calendar-day-weekend {
+  background: var(--day-weekend) !important;
+  color: var(--day-weekend-text) !important;
+  border-color: color-mix(in srgb, var(--day-weekend-text) 20%, transparent) !important;
+}
+
+.month-calendar-day-holiday {
+  background: var(--day-holiday) !important;
+  color: var(--day-holiday-text) !important;
+}
+
+.month-calendar-day-travel {
+  background: var(--day-travel) !important;
+  color: var(--day-travel-text) !important;
+}
+
+.month-calendar-day-special {
+  background: var(--day-special) !important;
+  color: var(--day-special-text) !important;
+}
+
+.month-calendar-day-work:hover,
+.month-calendar-day-rest:hover,
+.month-calendar-day-vacation:hover,
+.month-calendar-day-weekend:hover,
+.month-calendar-day-holiday:hover,
+.month-calendar-day-travel:hover,
+.month-calendar-day-special:hover {
+  filter: brightness(0.97);
+}
+
+.month-calendar-selected.month-calendar-day-work,
+.month-calendar-selected.month-calendar-day-rest,
+.month-calendar-selected.month-calendar-day-vacation,
+.month-calendar-selected.month-calendar-day-weekend,
+.month-calendar-selected.month-calendar-day-holiday,
+.month-calendar-selected.month-calendar-day-travel,
+.month-calendar-selected.month-calendar-day-special {
+  box-shadow: 0 0 0 2px var(--space-current-accent, var(--color-brand-500));
+}
+
+/* Légende rythme habituel */
+.calendar-day-status-legend {
+  margin-top: var(--space-4);
+}
+
+.calendar-day-status-legend-compact {
+  margin-top: var(--space-3);
+}
+
+.calendar-day-status-legend-title {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  margin: 0 0 var(--space-2);
+  color: var(--color-text-secondary);
+}
+
+.calendar-day-status-legend-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+}
+
+.calendar-day-status-legend-list li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.calendar-day-status-legend-swatch {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  flex-shrink: 0;
+}

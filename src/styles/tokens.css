@@ -1,0 +1,190 @@
+/* Equilibre IA — Design System Tokens (Sprint 4.0) */
+
+:root {
+  /* Brand */
+  --color-brand-50: #f0f7f4;
+  --color-brand-100: #dceee6;
+  --color-brand-200: #b8dfd0;
+  --color-brand-300: #8fc9b3;
+  --color-brand-400: #6aad93;
+  --color-brand-500: #568d79;
+  --color-brand-600: #477563;
+  --color-brand-700: #3a5f50;
+  --color-brand-800: #2f4d41;
+  --color-brand-900: #1f332b;
+
+  /* Neutrals */
+  --color-surface: #fafbfa;
+  --color-surface-raised: #ffffff;
+  --color-surface-sunken: #f3f6f4;
+  --color-border: #e2ebe6;
+  --color-border-strong: #cad8d1;
+  --color-text: #1a2622;
+  --color-text-secondary: #4a5c55;
+  --color-text-muted: #697770;
+
+  /* Space identities */
+  --space-home: #7a9e8e;
+  --space-home-bg: #f2f7f4;
+  --space-home-accent: #568d79;
+
+  --space-planning: #4a8fd4;
+  --space-planning-bg: #eef5fc;
+  --space-planning-accent: #2d6fad;
+
+  --space-calendar: #e8924a;
+  --space-calendar-bg: #fef6ee;
+  --space-calendar-accent: #c96e28;
+
+  --space-sport: #d45d5d;
+  --space-sport-bg: #fdf0f0;
+  --space-sport-accent: #b83a3a;
+
+  --space-spiritual: #8b6fc0;
+  --space-spiritual-bg: #f5f0fc;
+  --space-spiritual-accent: #6b4fa0;
+
+  --space-profile: #4abfb8;
+  --space-profile-bg: #eefafa;
+  --space-profile-accent: #2a9a94;
+
+  --space-family: #6db87a;
+  --space-family-bg: #f0f9f2;
+  --space-family-accent: #4a9e58;
+
+  /* Calendar day cell fills */
+  --day-work: #f5dcc8;
+  --day-work-text: #7a3d10;
+  --day-rest: #dff0e4;
+  --day-rest-text: #2d5f3a;
+  --day-vacation: #b8e6c8;
+  --day-vacation-text: #0d4f3f;
+  --day-weekend: #d4e8f8;
+  --day-weekend-text: #1e4a7a;
+  --day-holiday: #a8cce8;
+  --day-holiday-text: #0f2d4f;
+  --day-travel: #f5e8b8;
+  --day-travel-text: #6b5a10;
+  --day-busy: #f8d4d4;
+  --day-busy-text: #7a2e2e;
+  --day-special: #e8d4f5;
+  --day-special-text: #4a2d6e;
+
+  /* Timeline block colors */
+  --block-work: #f0a060;
+  --block-work-bg: #fef3ea;
+  --block-rest: #7ec99a;
+  --block-rest-bg: #eef9f2;
+  --block-sport: #e06060;
+  --block-sport-bg: #fdf0f0;
+  --block-spiritual: #9b7fd4;
+  --block-spiritual-bg: #f5f0fc;
+  --block-family: #5a9fd4;
+  --block-family-bg: #eef5fc;
+  --block-study: #e8c84a;
+  --block-study-bg: #fefae8;
+  --block-free: #b0b8b4;
+  --block-free-bg: #f4f6f5;
+
+  /* Spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  /* Radii */
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px rgba(26, 38, 34, 0.04);
+  --shadow-sm: 0 2px 8px rgba(26, 38, 34, 0.06);
+  --shadow-md: 0 4px 16px rgba(26, 38, 34, 0.08);
+  --shadow-lg: 0 8px 32px rgba(26, 38, 34, 0.1);
+  --shadow-card: 0 2px 12px rgba(26, 38, 34, 0.06), 0 0 0 1px rgba(26, 38, 34, 0.03);
+
+  /* Typography */
+  --font-sans: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+
+  /* Layout */
+  --header-height: 56px;
+  --sidebar-width: 240px;
+  --bottom-nav-height: 64px;
+  --conversation-bar-height: 52px;
+  --content-max-width: 1200px;
+  --touch-target: 44px;
+
+  /* Z-index layers */
+  --z-content: 1;
+  --z-sticky-conversation: 55;
+  --z-header: 50;
+  --z-bottom-nav: 45;
+  --z-sidebar: 40;
+  --z-drawer: 100;
+  --z-modal: 120;
+  --z-workout-player: 1000;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 350ms;
+}
+
+[data-space="home"] {
+  --space-current: var(--space-home);
+  --space-current-bg: var(--space-home-bg);
+  --space-current-accent: var(--space-home-accent);
+}
+
+[data-space="planning"] {
+  --space-current: var(--space-planning);
+  --space-current-bg: var(--space-planning-bg);
+  --space-current-accent: var(--space-planning-accent);
+}
+
+[data-space="calendar"] {
+  --space-current: var(--space-calendar);
+  --space-current-bg: var(--space-calendar-bg);
+  --space-current-accent: var(--space-calendar-accent);
+}
+
+[data-space="spiritual"] {
+  --space-current: var(--space-spiritual);
+  --space-current-bg: var(--space-spiritual-bg);
+  --space-current-accent: var(--space-spiritual-accent);
+}
+
+[data-space="profile"] {
+  --space-current: var(--space-profile);
+  --space-current-bg: var(--space-profile-bg);
+  --space-current-accent: var(--space-profile-accent);
+}
+
+[data-space="family"] {
+  --space-current: var(--space-family);
+  --space-current-bg: var(--space-family-bg);
+  --space-current-accent: var(--space-family-accent);
+}
+
+[data-space="tasks"],
+[data-space="daily-routine"] {
+  --space-current: var(--space-planning);
+  --space-current-bg: var(--space-planning-bg);
+  --space-current-accent: var(--space-planning-accent);
+}

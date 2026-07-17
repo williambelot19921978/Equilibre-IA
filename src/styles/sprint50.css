@@ -1,0 +1,139 @@
+.my-ai-page,
+.statistics-balance-panel,
+.proactive-coach-banner {
+  max-width: 960px;
+}
+
+.my-ai-header,
+.statistics-balance-panel {
+  margin-bottom: 20px;
+}
+
+.my-ai-subtitle,
+.statistics-page-subtitle {
+  color: var(--color-text-muted, #5f7369);
+}
+
+.my-ai-insights-grid,
+.statistics-balance-grid {
+  display: grid;
+  gap: 12px;
+}
+
+@media (min-width: 768px) {
+  .my-ai-insights-grid,
+  .statistics-balance-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.my-ai-insight-card,
+.statistics-balance-card {
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--color-surface-elevated, #fff);
+  box-shadow: 0 8px 24px rgba(31, 55, 45, 0.06);
+}
+
+.my-ai-insight-label {
+  margin: 0 0 4px;
+  font-size: 0.85rem;
+  color: var(--color-text-muted, #5f7369);
+}
+
+.my-ai-insight-detail,
+.my-ai-insight-meta {
+  color: var(--color-text-muted, #5f7369);
+}
+
+.my-ai-insight-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.my-ai-insight-status {
+  color: var(--color-success, #2f7a4f);
+}
+
+.proactive-coach-banner {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #eef8f1, #f7fbff);
+  border: 1px solid rgba(47, 122, 79, 0.12);
+}
+
+.proactive-coach-greeting {
+  margin: 0 0 4px;
+  font-weight: 600;
+}
+
+.proactive-coach-suggestion {
+  margin: 8px 0 0;
+  font-style: italic;
+}
+
+.proactive-coach-dismiss {
+  border: none;
+  background: transparent;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.statistics-balance-global {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.statistics-balance-global strong {
+  font-size: 2rem;
+}
+
+.statistics-trends-grid {
+  display: grid;
+  gap: 8px;
+}
+
+@media (min-width: 768px) {
+  .statistics-trends-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.suggestion-confidence {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  color: var(--color-text-muted, #5f7369);
+}
+
+.suggestion-confidence-factors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.suggestion-confidence-factor {
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  background: rgba(47, 122, 79, 0.08);
+}
+
+.suggestion-confidence-factor.is-negative {
+  background: rgba(180, 83, 9, 0.08);
+}
+
+.suggestion-explanation {
+  margin-top: 8px;
+  white-space: pre-wrap;
+  font-size: 0.92rem;
+}
