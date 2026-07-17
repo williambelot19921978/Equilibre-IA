@@ -83,7 +83,7 @@ describe("Sprint 4.6", () => {
     expect(readSrc("contexts/WorkoutPlayerContext.tsx")).toContain(
       "WorkoutPlayerProvider",
     );
-    expect(readSrc("app/layouts/AuthenticatedAppLayout.tsx")).toContain(
+    expect(readSrc("app/providers/AppProviders.tsx")).toContain(
       "WorkoutPlayerProvider",
     );
     expect(readSrc("hooks/useDayPlan.ts")).toContain("handleStartWorkout");

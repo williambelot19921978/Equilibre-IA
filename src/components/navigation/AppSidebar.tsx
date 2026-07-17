@@ -16,13 +16,11 @@ function isRouteActive(pathname: string, route: string): boolean {
 type AppSidebarProps = {
   collapsed: boolean;
   onToggle: () => void;
-  toggling?: boolean;
 };
 
 export function AppSidebar({
   collapsed,
   onToggle,
-  toggling = false,
 }: AppSidebarProps) {
   const location = useLocation();
   const { goToRoute } = useAppNavigation();
@@ -52,7 +50,6 @@ export function AppSidebar({
         className="app-sidebar-toggle"
         aria-label={collapsed ? "Déplier la navigation" : "Replier la navigation"}
         aria-expanded={!collapsed}
-        disabled={toggling}
         onClick={onToggle}
       >
         <span aria-hidden="true">{collapsed ? "»" : "«"}</span>

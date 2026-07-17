@@ -82,6 +82,7 @@ export async function finishWorkoutSession({
   session,
   outcome,
   dailyCheckin,
+  actualStartedAt,
 }: {
   userId: string;
   date: string;
@@ -89,6 +90,7 @@ export async function finishWorkoutSession({
   session: WorkoutSession;
   outcome: WorkoutCompletionOutcome;
   dailyCheckin?: DailyCheckinRecord | null;
+  actualStartedAt?: string;
 }): Promise<{ feedback: AchievementFeedback; explanation: string; freedMinutes: number } | null> {
   if (outcome !== "completed" && outcome !== "partial") {
     return null;
@@ -101,6 +103,9 @@ export async function finishWorkoutSession({
     dailyCheckin,
     isWorkout: true,
     isPartialWorkout: outcome === "partial",
+    actualStartedAt,
+    allowEarlyCompletion: true,
+    workoutInProgress: true,
     preserveExistingDetails: {
       workoutSession: session,
       businessType: "sport",

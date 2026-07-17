@@ -11,11 +11,14 @@ export function resolveBlockCompletionAvailability({
   currentLocalDate,
   actualCompletedAt = new Date().toISOString(),
   allowEarlyCompletion = false,
+  workoutInProgress = false,
 }: {
   entry: DayTimelineEntry;
   currentLocalDate: string;
   actualCompletedAt?: string;
   allowEarlyCompletion?: boolean;
+  /** Séance sport déjà commencée — l'horaire prévu ne bloque pas la complétion. */
+  workoutInProgress?: boolean;
 }): BlockCompletionAvailabilityResult {
   const blockDate = getLocalDateFromIso(entry.startsAt);
 
@@ -36,6 +39,7 @@ export function resolveBlockCompletionAvailability({
 
   if (
     !allowEarlyCompletion &&
+    !workoutInProgress &&
     new Date(actualCompletedAt).getTime() < new Date(entry.startsAt).getTime()
   ) {
     return {

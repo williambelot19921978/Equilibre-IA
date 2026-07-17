@@ -39,7 +39,8 @@ describe("Sprint 4.0 — Design System & Shell Premium", () => {
     expect(shell).toContain("app-header-fixed");
     expect(shell).toContain("AppSidebar");
     expect(shell).toContain("BottomNav");
-    expect(shell).toContain("app-header-avatar");
+    expect(shell).toContain("UserMenu");
+    expect(readSrc("components/navigation/UserMenu.tsx")).toContain("app-header-avatar");
     expect(shell).toContain("app-header-notifications");
   });
 

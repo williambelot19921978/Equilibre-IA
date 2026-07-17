@@ -52,12 +52,14 @@ export function AppDrawer({ open, onClose }: AppDrawerProps) {
       <div
         className={`app-drawer-overlay${open ? " app-drawer-overlay-open" : ""}`}
         aria-hidden={!open}
+        hidden={!open}
         onClick={onClose}
       />
       <aside
         className={`app-drawer${open ? " app-drawer-open" : ""}`}
         aria-label="Menu avancé"
         aria-hidden={!open}
+        hidden={!open}
       >
         <header className="app-drawer-header">
           <h2>Menu</h2>

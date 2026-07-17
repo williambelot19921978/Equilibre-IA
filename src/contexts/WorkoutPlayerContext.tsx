@@ -2,7 +2,9 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
@@ -20,6 +22,11 @@ import {
   openWorkoutSessionForBlock,
   type WorkoutOpenContext,
 } from "../lib/workout/openWorkoutSessionForBlock";
+import {
+  clearPersistedWorkoutPlayer,
+  loadPersistedWorkoutPlayer,
+  savePersistedWorkoutPlayer,
+} from "../lib/workout/workoutPlayerPersistence";
 import { finishWorkoutSession } from "../services/workoutSessionService";
 import { loadDailyCheckin } from "../services/dailyCheckinService";
 import type { WorkoutSession } from "../types/workoutSession";
@@ -75,6 +82,50 @@ export function WorkoutPlayerProvider({ children }: { children: ReactNode }) {
   const [workoutFeedback, setWorkoutFeedback] = useState<string | null>(null);
   const [sportSaving, setSportSaving] = useState(false);
   const [entryHelpers, setEntryHelpers] = useState<WorkoutEntryHelpers>({});
+  const [workoutStartedAt, setWorkoutStartedAt] = useState<string | null>(null);
+  const restoredRef = useRef(false);
+
+  useEffect(() => {
+    if (!user?.id || restoredRef.current) return;
+
+    const persisted = loadPersistedWorkoutPlayer(user.id);
+    if (!persisted) {
+      restoredRef.current = true;
+      return;
+    }
+
+    setActiveWorkoutEntry(persisted.entry);
+    setActiveWorkoutSession(persisted.session);
+    setWorkoutStartedAt(persisted.startedAt);
+    setIsWorkoutPlayerOpen(true);
+    restoredRef.current = true;
+  }, [user?.id]);
+
+  const persistActiveWorkout = useCallback(
+    (
+      entry: DayTimelineEntry,
+      session: WorkoutSession,
+      startedAt: string,
+      isOpen: boolean,
+    ) => {
+      if (!user?.id) return;
+
+      if (!isOpen) {
+        clearPersistedWorkoutPlayer();
+        return;
+      }
+
+      savePersistedWorkoutPlayer({
+        userId: user.id,
+        selectedDate,
+        entry,
+        session,
+        startedAt,
+        isOpen: true,
+      });
+    },
+    [user?.id, selectedDate],
+  );
 
   const clearWorkoutFeedback = useCallback(() => {
     setWorkoutFeedback(null);
@@ -86,19 +137,24 @@ export function WorkoutPlayerProvider({ children }: { children: ReactNode }) {
 
   const openPlayer = useCallback(
     (entry: DayTimelineEntry, session: WorkoutSession) => {
+      const startedAt = new Date().toISOString();
       setActiveWorkoutEntry(entry);
       setActiveWorkoutSession(session);
+      setWorkoutStartedAt(startedAt);
       setIsWorkoutPlayerOpen(true);
       setSportMissingEntry(null);
       setWorkoutFeedback(null);
+      persistActiveWorkout(entry, session, startedAt, true);
     },
-    [],
+    [persistActiveWorkout],
   );
 
   const closePlayer = useCallback(() => {
     setIsWorkoutPlayerOpen(false);
     setActiveWorkoutEntry(null);
     setActiveWorkoutSession(null);
+    setWorkoutStartedAt(null);
+    clearPersistedWorkoutPlayer();
   }, []);
 
   const handleStartWorkout = useCallback(
@@ -166,6 +222,7 @@ export function WorkoutPlayerProvider({ children }: { children: ReactNode }) {
           session: activeWorkoutSession,
           outcome,
           dailyCheckin,
+          actualStartedAt: workoutStartedAt ?? undefined,
         });
         closePlayer();
         if (result?.feedback) {
@@ -186,8 +243,23 @@ export function WorkoutPlayerProvider({ children }: { children: ReactNode }) {
         setSportSaving(false);
       }
     },
-    [user, selectedDate, activeWorkoutEntry, activeWorkoutSession, closePlayer, entryHelpers],
+    [user, selectedDate, activeWorkoutEntry, activeWorkoutSession, workoutStartedAt, closePlayer, entryHelpers],
   );
+
+  const handleWorkoutTimerStart = useCallback(() => {
+    if (!activeWorkoutEntry || !activeWorkoutSession) return;
+
+    const startedAt = workoutStartedAt ?? new Date().toISOString();
+    if (!workoutStartedAt) {
+      setWorkoutStartedAt(startedAt);
+    }
+    persistActiveWorkout(activeWorkoutEntry, activeWorkoutSession, startedAt, true);
+  }, [
+    activeWorkoutEntry,
+    activeWorkoutSession,
+    workoutStartedAt,
+    persistActiveWorkout,
+  ]);
 
   const value = useMemo<WorkoutPlayerContextValue>(
     () => ({
@@ -246,6 +318,7 @@ export function WorkoutPlayerProvider({ children }: { children: ReactNode }) {
               session={activeWorkoutSession}
               onClose={closePlayer}
               onComplete={(outcome) => void completeActiveWorkout(outcome)}
+              onTimerStart={handleWorkoutTimerStart}
             />,
             portalTarget,
           )

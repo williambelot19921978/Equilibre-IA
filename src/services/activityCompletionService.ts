@@ -101,6 +101,7 @@ export async function completeActivityWithFeedback({
   isPartialWorkout = false,
   preserveExistingDetails = {},
   allowEarlyCompletion = false,
+  workoutInProgress = false,
 }: {
   userId: string;
   date: string;
@@ -113,12 +114,14 @@ export async function completeActivityWithFeedback({
   isPartialWorkout?: boolean;
   preserveExistingDetails?: Record<string, unknown>;
   allowEarlyCompletion?: boolean;
+  workoutInProgress?: boolean;
 }): Promise<ActivityCompletionResult> {
   const completionGuard = resolveBlockCompletionAvailability({
     entry,
     currentLocalDate: getCurrentDeviceDate(),
     actualCompletedAt,
     allowEarlyCompletion,
+    workoutInProgress,
   });
 
   if (!completionGuard.allowed) {

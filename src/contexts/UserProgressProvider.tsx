@@ -13,6 +13,7 @@ import type { AppRoute } from "../lib/navigation/routes";
 import type { UserProgressState } from "../lib/navigation/types";
 import { EMPTY_USER_PROGRESS } from "../lib/navigation/types";
 import { loadUserProgress } from "../services/userProgressService";
+import { resolveUserProgressLoading } from "../lib/navigation/protectedRouteLoading";
 import { useAuth } from "../hooks/useAuth";
 import { UserProgressContext } from "./userProgressContext";
 
@@ -20,7 +21,6 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
   const { user, loading: authLoading } = useAuth();
   const [progress, setProgress] =
     useState<UserProgressState>(EMPTY_USER_PROGRESS);
-  const [fetchingProgress, setFetchingProgress] = useState(false);
   const [loadedUserId, setLoadedUserId] = useState<string | null>(null);
 
   const refreshProgress = useCallback(async (): Promise<UserProgressState> => {
@@ -30,17 +30,11 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
       return EMPTY_USER_PROGRESS;
     }
 
-    setFetchingProgress(true);
-
-    try {
-      const nextProgress = await loadUserProgress(user.id);
-      setProgress(nextProgress);
-      setLoadedUserId(user.id);
-      return nextProgress;
-    } finally {
-      setFetchingProgress(false);
-    }
-  }, [user]);
+    const nextProgress = await loadUserProgress(user.id);
+    setProgress(nextProgress);
+    setLoadedUserId(user.id);
+    return nextProgress;
+  }, [user?.id]);
 
   useEffect(() => {
     if (authLoading) {
@@ -53,8 +47,11 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
       return;
     }
 
+    if (loadedUserId === user.id) {
+      return;
+    }
+
     let cancelled = false;
-    setFetchingProgress(true);
 
     void loadUserProgress(user.id)
       .then((nextProgress) => {
@@ -62,22 +59,18 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
           setProgress(nextProgress);
           setLoadedUserId(user.id);
         }
-      })
-      .finally(() => {
-        if (!cancelled) {
-          setFetchingProgress(false);
-        }
       });
 
     return () => {
       cancelled = true;
     };
-  }, [user, authLoading]);
+  }, [user?.id, authLoading, loadedUserId]);
 
-  const loading =
-    authLoading ||
-    fetchingProgress ||
-    (!!user && loadedUserId !== user.id);
+  const loading = resolveUserProgressLoading({
+    authLoading,
+    userId: user?.id,
+    loadedUserId,
+  });
 
   const resolvedRoute: AppRoute = useMemo(
     () => resolveNavigationRoute(progress),

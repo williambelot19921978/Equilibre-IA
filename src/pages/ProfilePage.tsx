@@ -8,6 +8,7 @@ import { WorkScheduleSection } from "../components/profile/WorkScheduleSection";
 import { SportSettingsSection } from "../components/profile/SportSettingsSection";
 import { Button } from "../components/ui/Button";
 import { useAuth } from "../hooks/useAuth";
+import { clearPersistedWorkoutPlayer } from "../lib/workout/workoutPlayerPersistence";
 import { getDiscoveryProgressSummary } from "../lib/navigation/progressChecks";
 import {
   getFactDisplayValue,
@@ -118,7 +119,7 @@ const PROFILE_CARD_META: Record<
 };
 
 export function ProfilePage() {
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
   const [facts, setFacts] = useState<ProfileFactRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingSection, setEditingSection] = useState<string | null>(null);
@@ -507,6 +508,21 @@ export function ProfilePage() {
           )}
 
           {user && <GoogleCalendarIntegrations userId={user.id} />}
+
+          {user && (
+            <footer className="profile-logout-section">
+              <Button
+                variant="ghost"
+                fullWidth
+                onClick={() => {
+                  clearPersistedWorkoutPlayer();
+                  void signOut();
+                }}
+              >
+                Se déconnecter
+              </Button>
+            </footer>
+          )}
         </section>
     </main>
   );

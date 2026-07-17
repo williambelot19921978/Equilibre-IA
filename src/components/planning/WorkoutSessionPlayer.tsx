@@ -21,6 +21,7 @@ type WorkoutSessionPlayerProps = {
   session: WorkoutSession;
   onClose: () => void;
   onComplete: (outcome: WorkoutCompletionOutcome) => void;
+  onTimerStart?: () => void;
 };
 
 function formatClock(totalSeconds: number): string {
@@ -33,6 +34,7 @@ export function WorkoutSessionPlayer({
   session,
   onClose,
   onComplete,
+  onTimerStart,
 }: WorkoutSessionPlayerProps) {
   const steps = buildWorkoutTimerSteps(session);
   const [soundEnabled, setSoundEnabled] = useState(false);
@@ -111,7 +113,15 @@ export function WorkoutSessionPlayer({
 
         <div className="workout-player-actions">
           {timer.status === "idle" && (
-            <BlockActionButton icon="▶" label="Démarrer" tone="primary" onClick={timer.start} />
+            <BlockActionButton
+              icon="▶"
+              label="Démarrer"
+              tone="primary"
+              onClick={() => {
+                onTimerStart?.();
+                timer.start();
+              }}
+            />
           )}
           {timer.status === "running" && (
             <BlockActionButton icon="⏸" label="Pause" onClick={timer.pause} />

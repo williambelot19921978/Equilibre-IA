@@ -4,11 +4,10 @@ import { AppDrawer } from "./AppDrawer";
 import { AppSidebar } from "./AppSidebar";
 import { BottomNav } from "./BottomNav";
 import { ConversationHeaderTrigger } from "../conversation/FloatingConversationBar";
+import { UserMenu } from "./UserMenu";
 import { Button } from "../ui/Button";
 import { useAuth } from "../../hooks/useAuth";
-import { useAppNavigation } from "../../hooks/useAppNavigation";
 import { useSidebarPreferences } from "../../hooks/useSidebarPreferences";
-import { AppRoutes } from "../../lib/navigation/routes";
 
 type AppShellProps = {
   children: ReactNode;
@@ -16,27 +15,10 @@ type AppShellProps = {
   headerActions?: ReactNode;
 };
 
-function UserAvatar({ name, onClick }: { name: string; onClick?: () => void }) {
-  const initial = name.charAt(0).toUpperCase();
-
-  return (
-    <button
-      type="button"
-      className="app-header-avatar"
-      aria-label="Mon profil"
-      onClick={onClick}
-    >
-      <span aria-hidden="true">{initial}</span>
-    </button>
-  );
-}
-
 export function AppShell({ children, title, headerActions }: AppShellProps) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const { user } = useAuth();
-  const { goToRoute } = useAppNavigation();
-  const { sidebarCollapsed, toggleCollapsed, saving: sidebarSaving } =
-    useSidebarPreferences(user?.id);
+  const { sidebarCollapsed, toggleCollapsed } = useSidebarPreferences();
 
   const displayName =
     user?.user_metadata?.first_name ||
@@ -90,17 +72,13 @@ export function AppShell({ children, title, headerActions }: AppShellProps) {
             🔔
           </button>
 
-          <UserAvatar
-            name={displayName}
-            onClick={() => goToRoute(AppRoutes.USER_PROFILE)}
-          />
+          <UserMenu displayName={displayName} />
         </div>
       </header>
 
       <AppSidebar
         collapsed={sidebarCollapsed}
-        onToggle={() => void toggleCollapsed()}
-        toggling={sidebarSaving}
+        onToggle={toggleCollapsed}
       />
 
       <main className="app-main-content">{children}</main>

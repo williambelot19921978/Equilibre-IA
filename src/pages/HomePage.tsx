@@ -179,7 +179,7 @@ export function HomePage() {
     }
     return true;
   });
-  const { showSaintCalendar } = useSidebarPreferences(user?.id);
+  const { showSaintCalendar } = useSidebarPreferences();
   const [workSchedulePattern, setWorkSchedulePattern] =
     useState<WorkSchedulePatternData | null>(null);
 

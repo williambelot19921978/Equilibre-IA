@@ -2,7 +2,6 @@ import { Outlet, useLocation } from "react-router-dom";
 
 import { AppLayoutProvider, useAppLayout } from "../../contexts/AppLayoutContext";
 import { ConversationProvider } from "../../contexts/ConversationProvider";
-import { WorkoutPlayerProvider } from "../../contexts/WorkoutPlayerContext";
 import { AppShell } from "../../components/navigation/AppShell";
 import { APPLICATION_ROUTE_TITLES } from "../../lib/navigation/routes";
 import type { AppRoute } from "../../lib/navigation/routes";
@@ -30,9 +29,7 @@ export function AuthenticatedAppLayout() {
   return (
     <AppLayoutProvider>
       <ConversationProvider>
-        <WorkoutPlayerProvider>
-          <AuthenticatedAppLayoutInner />
-        </WorkoutPlayerProvider>
+        <AuthenticatedAppLayoutInner />
       </ConversationProvider>
     </AppLayoutProvider>
   );
