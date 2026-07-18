@@ -10,10 +10,16 @@
     "lint": "oxlint",
     "test": "vitest run",
     "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:production": "node scripts/playwright-production.mjs",
+    "test:e2e:report": "playwright show-report reports",
     "preview": "vite preview",
     "diagnose:calendar-checks": "node scripts/diagnose-calendar-checks.mjs",
     "verify:schema": "node scripts/verify-schema.mjs",
-    "verify:supabase": "node scripts/verify-supabase.mjs"
+    "verify:supabase": "node scripts/verify-supabase.mjs",
+    "probe:user-home-preferences": "node scripts/probe-user-home-preferences.mjs",
+    "apply:repair-user-home-preferences": "node scripts/apply-user-home-preferences-repair.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.110.2",
@@ -30,6 +36,7 @@
     "@vitejs/plugin-react": "^6.0.3",
     "happy-dom": "^20.10.6",
     "oxlint": "^1.71.0",
+    "postgres": "^3.4.7",
     "tailwindcss": "^4.3.2",
     "typescript": "~6.0.2",
     "vite": "^8.1.1",

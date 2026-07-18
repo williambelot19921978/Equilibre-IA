@@ -175,4 +175,20 @@ describe("validateCalendarItemForPlanning", () => {
       expect(validation.reason).toContain("event");
     }
   });
+
+  it("accepts manual sport sessions stored as task", () => {
+    const validation = validateCalendarItemForPlanning(
+      makeManualItem({
+        item_type: "task",
+        details: {
+          constraintType: "sport",
+          status: "accepted",
+          businessType: "sport",
+          activityType: "workout",
+        },
+      }),
+    );
+
+    expect(validation.valid).toBe(true);
+  });
 });

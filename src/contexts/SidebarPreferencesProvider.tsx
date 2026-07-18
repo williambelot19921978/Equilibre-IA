@@ -9,6 +9,10 @@ import {
 } from "react";
 
 import {
+  readSidebarCollapsedFromStorage,
+  writeSidebarCollapsedToStorage,
+} from "../lib/layout/sidebarPreferencesStorage";
+import {
   DEFAULT_LAYOUT_PREFERENCES,
   type LayoutPreferences,
 } from "../types/layoutPreferences";
@@ -31,6 +35,25 @@ type SidebarPreferencesContextValue = {
 const SidebarPreferencesContext =
   createContext<SidebarPreferencesContextValue | null>(null);
 
+function mergeWithCachedSidebarState(
+  userId: string,
+  loaded: LayoutPreferences | null,
+  current: LayoutPreferences,
+): LayoutPreferences {
+  const cachedCollapsed = readSidebarCollapsedFromStorage(userId);
+
+  if (loaded) {
+    return loaded;
+  }
+
+  return {
+    ...DEFAULT_LAYOUT_PREFERENCES,
+    showSaintCalendar: current.showSaintCalendar,
+    eveningPlanningMode: current.eveningPlanningMode,
+    sidebarCollapsed: cachedCollapsed ?? current.sidebarCollapsed,
+  };
+}
+
 export function SidebarPreferencesProvider({ children }: { children: ReactNode }) {
   const { user } = useAuth();
   const userId = user?.id;
@@ -40,23 +63,44 @@ export function SidebarPreferencesProvider({ children }: { children: ReactNode }
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
+  const hydrateCachedSidebarState = useCallback((targetUserId: string) => {
+    const cachedCollapsed = readSidebarCollapsedFromStorage(targetUserId);
+    if (cachedCollapsed === null) return;
+
+    setPreferences((current) => ({
+      ...current,
+      sidebarCollapsed: cachedCollapsed,
+    }));
+  }, []);
+
   const reload = useCallback(async () => {
     if (!userId) {
-      setPreferences(DEFAULT_LAYOUT_PREFERENCES);
-      setLoading(false);
+      setLoading(Boolean(user));
       return;
     }
+
+    hydrateCachedSidebarState(userId);
 
     try {
       setLoading(true);
       const loaded = await loadLayoutPreferences(userId);
-      setPreferences(loaded);
+      setPreferences((current) => {
+        const merged = mergeWithCachedSidebarState(userId, loaded, current);
+        writeSidebarCollapsedToStorage(userId, merged.sidebarCollapsed);
+        return merged;
+      });
     } catch {
-      setPreferences(DEFAULT_LAYOUT_PREFERENCES);
+      const cachedCollapsed = readSidebarCollapsedFromStorage(userId);
+      if (cachedCollapsed !== null) {
+        setPreferences((current) => ({
+          ...current,
+          sidebarCollapsed: cachedCollapsed,
+        }));
+      }
     } finally {
       setLoading(false);
     }
-  }, [userId]);
+  }, [userId, user, hydrateCachedSidebarState]);
 
   useEffect(() => {
     void reload();
@@ -68,6 +112,7 @@ export function SidebarPreferencesProvider({ children }: { children: ReactNode }
     const previous = preferences;
     const nextCollapsed = !preferences.sidebarCollapsed;
 
+    writeSidebarCollapsedToStorage(userId, nextCollapsed);
     setPreferences((current) => ({
       ...current,
       sidebarCollapsed: nextCollapsed,
@@ -81,7 +126,9 @@ export function SidebarPreferencesProvider({ children }: { children: ReactNode }
           preferences: { ...previous, sidebarCollapsed: nextCollapsed },
         });
         setPreferences(saved);
+        writeSidebarCollapsedToStorage(userId, saved.sidebarCollapsed);
       } catch {
+        writeSidebarCollapsedToStorage(userId, previous.sidebarCollapsed);
         setPreferences(previous);
       } finally {
         setSaving(false);
@@ -94,6 +141,8 @@ export function SidebarPreferencesProvider({ children }: { children: ReactNode }
       if (!userId || collapsed === preferences.sidebarCollapsed) return;
 
       const previous = preferences;
+
+      writeSidebarCollapsedToStorage(userId, collapsed);
       setPreferences((current) => ({ ...current, sidebarCollapsed: collapsed }));
 
       void (async () => {
@@ -104,7 +153,9 @@ export function SidebarPreferencesProvider({ children }: { children: ReactNode }
             preferences: { ...previous, sidebarCollapsed: collapsed },
           });
           setPreferences(saved);
+          writeSidebarCollapsedToStorage(userId, saved.sidebarCollapsed);
         } catch {
+          writeSidebarCollapsedToStorage(userId, previous.sidebarCollapsed);
           setPreferences(previous);
         } finally {
           setSaving(false);

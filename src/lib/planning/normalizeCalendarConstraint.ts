@@ -74,7 +74,14 @@ export function validateCalendarItemForPlanning(
       };
     }
 
-    if (!isManualCalendarItemType(item.item_type)) {
+    const details =
+      item.details && typeof item.details === "object"
+        ? (item.details as Record<string, unknown>)
+        : {};
+    const isManualSport =
+      details.constraintType === "sport" && item.item_type === "task";
+
+    if (!isManualSport && !isManualCalendarItemType(item.item_type)) {
       return {
         valid: false,
         reason: "Un rendez-vous manuel doit être de type event.",

@@ -106,11 +106,7 @@ export async function loadPlanningContextForDate({
   const [workSchedulePattern, layoutPreferences, mealSettings, sportSettings, dailyCheckin] =
     await Promise.all([
     loadActiveWorkSchedulePattern(userId).catch(() => null),
-    loadLayoutPreferences(userId).catch(() => ({
-      sidebarCollapsed: false,
-      showSaintCalendar: true,
-      eveningPlanningMode: DEFAULT_EVENING_PLANNING_MODE,
-    })),
+    loadLayoutPreferences(userId).catch(() => null),
     loadMealSettings(userId).catch(() => undefined),
     loadSportSettings(userId).catch(() => undefined),
     loadDailyCheckin({ userId, date }).catch(() => null),
@@ -121,7 +117,8 @@ export async function loadPlanningContextForDate({
     currentUserId: userId,
     familyContext,
     workSchedulePattern,
-    eveningPlanningMode: layoutPreferences.eveningPlanningMode,
+    eveningPlanningMode:
+      layoutPreferences?.eveningPlanningMode ?? DEFAULT_EVENING_PLANNING_MODE,
     mealSettings,
     sportSettings,
     dailyCheckin,

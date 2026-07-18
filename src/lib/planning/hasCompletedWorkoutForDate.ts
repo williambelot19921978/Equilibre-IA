@@ -96,8 +96,14 @@ function isWorkoutCompletionEvent({
 
   const metadata = event.metadata ?? {};
 
-  if (metadata.workoutCompleted === true) return true;
-  if (metadata.partialCompletion === true) return true;
+  if (metadata.workoutCompleted === true || metadata.partialCompletion === true) {
+    if (!event.calendar_item_id) {
+      return false;
+    }
+
+    const linked = calendarItemsById.get(event.calendar_item_id);
+    return Boolean(linked && isCompletedSportCalendarItem(linked, date));
+  }
 
   if (event.event_type !== "completed") return false;
 

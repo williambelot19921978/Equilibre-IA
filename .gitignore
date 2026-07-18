@@ -25,3 +25,15 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Playwright
+playwright/.auth/
+test-results/
+playwright-report/
+reports/
+screenshots/
+videos/
+blob-report/
+!reports/.gitkeep
+!screenshots/.gitkeep
+!videos/.gitkeep

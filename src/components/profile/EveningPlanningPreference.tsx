@@ -5,6 +5,7 @@ import {
   EVENING_PLANNING_MODE_LABELS,
   type EveningPlanningMode,
 } from "../../types/eveningPlanning";
+import { DEFAULT_LAYOUT_PREFERENCES } from "../../types/layoutPreferences";
 import {
   loadLayoutPreferences,
   saveLayoutPreferences,
@@ -28,7 +29,10 @@ export function EveningPlanningPreference({
       setLoading(true);
       setError("");
       const prefs = await loadLayoutPreferences(userId);
-      setMode(prefs.eveningPlanningMode);
+      setMode(
+        prefs?.eveningPlanningMode ??
+          DEFAULT_LAYOUT_PREFERENCES.eveningPlanningMode,
+      );
     } catch (loadError) {
       setError(
         loadError instanceof Error
@@ -49,7 +53,7 @@ export function EveningPlanningPreference({
       setSaving(true);
       setMessage("");
       setError("");
-      const prefs = await loadLayoutPreferences(userId);
+      const prefs = (await loadLayoutPreferences(userId)) ?? DEFAULT_LAYOUT_PREFERENCES;
       await saveLayoutPreferences({
         userId,
         preferences: { ...prefs, eveningPlanningMode: mode },

@@ -37,7 +37,7 @@ function normalizeLayout(raw: {
 
 export async function loadLayoutPreferences(
   userId: string,
-): Promise<LayoutPreferences> {
+): Promise<LayoutPreferences | null> {
   const { data, error } = await supabase
     .from(TABLE)
     .select("sidebar_collapsed, show_saint_calendar, evening_planning_mode")
@@ -48,7 +48,7 @@ export async function loadLayoutPreferences(
     throw formatSupabaseError({ table: TABLE, operation: "SELECT", error });
   }
 
-  if (!data) return DEFAULT_LAYOUT_PREFERENCES;
+  if (!data) return null;
   return normalizeLayout(data);
 }
 
