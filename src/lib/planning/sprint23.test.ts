@@ -327,8 +327,10 @@ describe("Sprint 2.3 — URL date navigation", () => {
     expect(julyDays.at(-1)).toBe("2026-07-31");
 
     const bounds = getMonthBounds(2026, 6);
-    expect(bounds.start.slice(0, 10)).toBe("2026-06-30");
-    expect(bounds.end.slice(0, 10)).toBe("2026-07-31");
+    const expectedStart = new Date(2026, 6, 1);
+    const expectedEnd = new Date(2026, 7, 0, 23, 59, 59, 999);
+    expect(bounds.start).toBe(expectedStart.toISOString());
+    expect(bounds.end).toBe(expectedEnd.toISOString());
   });
 
   it("L/M. validates and resolves URL date", () => {
