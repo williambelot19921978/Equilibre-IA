@@ -96,7 +96,7 @@ async function loadHistory(userId: string, days = 60): Promise<{
         .select("*")
         .eq("user_id", userId)
         .gte("checkin_date", start.toISOString().slice(0, 10)),
-      supabase.auth.getUser(),
+      supabase.from("profiles").select("created_at").eq("id", userId).maybeSingle(),
     ]);
 
   if (calendarResult.error) {
@@ -123,7 +123,7 @@ async function loadHistory(userId: string, days = 60): Promise<{
     });
   }
 
-  const createdAt = profileResult.data.user?.created_at;
+  const createdAt = profileResult.data?.created_at;
   const accountAgeDays = createdAt
     ? Math.max(
         0,

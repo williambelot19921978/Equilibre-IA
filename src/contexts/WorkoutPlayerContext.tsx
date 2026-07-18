@@ -232,6 +232,12 @@ export function WorkoutPlayerProvider({ children }: { children: ReactNode }) {
     ) => {
       if (!user || !activeWorkoutEntry || !activeWorkoutSession) return;
 
+      const entry = activeWorkoutEntry;
+      const session = activeWorkoutSession;
+      const startedAt = workoutStartedAt ?? undefined;
+
+      closePlayer();
+
       try {
         setSportSaving(true);
         const dailyCheckin = await loadDailyCheckin({
@@ -241,13 +247,12 @@ export function WorkoutPlayerProvider({ children }: { children: ReactNode }) {
         const result = await finishWorkoutSession({
           userId: user.id,
           date: selectedDate,
-          entry: activeWorkoutEntry,
-          session: activeWorkoutSession,
+          entry,
+          session,
           outcome,
           dailyCheckin,
-          actualStartedAt: workoutStartedAt ?? undefined,
+          actualStartedAt: startedAt,
         });
-        closePlayer();
         if (result?.feedback) {
           entryHelpers.onAchievement?.(result.feedback);
         }

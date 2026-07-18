@@ -152,8 +152,11 @@ test.describe("SPORT — player de séance", () => {
     await page.getByRole("button", { name: "Séance terminée" }).click();
     await expect(page.getByRole("dialog", { name: "Séance en cours" })).toBeHidden();
 
+    await expect
+      .poll(async () => (await fetchE2eSportSession(e2eSession.calendarItemId)).details?.status)
+      .toBe("completed");
+
     const persisted = await fetchE2eSportSession(e2eSession.calendarItemId);
-    expect(persisted.details?.status).toBe("completed");
     expect(persisted.details?.actual_completed_at).toBeTruthy();
 
     await page.reload();

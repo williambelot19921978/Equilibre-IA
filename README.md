@@ -30,3 +30,6 @@ If you are developing a production application, we recommend enabling type-aware
 ```
 
 See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## Migrations
+- Migration `00017` : ajout des colonnes `evening_planning_mode` et `sport_settings`.
+- Migration `00018` : ajout de la policy `task_activity_events_delete_own` permettant au compte authentifié de supprimer ses propres événements d'activité (utilisée notamment pour le nettoyage des tests E2E).
