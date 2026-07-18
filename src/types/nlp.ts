@@ -104,6 +104,15 @@ export type ConversationPendingState =
       kind: "clarification";
       action: import("../lib/nlp/pendingConversationAction").PendingConversationAction;
       message: string;
+    }
+  | {
+      kind: "language_confirmation";
+      hypothesis: import("../ai/languageMemory/types").LanguageHypothesis;
+      prompt: string;
+      expiresAt: string;
+      normalizedExpression: string;
+      originalText: string;
+      contextFingerprint: import("../ai/languageMemory/types").LanguageContextFingerprint;
     };
 
 export type ConversationState = {
@@ -137,6 +146,9 @@ export type NlpRuntimeContext = {
   defaultWorkStart?: string;
   defaultWorkEnd?: string;
   tasks: Array<{ id: string; title: string; category: string; status: string }>;
+  languageMemory?: import("../ai/core/buildLanguageMemoryContext").LanguageMemoryContext | null;
+  personalLanguageExpressions?: import("../ai/languageMemory/types").LanguageExpressionMemory[];
+  personalLanguagePersistence?: import("../ai/languageMemory/personalLanguageConversationBridge").PersonalLanguagePersistence;
 };
 
 export type NlpExecutionResult = {

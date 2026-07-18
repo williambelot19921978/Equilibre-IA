@@ -36,6 +36,7 @@ const authenticatedTestMatch = [
   "**/regression/**/*.spec.ts",
   "**/planning/**/*.spec.ts",
   "**/workout/**/*.spec.ts",
+  "**/conversation/**/*.spec.ts",
 ];
 
 const authenticatedLogoutMatch = ["**/auth/logout.spec.ts"];

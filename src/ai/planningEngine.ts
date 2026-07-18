@@ -1113,7 +1113,12 @@ export function generateDayPlan({
       totalFreeMinutes > 0
         ? Math.round((plannedMinutes / totalFreeMinutes) * 100)
         : 0,
-    incompleteData: [...incompleteData, ...(fc?.warnings ?? [])],
+    incompleteData: [
+      ...incompleteData,
+      ...(fc?.warnings ?? [])
+        .map((warning) => warning.message)
+        .filter((message, index, items) => items.indexOf(message) === index),
+    ],
     contextAdaptations: fc?.adaptations ?? [],
     contextWarnings: fc?.warnings ?? [],
     ignoredCalendarItems,

@@ -54,6 +54,8 @@ const TABLES = [
   "task_activity_events",
   "leisure_favorites",
   "daily_checkins",
+  "user_language_expressions",
+  "language_learning_events",
 ];
 
 function classifyError(message = "", code = "") {

@@ -55,6 +55,11 @@ export type FamilyContextPeriodRecord = {
   updated_at: string;
 };
 
+export type FamilyContextWarning = {
+  id: string;
+  message: string;
+};
+
 export type ResolvedFamilyContext = {
   activePeriods: FamilyContextPeriodRecord[];
   disableWork: boolean;
@@ -68,7 +73,7 @@ export type ResolvedFamilyContext = {
   onlyMicroTasks: boolean;
   unavailableUserIds: string[];
   adaptations: string[];
-  warnings: string[];
+  warnings: FamilyContextWarning[];
 };
 
 export type FamilyContextPeriodInput = {

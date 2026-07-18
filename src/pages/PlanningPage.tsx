@@ -281,8 +281,8 @@ export function PlanningPage() {
               <section className="planning-section">
                 <h2>Alertes contexte</h2>
                 <ul className="planning-list">
-                  {plan.contextWarnings?.map((item) => (
-                    <li key={item}>{item}</li>
+                  {plan.contextWarnings?.map((warning) => (
+                    <li key={warning.id}>{warning.message}</li>
                   ))}
                 </ul>
               </section>
@@ -306,7 +306,7 @@ export function PlanningPage() {
                 <h2>Informations incomplètes</h2>
                 <ul className="planning-list">
                   {plan.incompleteData.map((item) => (
-                    <li key={item}>{item}</li>
+                    <li key={`incomplete-${item.length}-${item.slice(0, 64)}`}>{item}</li>
                   ))}
                 </ul>
               </section>

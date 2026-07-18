@@ -57,7 +57,10 @@ export function buildHistoricalDayView({
     totalFreeMinutes: 0,
     fillPercentage: timeline.length > 0 ? 100 : 0,
     contextAdaptations: [],
-    contextWarnings: archiveWarnings,
+    contextWarnings: archiveWarnings.map((message) => ({
+      id: `archive-${message.length}-${message.slice(0, 48)}`,
+      message,
+    })),
     ignoredCalendarItems: [],
   };
 

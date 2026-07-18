@@ -132,6 +132,39 @@ describe("familyContextEngine", () => {
     expect(overlaps).toHaveLength(1);
   });
 
+  it("K — avertissements de chevauchement avec identifiants stables uniques", () => {
+    const resolved = resolveFamilyContextForDate({
+      periods: [
+        createPeriod({
+          id: "guadeloupe",
+          title: "Guadeloupe",
+          starts_at: "2026-07-10T00:00:00.000Z",
+          ends_at: "2026-07-25T23:59:00.000Z",
+        }),
+        createPeriod({
+          id: "fatigue-1",
+          context_type: "other",
+          title: "Journée allégée — fatigue",
+          starts_at: "2026-07-20T00:00:00.000Z",
+          ends_at: "2026-07-20T23:59:59.999Z",
+        }),
+        createPeriod({
+          id: "fatigue-2",
+          context_type: "other",
+          title: "Journée allégée — fatigue",
+          starts_at: "2026-07-20T00:00:00.000Z",
+          ends_at: "2026-07-20T23:59:59.999Z",
+        }),
+      ],
+      date: "2026-07-20",
+      currentUserId: "user-1",
+    });
+
+    expect(resolved.warnings).toHaveLength(3);
+    expect(new Set(resolved.warnings.map((warning) => warning.id)).size).toBe(3);
+    expect(resolved.warnings.every((warning) => warning.id.includes(":"))).toBe(true);
+  });
+
   it("J — période annulée ignorée", () => {
     const resolved = resolveFamilyContextForDate({
       periods: [

@@ -6,7 +6,7 @@ import { parseTimeToMinutes, minutesToTime } from "../lib/time/daySchedule";
 import { verifyWorkBlocksInPlan } from "../lib/work/verifyWorkBlocksInPlan";
 import { dispatchPlanRefresh } from "../lib/planning/planRefreshEvents";
 import { loadPlanningContextWithLife } from "./memoryContextService";
-import { createFamilyContextPeriod } from "./familyContextService";
+import { createFamilyContextPeriod, FATIGUE_DAY_CONTEXT_TITLE, QUIET_EVENING_CONTEXT_TITLE, upsertDayScopedFamilyContextPeriod } from "./familyContextService";
 import { createTask, getUserTasks, updateTaskStatus } from "./tasksService";
 import { loadDailyRoutine, saveDailyRoutine } from "./dailyRoutineService";
 import { addSpiritualActivityToPlanning } from "./spiritualPlanningService";
@@ -415,11 +415,12 @@ export async function executeNlpActions({
       case "ReduceFillRatio": {
         const date = String(action.payload.date ?? referenceDate);
         const maxFillRatio = Number(action.payload.maxFillRatio ?? 0.4);
-        await createFamilyContextPeriod({
+        await upsertDayScopedFamilyContextPeriod({
           userId,
+          matchTitle: FATIGUE_DAY_CONTEXT_TITLE,
           period: {
             contextType: "other",
-            title: "Journée allégée — fatigue",
+            title: FATIGUE_DAY_CONTEXT_TITLE,
             startsAt: `${date}T00:00:00.000Z`,
             endsAt: `${date}T23:59:59.999Z`,
             userId,
@@ -438,11 +439,12 @@ export async function executeNlpActions({
 
       case "QuietEvening": {
         const date = String(action.payload.date ?? referenceDate);
-        await createFamilyContextPeriod({
+        await upsertDayScopedFamilyContextPeriod({
           userId,
+          matchTitle: QUIET_EVENING_CONTEXT_TITLE,
           period: {
             contextType: "other",
-            title: "Soirée tranquille",
+            title: QUIET_EVENING_CONTEXT_TITLE,
             startsAt: `${date}T00:00:00.000Z`,
             endsAt: `${date}T23:59:59.999Z`,
             userId,

@@ -1,4 +1,5 @@
 import type { TaskRecord } from "./database";
+import type { FamilyContextWarning } from "./familyContext";
 
 export type EnergyLevel = "high" | "medium" | "low" | "variable";
 
@@ -88,7 +89,7 @@ export type DayPlan = {
   fillPercentage: number;
   incompleteData: string[];
   contextAdaptations: string[];
-  contextWarnings: string[];
+  contextWarnings: FamilyContextWarning[];
   ignoredCalendarItems?: IgnoredCalendarItem[];
 };
 
