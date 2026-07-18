@@ -135,6 +135,116 @@
   }
 }
 
+/* Sprint 2 — Score Équilibre / Conseil du jour */
+.home-widget-balance {
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.balance-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.balance-card-header h2 {
+  font-size: var(--text-lg);
+  margin: var(--space-1) 0 0;
+}
+
+.balance-score-badge {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  flex-shrink: 0;
+}
+
+.balance-score-value {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.balance-score-max {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.balance-level-label {
+  font-weight: 600;
+  margin: 0 0 var(--space-3);
+  color: var(--color-text);
+}
+
+.balance-card-neutral {
+  margin: 0;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+.balance-primary-insight {
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+  margin-bottom: var(--space-3);
+}
+
+.balance-insight-title {
+  font-weight: 600;
+  margin: 0 0 var(--space-1);
+}
+
+.balance-insight-message {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.balance-suggested-action {
+  margin: var(--space-2) 0 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.balance-insights-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.balance-insights-list li {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--color-border);
+  font-size: var(--text-sm);
+  line-height: 1.45;
+}
+
+.balance-insights-list strong {
+  font-size: var(--text-sm);
+}
+
+@media (max-width: 480px) {
+  .balance-card-header {
+    flex-direction: column;
+  }
+
+  .balance-score-badge {
+    align-self: flex-start;
+  }
+}
+
 /* ─── Couleurs cellules calendrier (rythme profil) ───
    Priorité sur index.css legacy (.month-calendar-day, .month-calendar-selected) */
 

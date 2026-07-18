@@ -1,5 +1,15 @@
 # Changelog
 
+## [Unreleased]
+
+### Ajouté
+
+- Moteur proactif v1 (`src/lib/proactiveEngine/`) : Score Équilibre, détection surcharge, reports répétés, insights priorisés
+- Service d’agrégation `proactiveAnalysisService.ts`
+- Carte Home « Score Équilibre / Conseil du jour »
+- Tests unitaires Vitest et scénario E2E Playwright dédié
+- Documentation `docs/PROACTIVE_ENGINE_V1.md`
+
 ## [1.0.0] - 2026-07-17
 
 ### Ajouté
