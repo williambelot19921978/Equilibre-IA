@@ -1,3 +1,9 @@
+import { enrichAssistantWithLanguageMemory } from "../core/enrichAssistantWithMemory";
+import {
+  handlePendingLanguageConfirmation,
+  shouldAttemptPersonalLanguageResolution,
+  tryPersonalLanguageResolution,
+} from "../languageMemory/personalLanguageConversationBridge";
 import { parseUserMessage } from "./intentEngine";
 import {
   buildConfirmationPrompt,
@@ -54,12 +60,14 @@ async function finalizeExecutedTurn({
   resolvedActions,
   result,
   explanation,
+  runtimeContext,
 }: {
   nextState: ConversationState;
   parseResult: NlpParseResult;
   resolvedActions: NlpAction[];
   result: Awaited<ReturnType<ExecuteActionsFn>>;
   explanation: string[];
+  runtimeContext: NlpRuntimeContext;
 }): Promise<ConversationTurnResult> {
   const executionFailed =
     !result.persistSucceeded ||
@@ -68,12 +76,17 @@ async function finalizeExecutedTurn({
         summary.toLowerCase().includes("échec") ||
         summary.toLowerCase().includes("impossible"),
     );
-  const assistantMessage = formatAssistantReply({
+  const rawAssistantMessage = formatAssistantReply({
     intent: parseResult.intent,
     actions: resolvedActions,
     executionSummaries: result.summaries,
     executionFailed,
     executionResult: result,
+  });
+  const assistantMessage = enrichAssistantWithLanguageMemory({
+    message: rawAssistantMessage,
+    intent: parseResult.intent,
+    languageMemory: runtimeContext.languageMemory,
   });
 
   const stateWithReply = appendMessage(
@@ -137,6 +150,22 @@ async function processConversationTurnAsync({
 }): Promise<ConversationTurnResult> {
   let nextState = appendMessage(state, createMessage("user", text.trim()));
   const explanation: string[] = [];
+  const persistence = runtimeContext.personalLanguagePersistence;
+
+  if (state.pending?.kind === "language_confirmation" && persistence) {
+    const languageResult = await handlePendingLanguageConfirmation({
+      text,
+      state: { ...state, messages: nextState.messages },
+      runtimeContext,
+      executeActions,
+      persistence,
+      appendMessage,
+      createMessage,
+    });
+    if (languageResult) {
+      return languageResult;
+    }
+  }
 
   if (state.pending?.kind === "confirmation") {
     const parse = parseUserMessage({
@@ -352,6 +381,7 @@ async function processConversationTurnAsync({
         resolvedActions: resolved.actions,
         result,
         explanation,
+        runtimeContext,
       });
     }
   }
@@ -378,6 +408,22 @@ async function processConversationTurnAsync({
       extractedDate: enrichedEntities.dates[0],
       workExceptionKind: enrichedEntities.workExceptionKind,
     });
+  }
+
+  if (persistence && shouldAttemptPersonalLanguageResolution(enrichedParseResult)) {
+    const languageResult = await tryPersonalLanguageResolution({
+      text,
+      state: { ...state, messages: nextState.messages },
+      runtimeContext,
+      parseResult: enrichedParseResult,
+      executeActions,
+      persistence,
+      appendMessage,
+      createMessage,
+    });
+    if (languageResult) {
+      return languageResult;
+    }
   }
 
   const clarification = detectClarificationNeeded(enrichedParseResult);
@@ -487,5 +533,6 @@ async function processConversationTurnAsync({
     resolvedActions: resolved.actions,
     result,
     explanation,
+    runtimeContext,
   });
 }

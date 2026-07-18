@@ -8,6 +8,9 @@ import type {
 } from "../types/familyContext";
 import { getCurrentHouseholdId } from "./householdService";
 
+export const FATIGUE_DAY_CONTEXT_TITLE = "Journée allégée — fatigue";
+export const QUIET_EVENING_CONTEXT_TITLE = "Soirée tranquille";
+
 const TABLE = "family_context_periods";
 
 const PERIOD_SELECT = `
@@ -96,6 +99,51 @@ export async function createFamilyContextPeriod({
   }
 
   return normalizePeriod(data);
+}
+
+export async function upsertDayScopedFamilyContextPeriod({
+  userId,
+  period,
+  matchTitle,
+}: {
+  userId: string;
+  period: FamilyContextPeriodInput;
+  matchTitle: string;
+}): Promise<FamilyContextPeriodRecord> {
+  const householdId = await getCurrentHouseholdId(userId);
+
+  const { data: existingRows, error: selectError } = await supabase
+    .from(TABLE)
+    .select(PERIOD_SELECT)
+    .eq("household_id", householdId)
+    .eq("title", matchTitle)
+    .eq("status", "active")
+    .eq("starts_at", period.startsAt)
+    .eq("ends_at", period.endsAt)
+    .limit(1);
+
+  if (selectError) {
+    throw formatSupabaseError({ table: TABLE, operation: "SELECT", error: selectError });
+  }
+
+  const existing = existingRows?.[0];
+  if (existing) {
+    return updateFamilyContextPeriod({
+      periodId: existing.id,
+      period: {
+        contextType: period.contextType,
+        title: period.title,
+        startsAt: period.startsAt,
+        endsAt: period.endsAt,
+        userId: period.userId,
+        affectedMemberId: period.affectedMemberId,
+        description: period.description,
+        impact: period.impact,
+      },
+    });
+  }
+
+  return createFamilyContextPeriod({ userId, period });
 }
 
 export async function updateFamilyContextPeriod({

@@ -11,6 +11,7 @@ import type {
   FamilyContextImpact,
   FamilyContextPeriodRecord,
   FamilyContextType as ContextType,
+  FamilyContextWarning,
   ResolvedFamilyContext,
 } from "../types/familyContext";
 
@@ -118,6 +119,33 @@ export function findOverlappingPeriods(
   return overlaps;
 }
 
+function buildOverlapWarningId(
+  a: FamilyContextPeriodRecord,
+  b: FamilyContextPeriodRecord,
+): string {
+  return [a.id, b.id].sort().join(":");
+}
+
+function buildOverlapWarnings(
+  overlaps: Array<[FamilyContextPeriodRecord, FamilyContextPeriodRecord]>,
+): FamilyContextWarning[] {
+  const seen = new Set<string>();
+  const warnings: FamilyContextWarning[] = [];
+
+  for (const [a, b] of overlaps) {
+    const id = buildOverlapWarningId(a, b);
+    if (seen.has(id)) continue;
+    seen.add(id);
+
+    warnings.push({
+      id,
+      message: `Chevauchement entre « ${a.title} » et « ${b.title} » — vérifie les périodes.`,
+    });
+  }
+
+  return warnings;
+}
+
 export function resolveFamilyContextForDate({
   periods,
   date,
@@ -161,10 +189,7 @@ export function resolveFamilyContextForDate({
   }
 
   const overlaps = findOverlappingPeriods(activePeriods);
-  const warnings: string[] = overlaps.map(
-    ([a, b]) =>
-      `Chevauchement entre « ${a.title} » et « ${b.title} » — vérifie les périodes.`,
-  );
+  const warnings = buildOverlapWarnings(overlaps);
 
   const adaptations: string[] = [];
 

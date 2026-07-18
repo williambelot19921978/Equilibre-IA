@@ -14,6 +14,12 @@ import {
 import { useAuth } from "../hooks/useAuth";
 import { getCurrentDeviceDate } from "../lib/time/deviceClock";
 import { executeNlpActions } from "../services/nlpActionService";
+import { loadLanguageMemoryContext } from "../services/languageMemoryService";
+import {
+  loadUserLanguageExpressions,
+  recordLanguageLearningEvent,
+  upsertLanguageExpression,
+} from "../services/personalLanguageMemoryService";
 import { loadDailyRoutine } from "../services/dailyRoutineService";
 import { getUserTasks } from "../services/tasksService";
 import { getChildrenByHousehold } from "../services/childrenService";
@@ -52,10 +58,16 @@ export function ConversationProvider({ children }: { children: ReactNode }) {
       try {
         const referenceDate = getCurrentDeviceDate();
         const householdId = await getCurrentHouseholdId(user.id);
-        const [tasks, children, routine] = await Promise.all([
+        const [tasks, children, routine, languageMemory, personalLanguageExpressions] =
+          await Promise.all([
           getUserTasks(user.id),
           getChildrenByHousehold(householdId),
           loadDailyRoutine(user.id).catch(() => null),
+          loadLanguageMemoryContext({
+            userId: user.id,
+            referenceDate,
+          }).catch(() => null),
+          loadUserLanguageExpressions(user.id).catch(() => []),
         ]);
 
         const result = await processConversationTurn({
@@ -73,6 +85,18 @@ export function ConversationProvider({ children }: { children: ReactNode }) {
               category: task.category,
               status: task.status,
             })),
+            languageMemory,
+            personalLanguageExpressions,
+            personalLanguagePersistence: {
+              saveExpression: (memory) => upsertLanguageExpression(memory),
+              recordEvent: (eventType, expressionId, payload = {}) =>
+                recordLanguageLearningEvent({
+                  userId: user.id,
+                  expressionId,
+                  eventType,
+                  payload,
+                }),
+            },
           },
           executeActions: async (actions) =>
             executeNlpActions({
