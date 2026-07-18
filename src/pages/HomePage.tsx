@@ -20,6 +20,7 @@ import { RecentAchievementWidget } from "../components/home/RecentAchievementWid
 import { DayNavigationBar } from "../components/planning/DayNavigationBar";
 import { ProactiveCoachBanner } from "../components/coach/ProactiveCoachBanner";
 import { DailyMissionBanner } from "../components/coach/DailyMissionBanner";
+import { ProactiveBalanceCard } from "../components/home/ProactiveBalanceCard";
 import { useIsMobile } from "../hooks/useIsMobile";
 import {
   getOrderedVisibleWidgets,
@@ -601,6 +602,16 @@ export function HomePage() {
         />
 
         <div className="home-widgets-stack">
+          {user?.id && (
+            <ProactiveBalanceCard
+              userId={user.id}
+              date={selectedDate}
+              timeline={timeline}
+              items={items}
+              profileFacts={profileFacts}
+              loadingPlan={loadingPlan}
+            />
+          )}
           {user && (
             <DailyCheckinWidget
               date={selectedDate}
