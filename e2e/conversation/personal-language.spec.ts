@@ -18,7 +18,7 @@ const authFile = path.join(
 );
 
 async function openConversation(page: import("@playwright/test").Page) {
-  await page.getByRole("button", { name: /parler à équilibre ia/i }).click();
+  await page.getByRole("button", { name: /parler à aura/i }).click();
   await expect(page.locator("#conversation-header-panel")).toBeVisible();
 }
 

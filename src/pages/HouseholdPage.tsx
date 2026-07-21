@@ -1,7 +1,13 @@
 import { useState, type FormEvent } from "react";
+
+import { Button } from "../components/ui/Button";
+import { ErrorState } from "../components/ui/ErrorState";
+import { FormField, Input } from "../components/ui/FormField";
+import { OnboardingLayout } from "../components/onboarding/OnboardingLayout";
 import { useAuth } from "../hooks/useAuth";
 import { useAppNavigation } from "../hooks/useAppNavigation";
 import { createHouseholdForCurrentUser } from "../services/householdService";
+import { AppRoutes } from "../lib/navigation/routes";
 
 export function HouseholdPage() {
   const { user } = useAuth();
@@ -19,12 +25,12 @@ export function HouseholdPage() {
     setErrorMessage("");
 
     if (!householdName.trim()) {
-      setErrorMessage("Donne un nom à ton foyer.");
+      setErrorMessage("Donnez un nom à votre foyer.");
       return;
     }
 
     if (!displayName.trim()) {
-      setErrorMessage("Indique ton prénom.");
+      setErrorMessage("Indiquez votre prénom.");
       return;
     }
 
@@ -49,48 +55,39 @@ export function HouseholdPage() {
   }
 
   return (
-    <main className="auth-page">
-      <section className="auth-card">
-        <p className="brand-name">Équilibre IA</p>
+    <OnboardingLayout
+      title="Créer le foyer"
+      subtitle="Cet espace regroupera les adultes, les enfants et les contraintes familiales."
+      stepRoute={AppRoutes.HOUSEHOLD}
+    >
+      <form onSubmit={handleSubmit} className="onboarding-form">
+        <FormField label="Nom du foyer" required htmlFor="household-name">
+          <Input
+            id="household-name"
+            type="text"
+            value={householdName}
+            onChange={(event) => setHouseholdName(event.target.value)}
+            placeholder="Ex. Famille Belot"
+            required
+          />
+        </FormField>
 
-        <h1>Créer le foyer</h1>
+        <FormField label="Votre prénom dans le foyer" required htmlFor="display-name">
+          <Input
+            id="display-name"
+            type="text"
+            value={displayName}
+            onChange={(event) => setDisplayName(event.target.value)}
+            required
+          />
+        </FormField>
 
-        <p className="auth-intro">
-          Cet espace regroupera les adultes, les enfants et les contraintes
-          familiales.
-        </p>
+        {errorMessage && <ErrorState kind="error" title={errorMessage} />}
 
-        <form onSubmit={handleSubmit} className="auth-form">
-          <label>
-            <span>Nom du foyer</span>
-            <input
-              type="text"
-              value={householdName}
-              onChange={(event) => setHouseholdName(event.target.value)}
-              placeholder="Ex. Famille Belot"
-              required
-            />
-          </label>
-
-          <label>
-            <span>Ton prénom dans le foyer</span>
-            <input
-              type="text"
-              value={displayName}
-              onChange={(event) => setDisplayName(event.target.value)}
-              required
-            />
-          </label>
-
-          {errorMessage && (
-            <div className="message message-error">{errorMessage}</div>
-          )}
-
-          <button type="submit" disabled={loading}>
-            {loading ? "Création..." : "Créer le foyer"}
-          </button>
-        </form>
-      </section>
-    </main>
+        <Button type="submit" fullWidth loading={loading} data-testid="onboarding-household-submit">
+          Créer le foyer
+        </Button>
+      </form>
+    </OnboardingLayout>
   );
 }

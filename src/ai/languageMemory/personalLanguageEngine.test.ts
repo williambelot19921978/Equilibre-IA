@@ -405,8 +405,9 @@ describe("Personal Language Learning — intégration conversation", () => {
       executeActions,
     });
 
-    expect(second.state.pending).toBeUndefined();
-    expect(executeActions).toHaveBeenCalledTimes(1);
+    expect(second.state.pending?.kind).toBe("conversation_action");
+    expect(second.assistantMessage).toMatch(/alléger|décal/i);
+    expect(executeActions).not.toHaveBeenCalled();
     expect(store.get("je suis sec")?.confirmationCount).toBe(1);
   });
 
@@ -487,8 +488,8 @@ describe("Personal Language Learning — intégration conversation", () => {
       executeActions,
     });
 
-    expect(result.state.pending).toBeUndefined();
-    expect(executeActions).toHaveBeenCalledTimes(1);
-    expect(result.explanation.some((item) => item.includes("Mémoire personnelle"))).toBe(true);
+    expect(result.state.pending?.kind).toBe("conversation_action");
+    expect(executeActions).not.toHaveBeenCalled();
+    expect(result.explanation).toContain("fatigue_reschedule_proposed");
   });
 });

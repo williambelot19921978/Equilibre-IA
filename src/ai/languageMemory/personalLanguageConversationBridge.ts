@@ -1,3 +1,5 @@
+import { messageRequestsNonUrgentReschedule } from "../../lib/nlp/conversationActionPending";
+import { proposeFatigueRescheduleAfterConfirmation } from "../nlp/handleConversationActionPending";
 import { resolveActions, formatAssistantReply } from "../nlp/actionResolver";
 import {
   classifyLanguageConfirmationResponse,
@@ -22,7 +24,7 @@ import type { ExecuteActionsFn } from "../nlp/conversationEngine";
 import { parseUserMessage } from "../nlp/intentEngine";
 
 type MessageFactory = (
-  role: "user" | "assistant",
+  role: "user" | "assistant" | "system",
   text: string,
 ) => import("../../types/nlp").ConversationMessage;
 
@@ -125,6 +127,48 @@ export async function handlePendingLanguageConfirmation({
     await persistence.recordEvent("confirm", saved.id, {
       normalizedExpression: saved.normalizedExpression,
     });
+
+    if (hypothesis.resolvedIntent === "declare_fatigue") {
+      if (messageRequestsNonUrgentReschedule(pending.originalText)) {
+        const parseResult = overrideParseWithHypothesis(
+          parseUserMessage({
+            text: pending.originalText,
+            referenceDate: runtimeContext.referenceDate,
+            childNames: runtimeContext.childNames,
+          }),
+          hypothesis,
+        );
+        const resolved = resolveActions({
+          parseResult,
+          referenceDate: runtimeContext.referenceDate,
+        });
+        const result = await executeActions(resolved.actions);
+        const assistantMessage = formatAssistantReply({
+          intent: parseResult.intent,
+          actions: resolved.actions,
+          executionSummaries: result.summaries,
+          executionResult: result,
+        });
+        const nextState = appendMessage(
+          { ...state, pending: undefined },
+          createMessage("assistant", assistantMessage),
+        );
+        return {
+          state: nextState,
+          actionsExecuted: resolved.actions,
+          replanDates: result.replanDates,
+          assistantMessage,
+          explanation: ["language_expression_confirmed", saved.normalizedExpression],
+        };
+      }
+
+      return proposeFatigueRescheduleAfterConfirmation({
+        state: { ...state, pending: undefined },
+        runtimeContext,
+        appendMessage,
+        createMessage,
+      });
+    }
 
     const parseResult = overrideParseWithHypothesis(
       parseUserMessage({
@@ -327,6 +371,41 @@ export async function tryPersonalLanguageResolution({
     }
 
     const enrichedParse = overrideParseWithHypothesis(parseResult, resolution.hypothesis);
+
+    if (enrichedParse.intent === "declare_fatigue") {
+      if (messageRequestsNonUrgentReschedule(text)) {
+        const resolved = resolveActions({
+          parseResult: enrichedParse,
+          referenceDate: runtimeContext.referenceDate,
+        });
+        const result = await executeActions(resolved.actions);
+        const assistantMessage = formatAssistantReply({
+          intent: enrichedParse.intent,
+          actions: resolved.actions,
+          executionSummaries: result.summaries,
+          executionResult: result,
+        });
+        const nextState = appendMessage(
+          state,
+          createMessage("assistant", assistantMessage),
+        );
+        return {
+          state: nextState,
+          actionsExecuted: resolved.actions,
+          replanDates: result.replanDates,
+          assistantMessage,
+          explanation: [resolution.explanation],
+        };
+      }
+
+      return proposeFatigueRescheduleAfterConfirmation({
+        state,
+        runtimeContext,
+        appendMessage,
+        createMessage,
+      });
+    }
+
     const resolved = resolveActions({
       parseResult: enrichedParse,
       referenceDate: runtimeContext.referenceDate,

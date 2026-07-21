@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import {
   buildVacationSuggestionIntro,
@@ -24,6 +24,12 @@ import type { CalendarItemRecord } from "../../types/database";
 import type { TaskActivityEventRecord } from "../../types/taskActivity";
 import type { FreeTimeSuggestion } from "../../types/freeTimeSuggestion";
 import { Button } from "../ui/Button";
+import {
+  observePilotProposalPresented,
+  observePilotProposalDismissed,
+  rememberPilotProposalSession,
+  getPilotProposalSession,
+} from "../../ai/outcome/outcomeObservationBridge";
 
 type FreeTimeSuggestionModalProps = {
   entry: DayTimelineEntry;
@@ -76,10 +82,12 @@ export function FreeTimeSuggestionModal({
   const [tasks, setTasks] = useState<TaskRecord[]>([]);
   const [weekCalendarItems, setWeekCalendarItems] = useState<CalendarItemRecord[]>([]);
   const [weekActivityEvents, setWeekActivityEvents] = useState<TaskActivityEventRecord[]>([]);
+  const presentedProposalIdsRef = useRef(new Set<string>());
+  const acceptedProposalIdsRef = useRef(new Set<string>());
 
   useEffect(() => {
     function handleEscape(event: KeyboardEvent) {
-      if (event.key === "Escape" && !saving) onClose();
+      if (event.key === "Escape" && !saving) handleCloseModal();
     }
 
     window.addEventListener("keydown", handleEscape);
@@ -221,6 +229,41 @@ export function FreeTimeSuggestionModal({
     entry.primarySuggestion,
   ]);
 
+  useEffect(() => {
+    if (!userId || !planningContext || suggestions.length === 0) return;
+
+    for (const suggestion of suggestions) {
+      if (suggestion.type === "keep_free") continue;
+      if (presentedProposalIdsRef.current.has(suggestion.id)) continue;
+
+      presentedProposalIdsRef.current.add(suggestion.id);
+      const session = observePilotProposalPresented({
+        userId,
+        householdId: planningContext.householdId,
+        proposalId: suggestion.id,
+      });
+      rememberPilotProposalSession(session);
+    }
+  }, [userId, planningContext, suggestions]);
+
+  function handleCloseModal() {
+    for (const proposalId of presentedProposalIdsRef.current) {
+      if (acceptedProposalIdsRef.current.has(proposalId)) continue;
+      const session = getPilotProposalSession(proposalId);
+      if (session && userId && planningContext?.householdId) {
+        observePilotProposalDismissed(session);
+      }
+    }
+
+    presentedProposalIdsRef.current.clear();
+    acceptedProposalIdsRef.current.clear();
+    onClose();
+  }
+
+  function markProposalAccepted(proposalId: string) {
+    acceptedProposalIdsRef.current.add(proposalId);
+  }
+
   const intro =
     planningContext &&
     buildVacationSuggestionIntro({ slot, planningContext });
@@ -244,6 +287,7 @@ export function FreeTimeSuggestionModal({
 
     setStudyDurationError(null);
 
+    markProposalAccepted(selectedSuggestion.id);
     await onAccept(selectedSuggestion, {
       ...selectedSuggestion.optionalContent,
       chosenDurationMinutes,
@@ -252,7 +296,10 @@ export function FreeTimeSuggestionModal({
 
   async function handleKeepFree() {
     const keep = suggestions.find((item) => item.type === "keep_free");
-    if (keep) await onAccept(keep);
+    if (keep) {
+      markProposalAccepted(keep.id);
+      await onAccept(keep);
+    }
   }
 
   async function handleSportConfirm() {
@@ -277,6 +324,7 @@ export function FreeTimeSuggestionModal({
       },
     });
 
+    markProposalAccepted(selectedSuggestion.id);
     await onAccept(selectedSuggestion, {
       workoutSession: workout,
       sportType: workout.type,
@@ -314,7 +362,7 @@ export function FreeTimeSuggestionModal({
   }
 
   return (
-    <div className="modal-overlay" role="presentation" onClick={onClose}>
+    <div className="modal-overlay" role="presentation" onClick={handleCloseModal}>
       <div
         className="modal-card suggestion-modal"
         role="dialog"
@@ -328,7 +376,7 @@ export function FreeTimeSuggestionModal({
             <h2 id="suggestion-title">Me proposer une activité</h2>
             {intro && <p className="suggestion-intro">{intro}</p>}
           </div>
-          <Button variant="secondary" size="sm" onClick={onClose}>
+          <Button variant="secondary" size="sm" onClick={handleCloseModal}>
             Fermer
           </Button>
         </header>
@@ -342,6 +390,7 @@ export function FreeTimeSuggestionModal({
                 className={`suggestion-card${suggestion.isPrimaryRecommendation ? " suggestion-card-primary" : ""}`}
                 onClick={() => {
                   if (suggestion.action === "keep_free") {
+                    markProposalAccepted(suggestion.id);
                     void onAccept(suggestion);
                     return;
                   }
@@ -477,12 +526,13 @@ export function FreeTimeSuggestionModal({
               <Button
                 fullWidth
                 loading={saving}
-                onClick={() =>
+                onClick={() => {
+                  markProposalAccepted(selectedSuggestion.id);
                   void onAccept(selectedSuggestion, {
                     calmPreference,
                     spotifyUrl: "https://open.spotify.com/",
-                  })
-                }
+                  });
+                }}
               >
                 Enregistrer cette préférence
               </Button>
@@ -579,12 +629,13 @@ export function FreeTimeSuggestionModal({
               <Button
                 fullWidth
                 loading={saving}
-                onClick={() =>
+                onClick={() => {
+                  markProposalAccepted(selectedSuggestion.id);
                   void onAccept(
                     selectedSuggestion,
                     selectedSuggestion.optionalContent,
-                  )
-                }
+                  );
+                }}
               >
                 Ajouter à mon planning
               </Button>

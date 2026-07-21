@@ -92,6 +92,8 @@ type DayTimelineProps = {
   onSuggestEntry?: (entry: DayTimelineEntry) => void;
   onRescheduleEntry?: (entry: DayTimelineEntry, option: RescheduleOption) => void;
   onNoTimeEntry?: (entry: DayTimelineEntry, choice: NoTimeChoice) => void;
+  onCannotDoNowEntry?: (entry: DayTimelineEntry) => void;
+  canOfferSmartReschedule?: (entry: DayTimelineEntry) => boolean;
   onCompleteEntry?: (entry: DayTimelineEntry) => void;
   onCancelEntry?: (entry: DayTimelineEntry) => void;
   getWorkoutSession?: (entry: DayTimelineEntry) => WorkoutSession | null;
@@ -121,6 +123,8 @@ function TimelineEntryCard({
   onSuggestEntry,
   onRescheduleEntry,
   onNoTimeEntry,
+  onCannotDoNowEntry,
+  canOfferSmartReschedule,
   onCompleteEntry,
   onCancelEntry,
   getWorkoutSession,
@@ -147,6 +151,8 @@ function TimelineEntryCard({
   onSuggestEntry?: (entry: DayTimelineEntry) => void;
   onRescheduleEntry?: (entry: DayTimelineEntry, option: RescheduleOption) => void;
   onNoTimeEntry?: (entry: DayTimelineEntry, choice: NoTimeChoice) => void;
+  onCannotDoNowEntry?: (entry: DayTimelineEntry) => void;
+  canOfferSmartReschedule?: (entry: DayTimelineEntry) => boolean;
   onCompleteEntry?: (entry: DayTimelineEntry) => void;
   onCancelEntry?: (entry: DayTimelineEntry) => void;
   getWorkoutSession?: (entry: DayTimelineEntry) => WorkoutSession | null;
@@ -288,6 +294,8 @@ function TimelineEntryCard({
                     cancelling={cancellingEntryId === entry.id}
                     onReschedule={(option) => onRescheduleEntry?.(entry, option)}
                     onNoTime={(choice) => onNoTimeEntry?.(entry, choice)}
+                    showSmartReschedule={canOfferSmartReschedule?.(entry) ?? false}
+                    onCannotDoNow={() => onCannotDoNowEntry?.(entry)}
                     onComplete={() => onCompleteEntry?.(entry)}
                     onCancel={() => onCancelEntry?.(entry)}
                     onStartWorkout={() => onStartWorkout?.(entry)}
@@ -395,6 +403,8 @@ export function DayTimeline({
   onSuggestEntry,
   onRescheduleEntry,
   onNoTimeEntry,
+  onCannotDoNowEntry,
+  canOfferSmartReschedule,
   onCompleteEntry,
   onCancelEntry,
   getWorkoutSession,
@@ -494,6 +504,8 @@ export function DayTimeline({
               onSuggestEntry={onSuggestEntry}
               onRescheduleEntry={onRescheduleEntry}
               onNoTimeEntry={onNoTimeEntry}
+              onCannotDoNowEntry={onCannotDoNowEntry}
+              canOfferSmartReschedule={canOfferSmartReschedule}
               onCompleteEntry={onCompleteEntry}
               onCancelEntry={onCancelEntry}
               getWorkoutSession={getWorkoutSession}
@@ -535,6 +547,8 @@ export function DayTimeline({
              onSuggestEntry={onSuggestEntry}
              onRescheduleEntry={onRescheduleEntry}
              onNoTimeEntry={onNoTimeEntry}
+             onCannotDoNowEntry={onCannotDoNowEntry}
+             canOfferSmartReschedule={canOfferSmartReschedule}
              onCompleteEntry={onCompleteEntry}
              onCancelEntry={onCancelEntry}
              getWorkoutSession={getWorkoutSession}

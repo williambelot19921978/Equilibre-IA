@@ -5,6 +5,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
+
 import {
   isRouteAllowed,
   resolveNavigationRoute,
@@ -22,18 +23,31 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
   const [progress, setProgress] =
     useState<UserProgressState>(EMPTY_USER_PROGRESS);
   const [loadedUserId, setLoadedUserId] = useState<string | null>(null);
+  const [progressError, setProgressError] = useState<string | null>(null);
 
   const refreshProgress = useCallback(async (): Promise<UserProgressState> => {
     if (!user) {
       setProgress(EMPTY_USER_PROGRESS);
       setLoadedUserId(null);
+      setProgressError(null);
       return EMPTY_USER_PROGRESS;
     }
 
-    const nextProgress = await loadUserProgress(user.id);
-    setProgress(nextProgress);
-    setLoadedUserId(user.id);
-    return nextProgress;
+    try {
+      const nextProgress = await loadUserProgress(user.id);
+      setProgress(nextProgress);
+      setLoadedUserId(user.id);
+      setProgressError(null);
+      return nextProgress;
+    } catch {
+      const fallback = { ...EMPTY_USER_PROGRESS };
+      setProgress(fallback);
+      setLoadedUserId(user.id);
+      setProgressError(
+        "Connexion instable ou service indisponible. Vérifie ta connexion puis réessaie.",
+      );
+      return fallback;
+    }
   }, [user?.id]);
 
   useEffect(() => {
@@ -44,6 +58,7 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
     if (!user) {
       setProgress(EMPTY_USER_PROGRESS);
       setLoadedUserId(null);
+      setProgressError(null);
       return;
     }
 
@@ -58,6 +73,16 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
         if (!cancelled) {
           setProgress(nextProgress);
           setLoadedUserId(user.id);
+          setProgressError(null);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setProgress({ ...EMPTY_USER_PROGRESS });
+          setLoadedUserId(user.id);
+          setProgressError(
+            "Connexion instable ou service indisponible. Vérifie ta connexion puis réessaie.",
+          );
         }
       });
 
@@ -92,10 +117,11 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
       progress,
       resolvedRoute,
       loading,
+      progressError,
       refreshProgress,
       isCurrentRouteAllowed,
     }),
-    [progress, resolvedRoute, loading, refreshProgress, isCurrentRouteAllowed],
+    [progress, resolvedRoute, loading, progressError, refreshProgress, isCurrentRouteAllowed],
   );
 
   return (

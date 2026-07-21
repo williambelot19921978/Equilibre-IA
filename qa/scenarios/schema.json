@@ -1,0 +1,95 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://equilibre-ia.local/qa/scenario.schema.json",
+  "title": "Équilibre IA QA Scenario",
+  "description": "Schéma standard d'un scénario QA pour la matrice Équilibre IA",
+  "type": "object",
+  "required": [
+    "id",
+    "domain",
+    "title",
+    "preconditions",
+    "profile",
+    "steps",
+    "expected",
+    "criticality",
+    "status"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^QA-[A-Z]+-[0-9]{3}$",
+      "description": "Identifiant unique, ex. QA-AUTH-001"
+    },
+    "domain": {
+      "type": "string",
+      "description": "Domaine fonctionnel (auth, onboarding, planning, ia, etc.)"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 5
+    },
+    "preconditions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "profile": {
+      "type": "string",
+      "enum": [
+        "celibataire",
+        "couple_sans_enfant",
+        "famille_avec_enfants",
+        "famille_monoparentale",
+        "garde_alternee",
+        "agriculteur",
+        "infirmier_nuit",
+        "artisan",
+        "etudiant",
+        "retraite",
+        "routier",
+        "cadre",
+        "independant",
+        "teletravail",
+        "horaires_variables",
+        "sans_emploi",
+        "foyer_multigen",
+        "any"
+      ]
+    },
+    "steps": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "expected": {
+      "type": "string",
+      "minLength": 10
+    },
+    "criticality": {
+      "type": "string",
+      "enum": ["critical", "high", "medium", "low"]
+    },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "automated", "manual", "passing", "failing"]
+    },
+    "automated_test": {
+      "type": ["string", "null"],
+      "description": "Chemin relatif vers test Vitest ou Playwright"
+    },
+    "last_run": {
+      "type": ["string", "null"],
+      "format": "date"
+    },
+    "constitution_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "additionalProperties": false
+}

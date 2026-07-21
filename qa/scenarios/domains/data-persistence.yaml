@@ -1,0 +1,219 @@
+domain: data-persistence
+version: 1.0.0
+scenarios:
+  - id: QA-DAT-001
+    domain: data-persistence
+    title: Tâche persistée après refresh
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: celibataire
+    steps:
+      - Créer données
+      - Refresh/reconnect
+      - Vérifier intégrité
+    expected: "Données cohérentes: Tâche persistée après refresh"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 13
+    tags: []
+  - id: QA-DAT-002
+    domain: data-persistence
+    title: Profil persisté après refresh
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: couple_sans_enfant
+    steps:
+      - Créer données
+      - Refresh/reconnect
+      - Vérifier intégrité
+    expected: "Données cohérentes: Profil persisté après refresh"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 13
+    tags: []
+  - id: QA-DAT-003
+    domain: data-persistence
+    title: Onboarding state persisté
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: famille_avec_enfants
+    steps:
+      - Créer données
+      - Refresh/reconnect
+      - Vérifier intégrité
+    expected: "Données cohérentes: Onboarding state persisté"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 13
+    tags: []
+  - id: QA-DAT-004
+    domain: data-persistence
+    title: Conversation context persisté session
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: famille_monoparentale
+    steps:
+      - Créer données
+      - Refresh/reconnect
+      - Vérifier intégrité
+    expected: "Données cohérentes: Conversation context persisté session"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 13
+    tags: []
+  - id: QA-DAT-005
+    domain: data-persistence
+    title: Skip count persisté
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: garde_alternee
+    steps:
+      - Créer données
+      - Refresh/reconnect
+      - Vérifier intégrité
+    expected: "Données cohérentes: Skip count persisté"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 13
+    tags: []
+  - id: QA-DAT-006
+    domain: data-persistence
+    title: Objectifs persistés
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: agriculteur
+    steps:
+      - Créer données
+      - Refresh/reconnect
+      - Vérifier intégrité
+    expected: "Données cohérentes: Objectifs persistés"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 13
+    tags: []
+  - id: QA-DAT-007
+    domain: data-persistence
+    title: Offline graceful degradation
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: infirmier_nuit
+    steps:
+      - Créer données
+      - Refresh/reconnect
+      - Vérifier intégrité
+    expected: "Données cohérentes: Offline graceful degradation"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 13
+    tags: []
+  - id: QA-DAT-008
+    domain: data-persistence
+    title: Reconnexion sync données
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: artisan
+    steps:
+      - Créer données
+      - Refresh/reconnect
+      - Vérifier intégrité
+    expected: "Données cohérentes: Reconnexion sync données"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 13
+    tags: []
+  - id: QA-DAT-009
+    domain: data-persistence
+    title: Pas perte données double submit
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: etudiant
+    steps:
+      - Créer données
+      - Refresh/reconnect
+      - Vérifier intégrité
+    expected: "Données cohérentes: Pas perte données double submit"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 13
+    tags: []
+  - id: QA-DAT-010
+    domain: data-persistence
+    title: Migration schema backward compat
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: retraite
+    steps:
+      - Créer données
+      - Refresh/reconnect
+      - Vérifier intégrité
+    expected: "Données cohérentes: Migration schema backward compat"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 13
+    tags: []
+  - id: QA-DAT-011
+    domain: data-persistence
+    title: Rollback safe on error
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: routier
+    steps:
+      - Créer données
+      - Refresh/reconnect
+      - Vérifier intégrité
+    expected: "Données cohérentes: Rollback safe on error"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 13
+    tags: []
+  - id: QA-DAT-012
+    domain: data-persistence
+    title: Local storage pas de secrets
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: cadre
+    steps:
+      - Créer données
+      - Refresh/reconnect
+      - Vérifier intégrité
+    expected: "Données cohérentes: Local storage pas de secrets"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 13
+    tags: []

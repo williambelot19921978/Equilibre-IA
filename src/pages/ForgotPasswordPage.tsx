@@ -7,6 +7,8 @@ import {
 } from "../lib/auth/passwordRecovery";
 import { AppRoutes } from "../lib/navigation/routes";
 import { requestPasswordResetEmail } from "../services/passwordRecoveryService";
+import { Button } from "../components/ui/Button";
+import { FormField, Input } from "../components/ui/FormField";
 
 export function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
@@ -33,7 +35,7 @@ export function ForgotPasswordPage() {
   return (
     <main className="auth-page">
       <section className="auth-card">
-        <p className="brand-name">Équilibre IA</p>
+        <p className="brand-name">Aura</p>
 
         <h1>Mot de passe oublié ?</h1>
 
@@ -43,16 +45,16 @@ export function ForgotPasswordPage() {
         </p>
 
         <form onSubmit={handleSubmit} className="auth-form">
-          <label>
-            <span>Adresse e-mail</span>
-            <input
+          <FormField label="Adresse e-mail" htmlFor="forgot-email" required>
+            <Input
+              id="forgot-email"
               type="email"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               autoComplete="email"
               required
             />
-          </label>
+          </FormField>
 
           {errorMessage && (
             <div className="message message-error">{errorMessage}</div>
@@ -62,9 +64,9 @@ export function ForgotPasswordPage() {
             <div className="message message-success">{successMessage}</div>
           )}
 
-          <button type="submit" disabled={loading}>
+          <Button type="submit" fullWidth disabled={loading} loading={loading}>
             {loading ? "Envoi en cours..." : "Envoyer le lien"}
-          </button>
+          </Button>
         </form>
 
         <p className="auth-footer">

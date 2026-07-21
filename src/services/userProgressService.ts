@@ -8,6 +8,7 @@ import {
 } from "../lib/navigation/progressChecks";
 import type { UserProgressState } from "../lib/navigation/types";
 import { EMPTY_USER_PROGRESS } from "../lib/navigation/types";
+import { getOnboardingUxProgress } from "../lib/onboarding/onboardingProgressStore";
 
 export async function loadUserProgress(
   userId: string,
@@ -30,6 +31,7 @@ export async function loadUserProgress(
   const hasBaseProfile = isBaseProfileComplete(facts);
   const discoveryComplete = isDiscoveryComplete(facts);
   const onboardingCompleted = userProfile?.onboarding_completed ?? false;
+  const ux = getOnboardingUxProgress(userId);
 
   return {
     hasHousehold,
@@ -39,6 +41,14 @@ export async function loadUserProgress(
     onboardingCompleted,
     householdId: membership?.household_id ?? null,
     childrenCount,
+    welcomeSeen: ux.welcomeSeen || hasHousehold,
+    introSeen: ux.introSeen || hasHousehold,
+    childrenStepDone: ux.childrenStepDone || hasChildren,
+    profileBasicsDone: ux.profileBasicsDone || facts.some((f) =>
+      ["work_schedule", "sleep_schedule", "partner_name"].includes(f.fact_key),
+    ),
+    checkinChoiceDone: ux.checkinChoiceDone || onboardingCompleted,
+    goalsStepDone: ux.goalsStepDone || onboardingCompleted,
   };
 }
 

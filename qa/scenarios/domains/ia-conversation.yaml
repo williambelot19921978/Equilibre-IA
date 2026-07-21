@@ -1,0 +1,383 @@
+domain: ia-conversation
+version: 1.0.0
+scenarios:
+  - id: QA-IA-001
+    domain: ia-conversation
+    title: Soirée en amoureux — Planning First
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: celibataire
+    steps:
+      - Ouvrir conversation
+      - Envoyer message test
+      - Vérifier réponse et effets
+    expected: "IA conversationnelle conforme ch.3/11: Soirée en amoureux — Planning First"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 11
+      - 16
+    tags: []
+  - id: QA-IA-002
+    domain: ia-conversation
+    title: Fatigue — proposition repos
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: couple_sans_enfant
+    steps:
+      - Ouvrir conversation
+      - Envoyer message test
+      - Vérifier réponse et effets
+    expected: "IA conversationnelle conforme ch.3/11: Fatigue — proposition repos"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 11
+      - 16
+    tags: []
+  - id: QA-IA-003
+    domain: ia-conversation
+    title: Je suis sec — pas fallback générique
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: famille_avec_enfants
+    steps:
+      - Ouvrir conversation
+      - Envoyer message test
+      - Vérifier réponse et effets
+    expected: "IA conversationnelle conforme ch.3/11: Je suis sec — pas fallback générique"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 11
+      - 16
+    tags: []
+  - id: QA-IA-004
+    domain: ia-conversation
+    title: Décale — contexte conversationnel
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: famille_monoparentale
+    steps:
+      - Ouvrir conversation
+      - Envoyer message test
+      - Vérifier réponse et effets
+    expected: "IA conversationnelle conforme ch.3/11: Décale — contexte conversationnel"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 11
+      - 16
+    tags: []
+  - id: QA-IA-005
+    domain: ia-conversation
+    title: Oui après proposition — exécution
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: garde_alternee
+    steps:
+      - Ouvrir conversation
+      - Envoyer message test
+      - Vérifier réponse et effets
+    expected: "IA conversationnelle conforme ch.3/11: Oui après proposition — exécution"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 11
+      - 16
+    tags: []
+  - id: QA-IA-006
+    domain: ia-conversation
+    title: Non après proposition — annulation
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: agriculteur
+    steps:
+      - Ouvrir conversation
+      - Envoyer message test
+      - Vérifier réponse et effets
+    expected: "IA conversationnelle conforme ch.3/11: Non après proposition — annulation"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 11
+      - 16
+    tags: []
+  - id: QA-IA-007
+    domain: ia-conversation
+    title: Phrase courte comprise en contexte
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: infirmier_nuit
+    steps:
+      - Ouvrir conversation
+      - Envoyer message test
+      - Vérifier réponse et effets
+    expected: "IA conversationnelle conforme ch.3/11: Phrase courte comprise en contexte"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 11
+      - 16
+    tags: []
+  - id: QA-IA-008
+    domain: ia-conversation
+    title: Formulation familière comprise
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: artisan
+    steps:
+      - Ouvrir conversation
+      - Envoyer message test
+      - Vérifier réponse et effets
+    expected: "IA conversationnelle conforme ch.3/11: Formulation familière comprise"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 11
+      - 16
+    tags: []
+  - id: QA-IA-009
+    domain: ia-conversation
+    title: Ton adapté au profil
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: etudiant
+    steps:
+      - Ouvrir conversation
+      - Envoyer message test
+      - Vérifier réponse et effets
+    expected: "IA conversationnelle conforme ch.3/11: Ton adapté au profil"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 11
+      - 16
+    tags: []
+  - id: QA-IA-010
+    domain: ia-conversation
+    title: Incertitude exprimée honnêtement
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: retraite
+    steps:
+      - Ouvrir conversation
+      - Envoyer message test
+      - Vérifier réponse et effets
+    expected: "IA conversationnelle conforme ch.3/11: Incertitude exprimée honnêtement"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 11
+      - 16
+    tags: []
+  - id: QA-IA-011
+    domain: ia-conversation
+    title: Pas de culpabilisation sur report
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: routier
+    steps:
+      - Ouvrir conversation
+      - Envoyer message test
+      - Vérifier réponse et effets
+    expected: "IA conversationnelle conforme ch.3/11: Pas de culpabilisation sur report"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 11
+      - 16
+    tags: []
+  - id: QA-IA-012
+    domain: ia-conversation
+    title: Explication du pourquoi
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: cadre
+    steps:
+      - Ouvrir conversation
+      - Envoyer message test
+      - Vérifier réponse et effets
+    expected: "IA conversationnelle conforme ch.3/11: Explication du pourquoi"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 11
+      - 16
+    tags: []
+  - id: QA-IA-013
+    domain: ia-conversation
+    title: Désaccord tactful si surcharge
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: independant
+    steps:
+      - Ouvrir conversation
+      - Envoyer message test
+      - Vérifier réponse et effets
+    expected: "IA conversationnelle conforme ch.3/11: Désaccord tactful si surcharge"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 11
+      - 16
+    tags: []
+  - id: QA-IA-014
+    domain: ia-conversation
+    title: Pas de commande isolée sans fil
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: teletravail
+    steps:
+      - Ouvrir conversation
+      - Envoyer message test
+      - Vérifier réponse et effets
+    expected: "IA conversationnelle conforme ch.3/11: Pas de commande isolée sans fil"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 11
+      - 16
+    tags: []
+  - id: QA-IA-015
+    domain: ia-conversation
+    title: Demande restaurant après planning
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: horaires_variables
+    steps:
+      - Ouvrir conversation
+      - Envoyer message test
+      - Vérifier réponse et effets
+    expected: "IA conversationnelle conforme ch.3/11: Demande restaurant après planning"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 11
+      - 16
+    tags: []
+  - id: QA-IA-016
+    domain: ia-conversation
+    title: Météo après analyse créneau
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: sans_emploi
+    steps:
+      - Ouvrir conversation
+      - Envoyer message test
+      - Vérifier réponse et effets
+    expected: "IA conversationnelle conforme ch.3/11: Météo après analyse créneau"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 11
+      - 16
+    tags: []
+  - id: QA-IA-017
+    domain: ia-conversation
+    title: Pas invention horaire restaurant
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: foyer_multigen
+    steps:
+      - Ouvrir conversation
+      - Envoyer message test
+      - Vérifier réponse et effets
+    expected: "IA conversationnelle conforme ch.3/11: Pas invention horaire restaurant"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 11
+      - 16
+    tags: []
+  - id: QA-IA-018
+    domain: ia-conversation
+    title: Niveau autonomie 1 — conseil seul
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: celibataire
+    steps:
+      - Ouvrir conversation
+      - Envoyer message test
+      - Vérifier réponse et effets
+    expected: "IA conversationnelle conforme ch.3/11: Niveau autonomie 1 — conseil seul"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 11
+      - 16
+    tags: []
+  - id: QA-IA-019
+    domain: ia-conversation
+    title: Niveau autonomie 2 — confirmation requise
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: couple_sans_enfant
+    steps:
+      - Ouvrir conversation
+      - Envoyer message test
+      - Vérifier réponse et effets
+    expected: "IA conversationnelle conforme ch.3/11: Niveau autonomie 2 — confirmation requise"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 11
+      - 16
+    tags: []

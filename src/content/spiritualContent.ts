@@ -1,5 +1,5 @@
 /**
- * Bibliothèque locale validée — Équilibre IA Sprint 2.8
+ * Bibliothèque locale validée — Aura Sprint 2.8
  *
  * Versets bibliques : Louis Segond 1910 (domaine public).
  * Ne jamais inventer une référence ou un texte biblique.

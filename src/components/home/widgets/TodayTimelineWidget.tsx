@@ -1,6 +1,7 @@
 import { DayNowStatus } from "../../planning/DayNowStatus";
 import { DayTimeline } from "../../planning/DayTimeline";
 import { Button } from "../../ui/Button";
+import { EmptyState } from "../../ui/EmptyState";
 import { hasGeneratedPlanning } from "../../../lib/planning/displayedDayTimeline";
 import type { HomeWidgetContext } from "./types";
 
@@ -25,9 +26,12 @@ export function TodayTimelineWidget({ context }: { context: HomeWidgetContext })
       {context.loadingPlan ? (
         <p>Chargement de ta journée…</p>
       ) : showEmpty ? (
-        <div className="empty-card home-empty-plan">
-          <h3>Ta journée n&apos;est pas encore organisée.</h3>
-          <p>Génère une première proposition pour voir ta timeline.</p>
+        <EmptyState
+          aura="empty"
+          title="Ta journée n'est pas encore organisée."
+          description="Génère une première proposition pour voir ta timeline."
+          className="home-empty-plan"
+        >
           <Button
             onClick={() => void context.generatePlan()}
             disabled={context.generating}
@@ -36,7 +40,7 @@ export function TodayTimelineWidget({ context }: { context: HomeWidgetContext })
           >
             Générer ma journée
           </Button>
-        </div>
+        </EmptyState>
       ) : (
         <>
           <DayNowStatus

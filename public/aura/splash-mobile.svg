@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 1334" fill="none">
+  <rect width="750" height="1334" fill="#0b1020"/>
+  <circle cx="375" cy="520" r="280" fill="url(#gold)" opacity="0.35"/>
+  <defs>
+    <radialGradient id="gold" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#e8d5a8"/>
+      <stop offset="100%" stop-color="#c9a962" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="g" x1="200" y1="300" x2="550" y2="700">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#3b82f6"/>
+    </linearGradient>
+  </defs>
+  <path d="M375 380 L430 560 L610 560 L470 670 L520 850 L375 740 L230 850 L280 670 L140 560 L320 560 Z" fill="url(#g)" stroke="#c9a962" stroke-width="8"/>
+  <text x="375" y="980" text-anchor="middle" font-family="Segoe UI, system-ui, sans-serif" font-size="72" font-weight="700" fill="#f8f7f4">Aura</text>
+</svg>

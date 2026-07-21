@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState, type FormEvent } from "react";
 
 import { Button } from "../components/ui/Button";
+import { EmptyState } from "../components/ui/EmptyState";
 import { ChildcareModeSelector } from "../components/family/ChildcareModeSelector";
 import {
   formatActiveContextBanner,
@@ -329,13 +330,11 @@ export function FamilyContextPage() {
           <h2>Périodes actives et futures</h2>
 
           {periods.length === 0 ? (
-            <div className="empty-card">
-              <h3>Aucune période déclarée</h3>
-              <p>
-                Ajoute une absence, des vacances ou une période de parent seul
-                pour adapter le planning.
-              </p>
-            </div>
+            <EmptyState
+              aura="empty"
+              title="Aucune période déclarée"
+              description="Ajoute une absence, des vacances ou une période de parent seul pour adapter le planning."
+            />
           ) : (
             <div className="planning-list-cards">
               {periods.map((period) => (

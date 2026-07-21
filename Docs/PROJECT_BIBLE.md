@@ -1,10 +1,15 @@
 # Équilibre IA — PROJECT BIBLE
 
-> **Document de référence absolue du projet**
+> **Document de référence projet** — subordonné à la [Constitution](./EQUILIBRE_AI_CONSTITUTION.md) (Loi 8)
 >
-> Version du document : 1.4.0
-> Dernière mise à jour : 16 juillet 2026
-> Statut : Document vivant — à enrichir à chaque itération majeure
+> Version du document : 1.6.0
+> Dernière mise à jour : 18 juillet 2026
+> Statut : Document vivant — **subordonné à la Constitution**
+>
+> **Constitution (document le plus important) :** [`EQUILIBRE_AI_CONSTITUTION.md`](./EQUILIBRE_AI_CONSTITUTION.md)  
+> **Troisième pilier :** [`ARCHITECTURE_GUARDIAN.md`](./ARCHITECTURE_GUARDIAN.md) · Dossier [`architecture/`](../architecture/)  
+> En cas de contradiction, **la Constitution prévaut** (Loi 8).  
+> Gouvernance : [`GOVERNANCE_REPORT.md`](./GOVERNANCE_REPORT.md)
 >
 > **Légende d'implémentation**
 > - ✅ Implémenté (code existant)
@@ -34,25 +39,35 @@
 
 ## Pourquoi cette application existe
 
-Équilibre IA existe parce que la vie familiale moderne est **complexe, fragmentée et émotionnellement chargée**. Les parents — en particulier les mères qui portent une charge mentale invisible — jonglent simultanément entre :
+Équilibre IA existe parce que **la vie moderne est complexe, fragmentée et émotionnellement chargée** — quelle que soit la configuration de foyer ou de métier.
 
-- la gestion des enfants (matin, soir, activités, devoirs),
-- le travail professionnel (horaires, trajets, fatigue),
-- la formation continue (études, certifications, reconversion),
-- la santé physique et mentale,
-- le sommeil (souvent sacrifié),
-- la spiritualité (pour ceux qui le souhaitent),
-- le temps personnel (rare, précieux, souvent culpabilisant).
+Le produit est **officiellement universel** : personne seule, couple, famille, colocation, monoparentalité, recomposée, étudiant, retraité, artisan, agriculteur, militaire, travailleur de nuit, entrepreneur, et toute autre réalité déclarée par l'utilisateur.
 
-Les outils existants — agendas Google, Todoist, Notion, applications de productivité — sont conçus pour des **individus performants dans un monde linéaire**. Ils supposent que l'utilisateur :
+Chacun jongle entre :
 
-1. sait exactement quoi faire,
-2. a le temps de tout saisir,
-3. peut suivre un planning rigide,
-4. n'a pas de contraintes familiales imprévisibles,
-5. n'a pas besoin d'être accompagné émotionnellement.
+- obligations professionnelles ou personnelles (horaires, trajets, fatigue, travail de nuit) ;
+- vie familiale ou relationnelle (enfants si applicable, couple, proches, colocataires) ;
+- formation, reconversion ou projets personnels ;
+- santé physique et mentale ;
+- sommeil (souvent sacrifié) ;
+- spiritualité (**uniquement si l'utilisateur active le module**) ;
+- temps personnel (rare, précieux, souvent culpabilisant).
 
-**Équilibre IA inverse cette logique.** L'application part du principe que l'utilisateur est une personne **fatiguée, bienveillante, imparfaite et humaine** — pas une machine d'optimisation.
+Les outils existants — agendas, ToDo, chatbots, apps de productivité — optimisent l'**activité**, pas la **vie**.
+
+**Équilibre IA inverse cette logique.** L'utilisateur est une personne **fatiguée, bienveillante, imparfaite et humaine** — pas une machine d'optimisation.
+
+## Mission produit
+
+```
+optimiser le temps → améliorer la vie
+```
+
+Le **planning est un outil** au service de cette mission, jamais la finalité.
+
+## Environnement de test legacy
+
+Un ancien environnement de test (prénoms fondateurs historiques) n'est **pas** un cas de référence produit. Voir Constitution ch. 1.
 
 ## Quel problème elle résout
 
@@ -69,8 +84,8 @@ Les outils existants — agendas Google, Todoist, Notion, applications de produc
 | **Procrastination bienveillante** | Reporter sans comprendre pourquoi | Analyse des causes + micro-étapes + compteur de reports |
 | **Conflit priorités** | Travail vs enfants vs études vs repos | Moteur d'équilibre multi-piliers |
 | **Agenda inadapté** | Cases vides ou surchargées sans contexte | Planning vivant contextuel |
-| **Isolement** | Porter seul l'organisation familiale | Mode couple (vision) + partage foyer |
-| **Perte de sens** | Productivité sans alignement personnel | Spiritualité optionnelle + journal invisible |
+| **Isolement** | Porter seul l'organisation | Foyer multi-membres + partage explicite |
+| **Perte de sens** | Productivité sans alignement personnel | Module spiritualité optionnel + journal invisible |
 
 ### Ce que l'application ne cherche PAS à faire
 
@@ -300,13 +315,17 @@ Connexion réussie
 
 ---
 
-## 2. Foyer (Household)
+## 2. Foyer (Household) — entité centrale
 
-**Statut : ✅ Implémenté**
+> **Décision officielle (Constitution ch. 6) :** le foyer est l'**entité principale** du produit. Les utilisateurs appartiennent à un foyer.
+
+**Statut : 🚧 Partiellement implémenté** — structure de base en place ; modèle multi-membres complet et remplacement de `partner_name` à venir (Sprint F2).
 
 ### Objectif
 
-Créer l'unité organisationnelle centrale. Un foyer regroupe un ou plusieurs adultes, leurs enfants, leurs tâches partagées et leur mémoire collective.
+Le foyer est l'unité organisationnelle **centrale**. Il regroupe un ou plusieurs membres (adultes, enfants, animaux si applicable), leurs plannings individuels, leurs objectifs, contraintes, habitudes, préférences, droits et niveaux d'autonomie IA.
+
+Chaque membre possède son identité et son planning — **le conjoint n'est pas un simple texte** (`partner_name` = legacy en retrait).
 
 ### Fonctionnement
 
@@ -314,12 +333,13 @@ Créer l'unité organisationnelle centrale. Un foyer regroupe un ou plusieurs ad
 1. L'utilisateur saisit le nom du foyer et son prénom d'affichage
 2. Appel RPC `create_household_for_current_user(household_name, display_name)`
 3. La RPC crée le foyer + l'adhésion dans `household_members`
-4. Redirection vers `/onboarding/children`
+4. Redirection vers `/onboarding/children` *(interim — cible : onboarding conversationnel + option « Je n'ai pas d'enfant »)*
 
 **Règles métier :**
 - Un utilisateur appartient à **un seul foyer** (V1)
 - Le créateur du foyer est membre avec rôle implicite « admin »
-- Le nom du foyer est libre (ex. « Famille Belot »)
+- Le nom du foyer est **libre** — aucun nom fondateur imposé (ex. « Famille Belot » = legacy test only)
+- **Cible :** invitation de membres (conjoint, colocataire, etc.) comme entités `household_members`, pas comme champ texte
 
 **Fichiers concernés :**
 - `src/pages/HouseholdPage.tsx`
@@ -1124,6 +1144,24 @@ Toutes les tables — accès via Decision Engine.
 
 ---
 
+## Environnement de test legacy
+
+Les prénoms fondateurs historiques (environnement de test legacy) ne sont **pas** des cas de référence produit. Voir Constitution ch. 1 — produit universel.
+
+## Architecture cerveau — renvoi officiel
+
+> **20 moteurs figés** — ne pas dupliquer ici. Source de vérité :
+>
+> - [Constitution ch. 13](./EQUILIBRE_AI_CONSTITUTION.md#13-architecture-ia)
+> - [`architecture/contracts/00-index.md`](../architecture/contracts/00-index.md)
+> - [`src/ai/contracts/`](../src/ai/contracts/)
+
+Boucle : **Comprendre → Décider → Proposer → Observer → Mesurer → Apprendre**
+
+Le code legacy (`memoryEngine`, `planningEngine`, `lifeEngine`, etc.) migre progressivement vers ces 20 moteurs (Sprint A3+).
+
+---
+
 # Architecture technique
 
 ## Vue d'ensemble
@@ -1138,13 +1176,12 @@ Toutes les tables — accès via Decision Engine.
 │  │  └────┬─────┘ └────┬─────┘ └──────────┬───────────┘ │   │
 │  │       │            │                   │             │   │
 │  │  ┌────▼────────────▼───────────────────▼───────────┐ │   │
-│  │  │              Services Layer                      │ │   │
-│  │  │  profileFactsService │ tasksService │ (+ futurs)  │ │   │
+│  │  │              Services Layer (ActionExecution)    │ │   │
 │  │  └────────────────────┬────────────────────────────┘ │   │
 │  │                       │                               │   │
 │  │  ┌────────────────────▼────────────────────────────┐ │   │
-│  │  │              AI Engine Layer                       │ │   │
-│  │  │  memoryEngine │ planningEngine │ decisionEngine   │ │   │
+│  │  │   AI Brain — 20 moteurs (contrats + legacy)      │ │   │
+│  │  │   src/ai/contracts/ · migration-map.ts           │ │   │
 │  │  └────────────────────┬────────────────────────────┘ │   │
 │  │                       │                               │   │
 │  │  ┌────────────────────▼────────────────────────────┐ │   │
@@ -1155,9 +1192,6 @@ Toutes les tables — accès via Decision Engine.
                            │ HTTPS
 ┌──────────────────────────▼───────────────────────────────────┐
 │                      SUPABASE                                 │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────────┐ │
-│  │   Auth   │  │ Postgres │  │   RLS    │  │  Edge Funcs  │ │
-│  └──────────┘  └──────────┘  └──────────┘  └──────────────┘ │
 └──────────────────────────────────────────────────────────────┘
 ```
 

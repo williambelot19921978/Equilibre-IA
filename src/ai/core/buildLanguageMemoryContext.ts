@@ -20,6 +20,7 @@ export type LanguageMemoryLivingSnapshot = {
   coachPersonality: string;
   topInsights: Array<Pick<LivingInsight, "id" | "label" | "detail" | "confidence">>;
   dailyMissionTitle: string | null;
+  dailyMissionDescription: string | null;
 };
 
 export type LanguageMemoryDiscoverySnapshot = {
@@ -82,6 +83,7 @@ export type BuildLanguageMemoryInput = {
     coachPersonality: string;
     insights: LivingInsight[];
     dailyMissionTitle: string | null;
+    dailyMissionDescription: string | null;
   } | null;
   behavior?: LanguageMemoryBehaviorSnapshot | null;
 };
@@ -124,6 +126,7 @@ export function buildLivingSnapshot(
     coachPersonality: living.coachPersonality,
     topInsights,
     dailyMissionTitle: living.dailyMissionTitle,
+    dailyMissionDescription: living.dailyMissionDescription,
   };
 }
 

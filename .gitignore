@@ -34,6 +34,15 @@ reports/
 screenshots/
 videos/
 blob-report/
+tests/e2e/.auth/
+tests/e2e/test-results/
+tests/e2e/screenshots/runs/
+tests/e2e/reports/html/
+tests/e2e/reports/results.json
+tests/e2e/reports/guardian-report.md
 !reports/.gitkeep
 !screenshots/.gitkeep
 !videos/.gitkeep
+!tests/e2e/screenshots/baselines/.gitkeep
+!tests/e2e/screenshots/runs/.gitkeep
+!tests/e2e/reports/.gitkeep

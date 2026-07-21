@@ -1,0 +1,26 @@
+{
+  "name": "Aura",
+  "short_name": "Aura",
+  "description": "Organisez votre vie avec clarté et sérénité.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "lang": "fr",
+  "theme_color": "#0b1020",
+  "background_color": "#0b1020",
+  "icons": [
+    {
+      "src": "/aura/icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/aura/favicon.svg",
+      "sizes": "32x32",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 
 import { PROFILE_SECTIONS, type ProfileSectionId } from "../config/profileSections";
 import type { DiscoveryQuestion } from "../config/discoveryQuestions";
+import { isCalendarSyncEngineEnabled } from "../config/featureFlags";
 import { GoogleCalendarIntegrations } from "../components/profile/GoogleCalendarIntegrations";
 import { EveningPlanningPreference } from "../components/profile/EveningPlanningPreference";
 import { WorkScheduleSection } from "../components/profile/WorkScheduleSection";
@@ -9,6 +11,7 @@ import { SportSettingsSection } from "../components/profile/SportSettingsSection
 import { Button } from "../components/ui/Button";
 import { useAuth } from "../hooks/useAuth";
 import { clearPersistedWorkoutPlayer } from "../lib/workout/workoutPlayerPersistence";
+import { AppRoutes } from "../lib/navigation/routes";
 import { getDiscoveryProgressSummary } from "../lib/navigation/progressChecks";
 import {
   getFactDisplayValue,
@@ -507,7 +510,17 @@ export function ProfilePage() {
             </div>
           )}
 
-          {user && <GoogleCalendarIntegrations userId={user.id} />}
+          {user && isCalendarSyncEngineEnabled() && (
+            <section className="profile-calendars-link">
+              <Link to={AppRoutes.CALENDARS_SETTINGS} className="text-link">
+                Paramètres → Calendriers (synchronisation)
+              </Link>
+            </section>
+          )}
+
+          {user && !isCalendarSyncEngineEnabled() && (
+            <GoogleCalendarIntegrations userId={user.id} />
+          )}
 
           {user && (
             <footer className="profile-logout-section">

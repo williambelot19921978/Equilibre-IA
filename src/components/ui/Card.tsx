@@ -4,6 +4,7 @@ type CardProps = {
   children: ReactNode;
   className?: string;
   variant?: "default" | "elevated" | "ghost";
+  glass?: boolean;
   accent?: string;
   style?: CSSProperties;
   onClick?: () => void;
@@ -13,6 +14,7 @@ export function Card({
   children,
   className = "",
   variant = "default",
+  glass = false,
   accent,
   style,
   onClick,
@@ -25,6 +27,7 @@ export function Card({
       className={[
         "ds-card",
         `ds-card-${variant}`,
+        glass ? "aura-glass" : "",
         onClick ? "ds-card-interactive" : "",
         className,
       ]

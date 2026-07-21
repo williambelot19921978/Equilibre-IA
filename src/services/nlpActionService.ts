@@ -5,6 +5,7 @@ import { getCurrentDeviceDate } from "../lib/time/deviceClock";
 import { parseTimeToMinutes, minutesToTime } from "../lib/time/daySchedule";
 import { verifyWorkBlocksInPlan } from "../lib/work/verifyWorkBlocksInPlan";
 import { dispatchPlanRefresh } from "../lib/planning/planRefreshEvents";
+import { rescheduleNonUrgentTasks } from "./rescheduleNonUrgentTasksService";
 import { loadPlanningContextWithLife } from "./memoryContextService";
 import { createFamilyContextPeriod, FATIGUE_DAY_CONTEXT_TITLE, QUIET_EVENING_CONTEXT_TITLE, upsertDayScopedFamilyContextPeriod } from "./familyContextService";
 import { createTask, getUserTasks, updateTaskStatus } from "./tasksService";
@@ -457,6 +458,25 @@ export async function executeNlpActions({
         });
         summaries.push("Soirée tranquille — propositions exigeantes retirées.");
         datesToReplan.push(date);
+        explanation.push(action.reason);
+        break;
+      }
+
+      case "RescheduleNonUrgentTasks": {
+        const date = String(action.payload.date ?? referenceDate);
+        const calendarItemIds = action.payload.calendarItemIds as
+          | string[]
+          | undefined;
+        const result = await rescheduleNonUrgentTasks({
+          userId,
+          date,
+          calendarItemIds,
+        });
+        summaries.push(result.summary);
+        datesToReplan.push(
+          date,
+          ...result.moved.map((move) => move.toDate),
+        );
         explanation.push(action.reason);
         break;
       }

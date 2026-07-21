@@ -150,7 +150,7 @@ export function ConversationHeaderTrigger() {
           ◎
         </span>
         <span className="conversation-header-trigger-label">
-          Parler à Équilibre IA
+          Parler à Aura
         </span>
       </button>
 
@@ -159,10 +159,10 @@ export function ConversationHeaderTrigger() {
           id="conversation-header-panel"
           className="conversation-header-panel"
           role="dialog"
-          aria-label="Conversation avec Équilibre IA"
+          aria-label="Conversation avec Aura"
         >
           <header className="conversation-header-panel-header">
-            <strong>Équilibre IA</strong>
+            <strong>Aura</strong>
             <Button
               type="button"
               variant="secondary"

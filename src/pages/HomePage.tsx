@@ -16,11 +16,12 @@ import { buildSpiritualPreferences } from "../lib/spiritual/preferences";
 import { Button } from "../components/ui/Button";
 import { FreeTimeSuggestionModal } from "../components/planning/FreeTimeSuggestionModal";
 import { DailyCheckinWidget } from "../components/home/DailyCheckinWidget";
+import { DailyStateDayWidget } from "../components/dailyState/DailyStateDayWidget";
 import { RecentAchievementWidget } from "../components/home/RecentAchievementWidget";
 import { DayNavigationBar } from "../components/planning/DayNavigationBar";
-import { ProactiveCoachBanner } from "../components/coach/ProactiveCoachBanner";
 import { DailyMissionBanner } from "../components/coach/DailyMissionBanner";
 import { ProactiveBalanceCard } from "../components/home/ProactiveBalanceCard";
+import { HomePremiumDashboard } from "../components/home/HomePremiumDashboard";
 import { useIsMobile } from "../hooks/useIsMobile";
 import {
   getOrderedVisibleWidgets,
@@ -40,6 +41,19 @@ import {
 } from "../lib/planning/displayedDayTimeline";
 import { isTimelineEntryCompletable } from "../lib/planning/isTimelineEntryCompletable";
 import { computeNextFreeSlot } from "../lib/planning/daySummary";
+import { useDailyBrief } from "../hooks/useDailyBrief";
+import { DailyBriefModal } from "../components/dailyBrief/DailyBriefModal";
+import { DailyBriefSection } from "../components/dailyBrief/DailyBriefSection";
+import {
+  isDailyBriefEnabled,
+  isDailyStateEngineEnabled,
+  isGoalProgressAssistantEnabled,
+  isGoalsEnabled,
+} from "../config/featureFlags";
+import { getUserGoals } from "../services/goalsService";
+import { getUserTasks } from "../services/tasksService";
+import type { UserGoal } from "../types/goal";
+import type { TaskRecord } from "../types";
 import { useAuth } from "../hooks/useAuth";
 import { useAppNavigation } from "../hooks/useAppNavigation";
 import { useDayPlan } from "../hooks/useDayPlan";
@@ -111,6 +125,35 @@ export function HomePage() {
 
   const [dailyCheckin, setDailyCheckin] = useState<DailyCheckinRecord | null>(null);
   const [savingCheckin, setSavingCheckin] = useState(false);
+  const [dailyBriefGoals, setDailyBriefGoals] = useState<UserGoal[]>([]);
+  const [dailyBriefTasks, setDailyBriefTasks] = useState<TaskRecord[]>([]);
+
+  useEffect(() => {
+    const goalsNeeded =
+      user?.id &&
+      isGoalsEnabled() &&
+      (isDailyBriefEnabled() || isGoalProgressAssistantEnabled());
+
+    if (!goalsNeeded) {
+      setDailyBriefGoals([]);
+      if (!isDailyBriefEnabled() || !isGoalProgressAssistantEnabled()) {
+        setDailyBriefTasks([]);
+      }
+      return;
+    }
+
+    setDailyBriefGoals(getUserGoals(user.id));
+
+    const tasksNeeded =
+      isDailyBriefEnabled() &&
+      (isGoalsEnabled() || isGoalProgressAssistantEnabled());
+
+    if (tasksNeeded) {
+      void getUserTasks(user.id)
+        .then(setDailyBriefTasks)
+        .catch(() => setDailyBriefTasks([]));
+    }
+  }, [user?.id]);
 
   useEffect(() => {
     if (!user) {
@@ -163,6 +206,7 @@ export function HomePage() {
   const [calmSuccess, setCalmSuccess] = useState("");
   const [savingSuggestion, setSavingSuggestion] = useState(false);
   const [suggestionSuccess, setSuggestionSuccess] = useState<string | null>(null);
+  const [suggestionError, setSuggestionError] = useState<string | null>(null);
   const [planningContext, setPlanningContext] =
     useState<PlanningContext | null>(null);
 
@@ -387,6 +431,17 @@ export function HomePage() {
     : getNextTimelineEntry(timeline);
   const nextFreeSlot = computeNextFreeSlot(items);
 
+  const mainPriority = useMemo(() => {
+    const fact = profileFacts.find((item) => item.fact_key === "main_priority");
+    const value = fact?.fact_value?.value;
+    return typeof value === "string" ? value : null;
+  }, [profileFacts]);
+
+  const freeSlotLabel = useMemo(() => {
+    if (!nextFreeSlot) return null;
+    return `Prochain créneau libre : ${formatTime(nextFreeSlot.startsAt)}`;
+  }, [nextFreeSlot]);
+
   const handleAcceptSuggestion = useCallback(
     async (
       suggestion: FreeTimeSuggestion,
@@ -407,11 +462,9 @@ export function HomePage() {
         setSuggestionSuccess(result.explanation);
         await loadPlan();
       } catch (error) {
-        alert(
-          error instanceof Error
+        setSuggestionError(error instanceof Error
             ? error.message
-            : "Impossible d’ajouter cette activité.",
-        );
+            : "Impossible d’ajouter cette activité.",);
       } finally {
         setSavingSuggestion(false);
       }
@@ -448,6 +501,18 @@ export function HomePage() {
     },
     [items],
   );
+
+  const dailyBrief = useDailyBrief({
+    userId: user?.id,
+    firstName,
+    date: selectedDate,
+    timeline,
+    planningContext,
+    memoryContext,
+    goals: dailyBriefGoals,
+    tasks: dailyBriefTasks,
+    onOpenPlanning: () => goToRoute(AppRoutes.PLANNING),
+  });
 
   const widgetContext = useMemo<HomeWidgetContext>(
     () => ({
@@ -586,15 +651,39 @@ export function HomePage() {
   return (
     <main className="dashboard-page home-page-clean">
       <section className="dashboard-container">
-        <header className="home-compact-header">
-          <div>
-            <p className="ds-label">Accueil</p>
-            <h1>Bonjour {firstName}</h1>
-          </div>
-        </header>
+        <HomePremiumDashboard
+          firstName={firstName}
+          priorityKey={mainPriority}
+          loading={loadingPlan || loadingMemory}
+          nextActivity={nextActivity ?? null}
+          planningBlockCount={timeline.length}
+          freeSlotLabel={freeSlotLabel}
+          onOpenPlanning={() => goToRoute(AppRoutes.PLANNING)}
+          onOpenCoach={() => goToRoute(AppRoutes.PERSONAL_COACH)}
+          dailyStateWidget={
+            user && isDailyStateEngineEnabled() ? (
+              <DailyStateDayWidget userId={user.id} date={selectedDate} />
+            ) : user ? (
+              <DailyCheckinWidget
+                date={selectedDate}
+                checkin={dailyCheckin}
+                saving={savingCheckin}
+                onSave={handleSaveCheckin}
+              />
+            ) : null
+          }
+        />
 
-        <ProactiveCoachBanner firstName={firstName} lifeContext={lifeContext} />
         <DailyMissionBanner lifeContext={lifeContext} />
+
+        {dailyBrief.showSection && dailyBrief.presentedBrief && (
+          <DailyBriefSection
+            brief={dailyBrief.presentedBrief}
+            presentedRecommendations={dailyBrief.presentedBrief.recommendations}
+            updateHint={dailyBrief.updateHint}
+            onRecommendationAction={dailyBrief.handleRecommendationAction}
+          />
+        )}
 
         <DayNavigationBar
           selectedDate={selectedDate}
@@ -610,14 +699,6 @@ export function HomePage() {
               items={items}
               profileFacts={profileFacts}
               loadingPlan={loadingPlan}
-            />
-          )}
-          {user && (
-            <DailyCheckinWidget
-              date={selectedDate}
-              checkin={dailyCheckin}
-              saving={savingCheckin}
-              onSave={handleSaveCheckin}
             />
           )}
           <RecentAchievementWidget
@@ -733,6 +814,22 @@ export function HomePage() {
         <div className="message message-success home-floating-success">
           {suggestionSuccess}
         </div>
+      )}
+
+      {suggestionError && (
+        <div className="message message-error home-floating-success">
+          {suggestionError}
+        </div>
+      )}
+
+      {dailyBrief.showModal && dailyBrief.presentedBrief && (
+        <DailyBriefModal
+          brief={dailyBrief.presentedBrief}
+          presentedRecommendations={dailyBrief.presentedBrief.recommendations}
+          updateHint={dailyBrief.updateHint}
+          onClose={dailyBrief.dismissModal}
+          onRecommendationAction={dailyBrief.handleRecommendationAction}
+        />
       )}
     </main>
   );

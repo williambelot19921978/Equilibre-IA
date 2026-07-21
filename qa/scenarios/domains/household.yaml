@@ -1,0 +1,345 @@
+domain: household
+version: 1.0.0
+scenarios:
+  - id: QA-HH-001
+    domain: household
+    title: Création foyer vide
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: celibataire
+    steps:
+      - Préparer foyer profil celibataire
+      - Exécuter action household
+      - Vérifier état
+    expected: "Comportement attendu aligné constitution ch.5-6: création foyer vide"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 5
+      - 17
+    tags: []
+  - id: QA-HH-002
+    domain: household
+    title: Invitation conjoint
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: couple_sans_enfant
+    steps:
+      - Préparer foyer profil couple_sans_enfant
+      - Exécuter action household
+      - Vérifier état
+    expected: "Comportement attendu aligné constitution ch.5-6: invitation conjoint"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 5
+      - 17
+    tags: []
+  - id: QA-HH-003
+    domain: household
+    title: Permissions membre lecture seule
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: famille_avec_enfants
+    steps:
+      - Préparer foyer profil famille_avec_enfants
+      - Exécuter action household
+      - Vérifier état
+    expected: "Comportement attendu aligné constitution ch.5-6: permissions membre lecture seule"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 5
+      - 17
+    tags: []
+  - id: QA-HH-004
+    domain: household
+    title: Permissions membre édition planning
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: famille_monoparentale
+    steps:
+      - Préparer foyer profil famille_monoparentale
+      - Exécuter action household
+      - Vérifier état
+    expected: "Comportement attendu aligné constitution ch.5-6: permissions membre édition planning"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 5
+      - 17
+    tags: []
+  - id: QA-HH-005
+    domain: household
+    title: Séparation données privées par membre
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: garde_alternee
+    steps:
+      - Préparer foyer profil garde_alternee
+      - Exécuter action household
+      - Vérifier état
+    expected: "Comportement attendu aligné constitution ch.5-6: séparation données privées par membre"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 5
+      - 17
+    tags: []
+  - id: QA-HH-006
+    domain: household
+    title: Planning individuel vs commun
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: agriculteur
+    steps:
+      - Préparer foyer profil agriculteur
+      - Exécuter action household
+      - Vérifier état
+    expected: "Comportement attendu aligné constitution ch.5-6: planning individuel vs commun"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 5
+      - 17
+    tags: []
+  - id: QA-HH-007
+    domain: household
+    title: Ajout enfant avec autonomie
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: infirmier_nuit
+    steps:
+      - Préparer foyer profil infirmier_nuit
+      - Exécuter action household
+      - Vérifier état
+    expected: "Comportement attendu aligné constitution ch.5-6: ajout enfant avec autonomie"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 5
+      - 17
+    tags: []
+  - id: QA-HH-008
+    domain: household
+    title: Modification rôle membre
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: artisan
+    steps:
+      - Préparer foyer profil artisan
+      - Exécuter action household
+      - Vérifier état
+    expected: "Comportement attendu aligné constitution ch.5-6: modification rôle membre"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 5
+      - 17
+    tags: []
+  - id: QA-HH-009
+    domain: household
+    title: Suppression membre avec confirmation
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: etudiant
+    steps:
+      - Préparer foyer profil etudiant
+      - Exécuter action household
+      - Vérifier état
+    expected: "Comportement attendu aligné constitution ch.5-6: suppression membre avec confirmation"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 5
+      - 17
+    tags: []
+  - id: QA-HH-010
+    domain: household
+    title: Foyer colocation 3 adultes
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: retraite
+    steps:
+      - Préparer foyer profil retraite
+      - Exécuter action household
+      - Vérifier état
+    expected: "Comportement attendu aligné constitution ch.5-6: foyer colocation 3 adultes"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 5
+      - 17
+    tags: []
+  - id: QA-HH-011
+    domain: household
+    title: Pas de partage mémoire privée implicite
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: routier
+    steps:
+      - Préparer foyer profil routier
+      - Exécuter action household
+      - Vérifier état
+    expected: "Comportement attendu aligné constitution ch.5-6: pas de partage mémoire privée implicite"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 5
+      - 17
+    tags: []
+  - id: QA-HH-012
+    domain: household
+    title: Export données foyer
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: cadre
+    steps:
+      - Préparer foyer profil cadre
+      - Exécuter action household
+      - Vérifier état
+    expected: "Comportement attendu aligné constitution ch.5-6: export données foyer"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 5
+      - 17
+    tags: []
+  - id: QA-HH-013
+    domain: household
+    title: Membre sans accès journal privé
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: independant
+    steps:
+      - Préparer foyer profil independant
+      - Exécuter action household
+      - Vérifier état
+    expected: "Comportement attendu aligné constitution ch.5-6: membre sans accès journal privé"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 5
+      - 17
+    tags: []
+  - id: QA-HH-014
+    domain: household
+    title: Conflit deux membres même créneau
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: teletravail
+    steps:
+      - Préparer foyer profil teletravail
+      - Exécuter action household
+      - Vérifier état
+    expected: "Comportement attendu aligné constitution ch.5-6: conflit deux membres même créneau"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 5
+      - 17
+    tags: []
+  - id: QA-HH-015
+    domain: household
+    title: Notification proposition relais
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: horaires_variables
+    steps:
+      - Préparer foyer profil horaires_variables
+      - Exécuter action household
+      - Vérifier état
+    expected: "Comportement attendu aligné constitution ch.5-6: notification proposition relais"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 5
+      - 17
+    tags: []
+  - id: QA-HH-016
+    domain: household
+    title: Refus relais sans culpabilité
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: sans_emploi
+    steps:
+      - Préparer foyer profil sans_emploi
+      - Exécuter action household
+      - Vérifier état
+    expected: "Comportement attendu aligné constitution ch.5-6: refus relais sans culpabilité"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 5
+      - 17
+    tags: []
+  - id: QA-HH-017
+    domain: household
+    title: Animal comme contrainte planning
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: foyer_multigen
+    steps:
+      - Préparer foyer profil foyer_multigen
+      - Exécuter action household
+      - Vérifier état
+    expected: "Comportement attendu aligné constitution ch.5-6: animal comme contrainte planning"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 5
+      - 17
+    tags: []
+  - id: QA-HH-018
+    domain: household
+    title: Historique actions foyer
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: celibataire
+    steps:
+      - Préparer foyer profil celibataire
+      - Exécuter action household
+      - Vérifier état
+    expected: "Comportement attendu aligné constitution ch.5-6: historique actions foyer"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 5
+      - 17
+    tags: []

@@ -1,4 +1,17 @@
 import { AppRoutes, type AppRoute } from "./routes";
+import {
+  isAssistantIaEnabled,
+  isGoalsEnabled,
+  isHouseholdOverviewEnabled,
+  isHumanModelEnabled,
+  isPlanningCalendarEngineEnabled,
+  isSemanticPlanningEngineEnabled,
+  isAdaptiveIntelligenceEnabled,
+  isDailyStateEngineEnabled,
+  isLifeKnowledgeEngineEnabled,
+  isPersonalCoachEngineEnabled,
+  isProactiveIntelligenceEnabled,
+} from "../../config/featureFlags";
 import type { SpaceId } from "../../design-system/spaceThemes";
 
 export type NavigationSection = "primary" | "organisation" | "personalisation";
@@ -61,6 +74,105 @@ export const APP_NAVIGATION_ITEMS: AppNavigationItem[] = [
     drawerVisible: true,
   },
   {
+    id: "assistant-ia",
+    label: "Assistant IA",
+    icon: "💬",
+    route: AppRoutes.ASSISTANT,
+    section: "organisation",
+    space: "my-ai",
+    desktopVisible: true,
+    mobileVisible: false,
+    drawerVisible: true,
+  },
+  {
+    id: "ai-profile",
+    label: "Mon Profil IA",
+    icon: "🪞",
+    route: AppRoutes.AI_PROFILE,
+    section: "organisation",
+    space: "my-ai",
+    desktopVisible: true,
+    mobileVisible: false,
+    drawerVisible: true,
+  },
+  {
+    id: "planning-engine",
+    label: "Planning Engine",
+    icon: "🧭",
+    route: AppRoutes.PLANNING_ENGINE,
+    section: "organisation",
+    space: "planning",
+    desktopVisible: false,
+    mobileVisible: false,
+    drawerVisible: true,
+  },
+  {
+    id: "semantic-planning",
+    label: "Compréhension IA",
+    icon: "🔮",
+    route: AppRoutes.SEMANTIC_PLANNING,
+    section: "organisation",
+    space: "planning",
+    desktopVisible: false,
+    mobileVisible: false,
+    drawerVisible: true,
+  },
+  {
+    id: "adaptive-intelligence",
+    label: "Apprentissage IA",
+    icon: "🧠",
+    route: AppRoutes.ADAPTIVE_INTELLIGENCE,
+    section: "organisation",
+    space: "planning",
+    desktopVisible: false,
+    mobileVisible: false,
+    drawerVisible: true,
+  },
+  {
+    id: "proactive-intelligence",
+    label: "IA proactive",
+    icon: "💡",
+    route: AppRoutes.PROACTIVE_INTELLIGENCE,
+    section: "organisation",
+    space: "planning",
+    desktopVisible: false,
+    mobileVisible: false,
+    drawerVisible: true,
+  },
+  {
+    id: "daily-state-history",
+    label: "Historique ressenti",
+    icon: "🌤️",
+    route: AppRoutes.DAILY_STATE_HISTORY,
+    section: "organisation",
+    space: "home",
+    desktopVisible: false,
+    mobileVisible: false,
+    drawerVisible: true,
+  },
+  {
+    id: "personal-coach",
+    label: "Coach personnel",
+    icon: "🎯",
+    route: AppRoutes.PERSONAL_COACH,
+    section: "organisation",
+    space: "my-ai",
+    desktopVisible: false,
+    mobileVisible: false,
+    drawerVisible: true,
+  },
+  {
+    id: "life-knowledge",
+    label: "Ce que l'IA sait sur moi",
+    icon: "📚",
+    route: AppRoutes.LIFE_KNOWLEDGE,
+    section: "organisation",
+    space: "my-ai",
+    desktopVisible: false,
+    mobileVisible: false,
+    drawerVisible: true,
+  },
+  {
     id: "statistics",
     label: "Statistiques",
     icon: "📊",
@@ -116,6 +228,17 @@ export const APP_NAVIGATION_ITEMS: AppNavigationItem[] = [
     drawerVisible: true,
   },
   {
+    id: "goals",
+    label: "Objectifs",
+    icon: "🏁",
+    route: AppRoutes.GOALS,
+    section: "organisation",
+    space: "goals",
+    desktopVisible: false,
+    mobileVisible: false,
+    drawerVisible: true,
+  },
+  {
     id: "daily-routine",
     label: "Mon quotidien",
     icon: "☀️",
@@ -133,6 +256,17 @@ export const APP_NAVIGATION_ITEMS: AppNavigationItem[] = [
     route: AppRoutes.FAMILY_CONTEXT,
     section: "organisation",
     space: "family",
+    desktopVisible: false,
+    mobileVisible: false,
+    drawerVisible: true,
+  },
+  {
+    id: "household-overview",
+    label: "Foyer",
+    icon: "🏡",
+    route: AppRoutes.HOUSEHOLD_OVERVIEW,
+    section: "organisation",
+    space: "household",
     desktopVisible: false,
     mobileVisible: false,
     drawerVisible: true,
@@ -171,6 +305,17 @@ export const APP_NAVIGATION_ITEMS: AppNavigationItem[] = [
     drawerVisible: true,
   },
   {
+    id: "settings",
+    label: "Paramètres",
+    icon: "⚙️",
+    route: AppRoutes.SETTINGS,
+    section: "personalisation",
+    space: "profile",
+    desktopVisible: false,
+    mobileVisible: false,
+    drawerVisible: true,
+  },
+  {
     id: "user-profile-settings",
     label: "Paramètres profil",
     icon: "⚙️",
@@ -184,7 +329,12 @@ export const APP_NAVIGATION_ITEMS: AppNavigationItem[] = [
 ];
 
 export function getDesktopSidebarItems(): AppNavigationItem[] {
-  return APP_NAVIGATION_ITEMS.filter((item) => item.desktopVisible);
+  return APP_NAVIGATION_ITEMS.filter(
+    (item) =>
+      item.desktopVisible &&
+      (item.id !== "assistant-ia" || isAssistantIaEnabled()) &&
+      (item.id !== "ai-profile" || isHumanModelEnabled()),
+  );
 }
 
 export function getMobileBottomNavItems(): AppNavigationItem[] {
@@ -196,7 +346,20 @@ export function getDrawerSections(): Array<{
   items: AppNavigationItem[];
 }> {
   const organisation = APP_NAVIGATION_ITEMS.filter(
-    (item) => item.drawerVisible && item.section === "organisation",
+    (item) =>
+      item.drawerVisible &&
+      item.section === "organisation" &&
+      (item.id !== "goals" || isGoalsEnabled()) &&
+      (item.id !== "household-overview" || isHouseholdOverviewEnabled()) &&
+      (item.id !== "assistant-ia" || isAssistantIaEnabled()) &&
+      (item.id !== "ai-profile" || isHumanModelEnabled()) &&
+      (item.id !== "planning-engine" || isPlanningCalendarEngineEnabled()) &&
+      (item.id !== "semantic-planning" || isSemanticPlanningEngineEnabled()) &&
+      (item.id !== "adaptive-intelligence" || isAdaptiveIntelligenceEnabled()) &&
+      (item.id !== "proactive-intelligence" || isProactiveIntelligenceEnabled()) &&
+      (item.id !== "daily-state-history" || isDailyStateEngineEnabled()) &&
+      (item.id !== "personal-coach" || isPersonalCoachEngineEnabled()) &&
+      (item.id !== "life-knowledge" || isLifeKnowledgeEngineEnabled()),
   );
   const personalisation = APP_NAVIGATION_ITEMS.filter(
     (item) => item.drawerVisible && item.section === "personalisation",

@@ -307,7 +307,8 @@ describe("Sprint 3.1 — conversationEngine", () => {
     });
 
     expect(result.assistantMessage.length).toBeGreaterThan(0);
-    expect(executeActions).toHaveBeenCalled();
+    expect(result.state.pending?.kind).toBe("conversation_action");
+    expect(executeActions).not.toHaveBeenCalled();
   });
 
   it("42 — suppression sport en attente confirmation", async () => {

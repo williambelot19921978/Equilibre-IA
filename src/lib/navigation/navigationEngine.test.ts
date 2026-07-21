@@ -15,6 +15,12 @@ const completedProgress: UserProgressState = {
   onboardingCompleted: true,
   householdId: "household-1",
   childrenCount: 1,
+  welcomeSeen: true,
+  introSeen: true,
+  childrenStepDone: true,
+  profileBasicsDone: true,
+  checkinChoiceDone: true,
+  goalsStepDone: true,
 };
 
 const onboardingProgress: UserProgressState = {
@@ -25,6 +31,12 @@ const onboardingProgress: UserProgressState = {
   onboardingCompleted: false,
   householdId: "household-1",
   childrenCount: 0,
+  welcomeSeen: true,
+  introSeen: true,
+  childrenStepDone: false,
+  profileBasicsDone: false,
+  checkinChoiceDone: false,
+  goalsStepDone: false,
 };
 
 describe("navigationEngine refresh rules", () => {
@@ -78,7 +90,7 @@ describe("navigationEngine refresh rules", () => {
     ).toBe(false);
   });
 
-  it("F. sends new users without household to onboarding household", () => {
+  it("F. sends new users without household to onboarding household after intro", () => {
     expect(
       resolveNavigationRoute({
         ...onboardingProgress,
@@ -107,5 +119,61 @@ describe("navigationEngine refresh rules", () => {
         progress: onboardingProgress,
       }),
     ).toBe(true);
+  });
+
+  it("I. EPIC 7A — starts at welcome for brand-new users", () => {
+    expect(
+      resolveNavigationRoute({
+        ...onboardingProgress,
+        welcomeSeen: false,
+        introSeen: false,
+        hasHousehold: false,
+        householdId: null,
+      }),
+    ).toBe(AppRoutes.ONBOARDING_WELCOME);
+  });
+
+  it("J. allows /daily-check-in after onboarding", () => {
+    expect(
+      isRouteAllowed({
+        currentPath: AppRoutes.DAILY_CHECK_IN,
+        resolvedRoute: AppRoutes.HOME,
+        progress: completedProgress,
+      }),
+    ).toBe(true);
+  });
+
+  it("K. allows /admin/insights after onboarding", () => {
+    expect(
+      isRouteAllowed({
+        currentPath: AppRoutes.ADMIN_INSIGHTS,
+        resolvedRoute: AppRoutes.HOME,
+        progress: completedProgress,
+      }),
+    ).toBe(true);
+  });
+
+  it("L. allows onboarding back navigation to completed steps", () => {
+    expect(
+      isRouteAllowed({
+        currentPath: AppRoutes.HOUSEHOLD,
+        resolvedRoute: AppRoutes.CHILDREN,
+        progress: onboardingProgress,
+      }),
+    ).toBe(true);
+  });
+
+  it("M. blocks /home when household is missing after onboarding flag", () => {
+    expect(
+      isRouteAllowed({
+        currentPath: AppRoutes.HOME,
+        resolvedRoute: AppRoutes.HOUSEHOLD,
+        progress: {
+          ...completedProgress,
+          hasHousehold: false,
+          householdId: null,
+        },
+      }),
+    ).toBe(false);
   });
 });

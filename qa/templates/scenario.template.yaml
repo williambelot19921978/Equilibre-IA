@@ -1,0 +1,26 @@
+# Template de scénario QA — Équilibre IA
+# Copier ce fichier dans qa/scenarios/domains/ et remplir les champs.
+
+id: QA-DOMAIN-001
+domain: example
+title: "Titre court et actionnable du scénario"
+preconditions:
+  - "Utilisateur authentifié"
+  - "Foyer créé avec profil minimal"
+profile: celibataire  # Voir liste des profils dans ROBOT_QA_CHARTER.md
+steps:
+  - "Ouvrir l'application"
+  - "Naviguer vers la fonctionnalité"
+  - "Effectuer l'action principale"
+  - "Vérifier le résultat visible"
+expected: "Comportement attendu clair, vérifiable et aligné avec la constitution"
+criticality: high  # critical | high | medium | low
+status: pending    # pending | automated | manual | passing | failing
+automated_test: null  # ex. tests/e2e/example.spec.ts
+last_run: null        # ISO 8601, ex. 2026-07-18
+constitution_refs:
+  - "3"   # Planning First
+  - "6"   # Premier lancement
+tags:
+  - smoke
+  - regression

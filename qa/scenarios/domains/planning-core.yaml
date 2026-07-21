@@ -1,0 +1,440 @@
+domain: planning-core
+version: 1.0.0
+scenarios:
+  - id: QA-PLN-001
+    domain: planning
+    title: Affichage journée vide
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: celibataire
+    steps:
+      - Ouvrir planning
+      - Appliquer contexte
+      - Vérifier résultat
+    expected: "Planning respecte contraintes et constitution ch.3/9: Affichage journée vide"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 9
+    tags: []
+  - id: QA-PLN-002
+    domain: planning
+    title: Création tâche simple
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: couple_sans_enfant
+    steps:
+      - Ouvrir planning
+      - Appliquer contexte
+      - Vérifier résultat
+    expected: "Planning respecte contraintes et constitution ch.3/9: Création tâche simple"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 9
+    tags: []
+  - id: QA-PLN-003
+    domain: planning
+    title: Marquer tâche terminée
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: famille_avec_enfants
+    steps:
+      - Ouvrir planning
+      - Appliquer contexte
+      - Vérifier résultat
+    expected: "Planning respecte contraintes et constitution ch.3/9: Marquer tâche terminée"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 9
+    tags: []
+  - id: QA-PLN-004
+    domain: planning
+    title: Reporter tâche (skip)
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: famille_monoparentale
+    steps:
+      - Ouvrir planning
+      - Appliquer contexte
+      - Vérifier résultat
+    expected: "Planning respecte contraintes et constitution ch.3/9: Reporter tâche (skip)"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 9
+    tags: []
+  - id: QA-PLN-005
+    domain: planning
+    title: Planification automatique matin
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: garde_alternee
+    steps:
+      - Ouvrir planning
+      - Appliquer contexte
+      - Vérifier résultat
+    expected: "Planning respecte contraintes et constitution ch.3/9: Planification automatique matin"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 9
+    tags: []
+  - id: QA-PLN-006
+    domain: planning
+    title: Respect heure coucher
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: agriculteur
+    steps:
+      - Ouvrir planning
+      - Appliquer contexte
+      - Vérifier résultat
+    expected: "Planning respecte contraintes et constitution ch.3/9: Respect heure coucher"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 9
+    tags: []
+  - id: QA-PLN-007
+    domain: planning
+    title: Buffer 30min avant sommeil
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: infirmier_nuit
+    steps:
+      - Ouvrir planning
+      - Appliquer contexte
+      - Vérifier résultat
+    expected: "Planning respecte contraintes et constitution ch.3/9: Buffer 30min avant sommeil"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 9
+    tags: []
+  - id: QA-PLN-008
+    domain: planning
+    title: Protection routine enfants matin
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: artisan
+    steps:
+      - Ouvrir planning
+      - Appliquer contexte
+      - Vérifier résultat
+    expected: "Planning respecte contraintes et constitution ch.3/9: Protection routine enfants matin"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 9
+    tags: []
+  - id: QA-PLN-009
+    domain: planning
+    title: Protection routine enfants soir
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: etudiant
+    steps:
+      - Ouvrir planning
+      - Appliquer contexte
+      - Vérifier résultat
+    expected: "Planning respecte contraintes et constitution ch.3/9: Protection routine enfants soir"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 9
+    tags: []
+  - id: QA-PLN-010
+    domain: planning
+    title: Créneau travail bloqué
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: retraite
+    steps:
+      - Ouvrir planning
+      - Appliquer contexte
+      - Vérifier résultat
+    expected: "Planning respecte contraintes et constitution ch.3/9: Créneau travail bloqué"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 9
+    tags: []
+  - id: QA-PLN-011
+    domain: planning
+    title: Télétravail — pas de trajet imposé
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: routier
+    steps:
+      - Ouvrir planning
+      - Appliquer contexte
+      - Vérifier résultat
+    expected: "Planning respecte contraintes et constitution ch.3/9: Télétravail — pas de trajet imposé"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 9
+    tags: []
+  - id: QA-PLN-012
+    domain: planning
+    title: Infirmier nuit — repos journée
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: cadre
+    steps:
+      - Ouvrir planning
+      - Appliquer contexte
+      - Vérifier résultat
+    expected: "Planning respecte contraintes et constitution ch.3/9: Infirmier nuit — repos journée"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 9
+    tags: []
+  - id: QA-PLN-013
+    domain: planning
+    title: Agriculteur saison basse
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: independant
+    steps:
+      - Ouvrir planning
+      - Appliquer contexte
+      - Vérifier résultat
+    expected: "Planning respecte contraintes et constitution ch.3/9: Agriculteur saison basse"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 9
+    tags: []
+  - id: QA-PLN-014
+    domain: planning
+    title: Vue semaine cohérente
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: teletravail
+    steps:
+      - Ouvrir planning
+      - Appliquer contexte
+      - Vérifier résultat
+    expected: "Planning respecte contraintes et constitution ch.3/9: Vue semaine cohérente"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 9
+    tags: []
+  - id: QA-PLN-015
+    domain: planning
+    title: Vue mois sans surcharge visuelle
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: horaires_variables
+    steps:
+      - Ouvrir planning
+      - Appliquer contexte
+      - Vérifier résultat
+    expected: "Planning respecte contraintes et constitution ch.3/9: Vue mois sans surcharge visuelle"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 9
+    tags: []
+  - id: QA-PLN-016
+    domain: planning
+    title: Tâche planifiée avec durée
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: sans_emploi
+    steps:
+      - Ouvrir planning
+      - Appliquer contexte
+      - Vérifier résultat
+    expected: "Planning respecte contraintes et constitution ch.3/9: Tâche planifiée avec durée"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 9
+    tags: []
+  - id: QA-PLN-017
+    domain: planning
+    title: Micro-étapes sur tâche complexe
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: foyer_multigen
+    steps:
+      - Ouvrir planning
+      - Appliquer contexte
+      - Vérifier résultat
+    expected: "Planning respecte contraintes et constitution ch.3/9: Micro-étapes sur tâche complexe"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 9
+    tags: []
+  - id: QA-PLN-018
+    domain: planning
+    title: Allègement si dette sommeil
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: celibataire
+    steps:
+      - Ouvrir planning
+      - Appliquer contexte
+      - Vérifier résultat
+    expected: "Planning respecte contraintes et constitution ch.3/9: Allègement si dette sommeil"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 9
+    tags: []
+  - id: QA-PLN-019
+    domain: planning
+    title: Priorité objectif sport
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: couple_sans_enfant
+    steps:
+      - Ouvrir planning
+      - Appliquer contexte
+      - Vérifier résultat
+    expected: "Planning respecte contraintes et constitution ch.3/9: Priorité objectif sport"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 9
+    tags: []
+  - id: QA-PLN-020
+    domain: planning
+    title: Priorité objectif repos
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: famille_avec_enfants
+    steps:
+      - Ouvrir planning
+      - Appliquer contexte
+      - Vérifier résultat
+    expected: "Planning respecte contraintes et constitution ch.3/9: Priorité objectif repos"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 9
+    tags: []
+  - id: QA-PLN-021
+    domain: planning
+    title: Planning First avant suggestion activité
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: famille_monoparentale
+    steps:
+      - Ouvrir planning
+      - Appliquer contexte
+      - Vérifier résultat
+    expected: "Planning respecte contraintes et constitution ch.3/9: Planning First avant suggestion activité"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 9
+    tags: []
+  - id: QA-PLN-022
+    domain: planning
+    title: Créneau libre calculé
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: garde_alternee
+    steps:
+      - Ouvrir planning
+      - Appliquer contexte
+      - Vérifier résultat
+    expected: "Planning respecte contraintes et constitution ch.3/9: Créneau libre calculé"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 9
+    tags: []
+  - id: QA-PLN-023
+    domain: planning
+    title: Pas de tâche non urgente après bedtime
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: agriculteur
+    steps:
+      - Ouvrir planning
+      - Appliquer contexte
+      - Vérifier résultat
+    expected: "Planning respecte contraintes et constitution ch.3/9: Pas de tâche non urgente après bedtime"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 9
+    tags: []

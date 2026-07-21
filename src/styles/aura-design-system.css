@@ -1,0 +1,289 @@
+/* EPIC 7C — Aura Design System components & motion */
+
+/* — Typography — */
+.aura-h1 {
+  font-family: var(--aura-font-display);
+  font-size: var(--aura-text-h1);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.aura-h2 {
+  font-family: var(--aura-font-display);
+  font-size: var(--aura-text-h2);
+  font-weight: 650;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.aura-h3 {
+  font-family: var(--aura-font-display);
+  font-size: var(--aura-text-h3);
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 0;
+}
+
+.aura-body {
+  font-size: var(--aura-text-body-size);
+  line-height: 1.55;
+  color: var(--color-text);
+}
+
+.aura-caption {
+  font-size: var(--aura-text-caption-size);
+  line-height: 1.4;
+  color: var(--color-text-muted);
+}
+
+.aura-button-text {
+  font-size: var(--aura-text-button-size);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.brand-name {
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  background: linear-gradient(135deg, var(--aura-accent-start), var(--aura-accent-end));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* — Glass cards — */
+.aura-glass,
+.ds-card.aura-glass {
+  background: var(--aura-bg-glass);
+  backdrop-filter: blur(var(--aura-glass-blur));
+  -webkit-backdrop-filter: blur(var(--aura-glass-blur));
+  border: 1px solid var(--aura-glass-border);
+  box-shadow: var(--aura-glass-shadow);
+  border-radius: var(--radius-lg);
+}
+
+.aura-glass-elevated {
+  background: var(--aura-bg-elevated);
+  backdrop-filter: blur(calc(var(--aura-glass-blur) + 4px));
+  -webkit-backdrop-filter: blur(calc(var(--aura-glass-blur) + 4px));
+}
+
+/* — Buttons Aura override — */
+.ui-button-primary {
+  background: linear-gradient(135deg, var(--aura-accent-start), var(--aura-accent-end));
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.25);
+  transition:
+    transform var(--aura-duration-fast) var(--aura-ease),
+    box-shadow var(--aura-duration-fast) var(--aura-ease);
+}
+
+.ui-button-primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.3);
+}
+
+.ui-button-secondary {
+  background: var(--aura-bg-glass);
+  backdrop-filter: blur(8px);
+  border-color: var(--aura-glass-border);
+}
+
+/* — Aura Star — */
+.aura-star {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.aura-star-svg {
+  display: block;
+}
+
+.aura-star-sm .aura-star-svg { width: 16px; height: 16px; }
+.aura-star-md .aura-star-svg { width: 24px; height: 24px; }
+.aura-star-lg .aura-star-svg { width: 36px; height: 36px; }
+
+.aura-star-coach { filter: drop-shadow(0 0 8px rgba(124, 58, 237, 0.45)); }
+.aura-star-insight { filter: drop-shadow(0 0 6px rgba(59, 130, 246, 0.35)); }
+.aura-star-success { filter: drop-shadow(0 0 8px rgba(201, 169, 98, 0.5)); }
+.aura-star-loading { animation: aura-star-pulse 1.2s var(--aura-ease) infinite; }
+.aura-star-achievement { filter: drop-shadow(0 0 10px rgba(201, 169, 98, 0.55)); }
+
+@keyframes aura-star-pulse {
+  0%, 100% { opacity: 0.55; transform: scale(0.92); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+/* — Animations — */
+.aura-fade-in {
+  animation: aura-fade-in var(--aura-duration-normal) var(--aura-ease) both;
+}
+
+.aura-rise-in {
+  animation: aura-rise-in var(--aura-duration-normal) var(--aura-ease) both;
+}
+
+.aura-glow-valid {
+  animation: aura-glow-valid var(--aura-duration-slow) var(--aura-ease) both;
+}
+
+@keyframes aura-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes aura-rise-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes aura-glow-valid {
+  0% { box-shadow: 0 0 0 0 rgba(201, 169, 98, 0.4); }
+  70% { box-shadow: 0 0 0 12px rgba(201, 169, 98, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(201, 169, 98, 0); }
+}
+
+.ds-animate-in {
+  animation: aura-rise-in var(--aura-duration-normal) var(--aura-ease) both;
+}
+
+/* — Logo — */
+.aura-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.aura-logo-wordmark {
+  font-weight: 700;
+  font-size: 1.125rem;
+  letter-spacing: 0.04em;
+  background: linear-gradient(135deg, var(--aura-accent-start), var(--aura-accent-end));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.aura-logo-icon-only .aura-logo-wordmark {
+  display: none;
+}
+
+/* — Home premium Aura — */
+.home-premium-dashboard.aura-home {
+  gap: 18px;
+}
+
+.aura-home-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 24px;
+  background: linear-gradient(
+    145deg,
+    rgba(124, 58, 237, 0.12),
+    rgba(59, 130, 246, 0.08)
+  );
+}
+
+.aura-home-hero::before {
+  content: "";
+  position: absolute;
+  top: -40%;
+  right: -20%;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, var(--aura-accent-gold-soft), transparent 70%);
+  pointer-events: none;
+}
+
+.aura-home-greeting {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.aura-home-panel h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* — Illustrations — */
+.aura-illustration {
+  text-align: center;
+  padding: 24px 16px;
+}
+
+.aura-illustration-visual {
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: center;
+}
+
+.aura-illustration-title {
+  font-weight: 600;
+  margin: 0 0 6px;
+}
+
+.aura-illustration-desc {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--aura-text-caption-size);
+}
+
+/* — About page — */
+.aura-about-page {
+  display: grid;
+  gap: 20px;
+}
+
+.aura-about-hero {
+  text-align: center;
+  padding: 32px 16px;
+}
+
+.aura-values-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 0;
+}
+
+.aura-values-list li {
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--aura-bg-glass);
+  border: 1px solid var(--aura-glass-border);
+  font-size: var(--aura-text-caption-size);
+  font-weight: 600;
+}
+
+/* — Theme settings — */
+.aura-theme-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* — App shell header brand — */
+.app-header-brand-name {
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  background: linear-gradient(135deg, var(--aura-accent-start), var(--aura-accent-end));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.app-header-logo {
+  font-size: 1.25rem;
+  line-height: 1;
+}

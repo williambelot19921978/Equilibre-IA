@@ -6,6 +6,12 @@ export type UserProgressState = {
   onboardingCompleted: boolean;
   householdId: string | null;
   childrenCount: number;
+  welcomeSeen: boolean;
+  introSeen: boolean;
+  childrenStepDone: boolean;
+  profileBasicsDone: boolean;
+  checkinChoiceDone: boolean;
+  goalsStepDone: boolean;
 };
 
 export const EMPTY_USER_PROGRESS: UserProgressState = {
@@ -16,4 +22,10 @@ export const EMPTY_USER_PROGRESS: UserProgressState = {
   onboardingCompleted: false,
   householdId: null,
   childrenCount: 0,
+  welcomeSeen: false,
+  introSeen: false,
+  childrenStepDone: false,
+  profileBasicsDone: false,
+  checkinChoiceDone: false,
+  goalsStepDone: false,
 };

@@ -10,6 +10,17 @@
 @import './styles/sprint483.css';
 @import './styles/sprint50.css';
 @import './styles/sprint51.css';
+@import './styles/sprint52-product-polish.css';
+@import './styles/sprint53-mobile-reliability.css';
+@import './styles/aura-tokens.css';
+@import './styles/aura-design-system.css';
+@import './styles/sprint54-trust-center.css';
+@import './styles/sprint55-aura-insights.css';
+@import './styles/sprint56-beta-release.css';
+@import './styles/sprint4a-assistant.css';
+@import './styles/sprint4c-action-engine.css';
+@import './styles/sprint5a-planning-engine.css';
+@import './styles/sprint4b-human-model.css';
 
 @layer base {
   html {

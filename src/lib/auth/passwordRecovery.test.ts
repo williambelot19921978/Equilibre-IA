@@ -158,7 +158,7 @@ describe("Mot de passe oublié — intégration shell", () => {
     const router = readSrc("app/router/AppRouter.tsx");
     const protectedRoute = readSrc("app/router/ProtectedRoute.tsx");
     expect(router).toContain(
-      '<Route path={AppRoutes.RESET_PASSWORD} element={<ResetPasswordPage />} />',
+      'path={AppRoutes.RESET_PASSWORD} element={withPageSuspense(<ResetPasswordPage />)}',
     );
     expect(protectedRoute).not.toContain("RESET_PASSWORD");
   });

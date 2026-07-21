@@ -7,7 +7,7 @@
   },
   "overrides": [
     {
-      "files": ["fixtures/**/*.ts"],
+      "files": ["fixtures/**/*.ts", "tests/e2e/fixtures/**/*.ts"],
       "rules": {
         "react/rules-of-hooks": "off"
       }

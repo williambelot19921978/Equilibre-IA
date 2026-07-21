@@ -2,9 +2,120 @@
 
 > **Plan de développement concret et ordonné**
 >
-> Version : 1.0.0
-> Date : 12 juillet 2026
-> Références : `docs/PROJECT_BIBLE.md`, `docs/AI_RULEBOOK.md`
+> Version : 1.4.0
+> Date : 18 juillet 2026
+> **Constitution :** [`EQUILIBRE_AI_CONSTITUTION.md`](./EQUILIBRE_AI_CONSTITUTION.md) — prévaut (Loi 8)
+> **Trois piliers :** Constitution · [`ARCHITECTURE_GUARDIAN.md`](./ARCHITECTURE_GUARDIAN.md) · [`ROBOT_QA_CHARTER.md`](./ROBOT_QA_CHARTER.md)
+> Gouvernance : [`GOVERNANCE_REPORT.md`](./GOVERNANCE_REPORT.md)
+
+---
+
+## Phase Architecture — Décisions figées (juillet 2026) ✅
+
+Avant tout sprint d'implémentation (F1 et suivants), les décisions suivantes sont **officiellement validées** :
+
+| # | Décision | Référence Constitution |
+|---|----------|------------------------|
+| 1 | Produit **universel** — profils génériques uniquement (legacy test isolé) | ch. 1 |
+| 2 | **Foyer** = entité centrale ; conjoint = membre, pas texte | ch. 6 |
+| 3 | Planning = **outil**, pas le but | ch. 1, 4, Loi 1-2 |
+| 4 | Robot QA = **composant officiel** | ch. 19 |
+| 5 | Décisions produit = **humaines** ; Robot QA propose seulement | ch. 19 |
+| 6 | Pipeline IA = **interfaces d'abord**, migration progressive | ch. 13 |
+| 7 | Spiritualité = **module optionnel**, jamais imposée | ch. 7 |
+| 8 | Onboarding final = **conversationnel** ; « Je n'ai pas d'enfant » = étape intermédiaire | ch. 7 |
+| 9 | **8 Lois fondamentales** ajoutées | ch. 2 |
+| 10 | **Health Score** = concept validé, non implémenté | ch. 20 |
+
+**Phase Fondation terminée (Sprint 0.5).** Implémentations produit : Sprint A3+.
+
+---
+
+## Phase Fondation — Documentation (juillet 2026) ✅
+
+| Sprint | Livrable | Statut |
+|--------|----------|--------|
+| A1 | 20 contrats moteurs documentaires | ✅ |
+| A2 | Interfaces TypeScript `src/ai/contracts/` | ✅ |
+| UL-0 | Dual Memory, Universal Learning doc | ✅ |
+| Sprint 0 | Audit fondations | ✅ |
+| **Sprint 0.5** | **Alignement documentaire Constitution v1.4** | ✅ |
+
+**Architecture figée à 20 moteurs** (ADR-0005). Boucle : Comprendre → Décider → Proposer → Observer → Mesurer → Apprendre.
+
+---
+
+## Phase Gouvernance — Troisième pilier (juillet 2026) ✅
+
+*(Architecture Guardian — voir [`GOVERNANCE_REPORT.md`](./GOVERNANCE_REPORT.md))*
+
+---
+
+## Sprint A1 — Contrats cerveau IA (juillet 2026) ✅
+
+| Livrable | Emplacement |
+|----------|-------------|
+| 20 contrats moteurs | [`architecture/contracts/`](../architecture/contracts/) |
+| ADR-0005 (gel 20 moteurs) | [`architecture/adr/0005-freeze-brain-architecture-20-engines.md`](../architecture/adr/0005-freeze-brain-architecture-20-engines.md) |
+| ADR-0002 | superseded → ADR-0005 |
+| Rapport Sprint A1 | [`architecture/decisions/2026-07-18-sprint-a1-report.md`](../architecture/decisions/2026-07-18-sprint-a1-report.md) |
+| Architecture Score | **94/100** — APPROVED |
+
+**Aucun code `src/` modifié.** Sprint A2 = interfaces TypeScript.
+
+---
+
+## Sprint A2 — Contrats TypeScript (juillet 2026) ✅
+
+| Livrable | Emplacement |
+|----------|-------------|
+| 20 interfaces moteurs | [`src/ai/contracts/`](../src/ai/contracts/) |
+| Gel 20 moteurs | ADR-0005 |
+| Frontières moteurs | ADR-0006 |
+| Rapport Sprint A2 | [`SPRINT_A2_REPORT.md`](./SPRINT_A2_REPORT.md) |
+| Architecture Score | **96/100** — APPROVED WITH RECOMMENDATIONS |
+
+**Contrats uniquement — aucune logique métier.** Sprint A3 = adaptateurs legacy pilote.
+
+---
+
+## Phase Universal Learning — Dual Memory (juillet 2026) ✅
+
+| Livrable | Emplacement |
+|----------|-------------|
+| Référence officielle | [`UNIVERSAL_LEARNING_ENGINE.md`](./UNIVERSAL_LEARNING_ENGINE.md) |
+| Contrat moteur #19 | [`architecture/contracts/universal-learning-engine.md`](../architecture/contracts/universal-learning-engine.md) |
+| ADR-0003 | [`architecture/adr/0003-dual-memory-universal-learning.md`](../architecture/adr/0003-dual-memory-universal-learning.md) |
+| Rapport | [`UNIVERSAL_LEARNING_REPORT.md`](./UNIVERSAL_LEARNING_REPORT.md) |
+
+**Principe :** le projet apprend des connaissances, jamais des personnes. **Aucune implémentation.**
+
+| Phase | Objectif | Statut |
+|-------|----------|--------|
+| UL-2 | Spec AnonymizationGate + types | 📋 Après A2 |
+| UL-3 | Pipeline agrégation backend | 💡 |
+
+---
+
+## Étape fondation (juillet 2026) — ✅ Validée
+
+1. Constitution v1.1 → [`EQUILIBRE_AI_CONSTITUTION.md`](./EQUILIBRE_AI_CONSTITUTION.md)
+2. Charte Robot QA → [`ROBOT_QA_CHARTER.md`](./ROBOT_QA_CHARTER.md)
+3. Matrice 200 scénarios → [`qa/scenarios/`](../qa/scenarios/)
+4. Rapports d'alignement → [`CONSTITUTION_ALIGNMENT_REPORT.md`](./CONSTITUTION_ALIGNMENT_REPORT.md)
+
+---
+
+## Prochaines étapes planifiées (sans ordre de démarrage immédiat)
+
+| Phase | Objectif | Statut |
+|-------|----------|--------|
+| **A1** | Contrats moteurs cerveau IA (`architecture/contracts/`) | ✅ **Terminé** |
+| **A2** | Interfaces TypeScript (`src/ai/contracts/`) | 📋 Planifié — après validation humaine A1 |
+| **A2** | Documentation Robot QA architecture + métriques | 📋 Planifié |
+| **F1** | Neutralité plateforme (UI, onboarding, NLP) | ⏸️ En attente validation post-architecture |
+| **F2** | Modèle foyer membres (remplacement `partner_name`) | 📋 Planifié |
+| **F3** | Health Score (concept → implémentation Robot QA) | 💡 Vision |
 
 ---
 
@@ -101,7 +212,9 @@
 
 ---
 
-# Sprint 0 — Stabilisation
+# Sprint 0 — Stabilisation (historique)
+
+> **Supersédé** par la Phase Fondation (Sprints A1, A2, 0, 0.5). Conservé pour historique du projet early-stage.
 
 **Estimation : S (1 semaine)**
 **Priorité : P0 — Prérequis à tout le reste**
@@ -370,7 +483,7 @@ Permettre à l'utilisateur de modifier son planning par des **commandes textuell
   - `MOVE_TASK` — « déplace / reporte à demain »
   - `DECLARE_FATIGUE` — « fatiguée / crevée »
   - `SHORT_ON_TIME` — « X minutes »
-  - `PARTNER_AWAY` — « William en déplacement »
+  - `PARTNER_AWAY` — « un membre en déplacement »
   - `CHILDREN_SICK` — « enfants malades »
   - `CANCEL_BLOCK` — « annule / laisse tomber »
   - `CONFIRM` / `REJECT` — « oui » / « non »
@@ -906,7 +1019,7 @@ Deux adultes dans un foyer, plannings synchronisés, proposition de relais.
 - [ ] Page invitation / acceptation
 - [ ] `HouseholdContext` — membres, disponibilités
 - [ ] Planning agrégé : contraintes des 2 adultes
-- [ ] Flux relais : proposition → accord Madeline → notification William → acceptation
+- [ ] Flux relais : proposition → accord Utilisateur A → notification Membre B → acceptation
 - [ ] Mémoire individuelle (profile_facts par user_id)
 - [ ] Tâches assignables à chaque adulte
 
@@ -932,20 +1045,20 @@ Deux adultes dans un foyer, plannings synchronisés, proposition de relais.
 
 ## Critères d'acceptation
 
-- [ ] William reçoit invitation par email
-- [ ] William rejoint le foyer existant
+- [ ] Membre B reçoit invitation par email
+- [ ] Membre B rejoint le foyer existant
 - [ ] Chaque adulte a sa mémoire séparée
 - [ ] Planning tient compte des 2 agendas
-- [ ] Relais proposé → acceptation William requise
-- [ ] Refus William → alternative sans culpabilité
-- [ ] Mémoire privée de Madeline non visible par William
+- [ ] Relais proposé → acceptation Membre B requise
+- [ ] Refus Membre B → alternative sans culpabilité
+- [ ] Mémoire privée de Utilisateur A non visible par Membre B
 
 ## Tests manuels
 
-1. Madeline invite William → William accepte → même foyer
-2. Proposition relais → William accepte → plannings sync
-3. William refuse → Madeline a une alternative
-4. William en déplacement → contrainte temporaire
+1. Utilisateur A invite Membre B → Membre B accepte → même foyer
+2. Proposition relais → Membre B accepte → plannings sync
+3. Membre B refuse → Utilisateur A a une alternative
+4. Membre B en déplacement → contrainte temporaire
 
 ## Risques
 
@@ -1159,7 +1272,7 @@ LLM conversationnel sécurisé via Edge Function, function calling, mémoire inj
 
 ## Objectifs
 
-Validation réelle par William et Madeline, corrections bugs, mesure pertinence.
+Validation réelle par utilisateurs pilotes, corrections bugs, mesure pertinence.
 
 ## Tâches détaillées
 
@@ -1187,7 +1300,7 @@ Validation réelle par William et Madeline, corrections bugs, mesure pertinence.
 - [ ] 0 message culpabilisant rapporté
 - [ ] Parcours onboarding fluide pour nouvel utilisateur
 - [ ] Performance mobile acceptable
-- [ ] William et Madeline valident l'usage quotidien
+- [ ] Utilisateurs pilotes valident l'usage quotidien
 
 ## Tests manuels
 
@@ -1277,7 +1390,9 @@ L'utilisateur peut :
 
 ## Prochain sprint à lancer
 
-### → Sprint 0 — Stabilisation
+### → Sprint A3 — Adaptateurs legacy pilote
+
+Voir [`ROADMAP.md`](./Docs/ROADMAP.md) — Phase Fondation ✅ terminée.
 
 **Justification :**
 - Le build TypeScript est cassé (bloquant)

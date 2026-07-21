@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 
 import { Button } from "../components/ui/Button";
+import { EmptyState } from "../components/ui/EmptyState";
 import { useAuth } from "../hooks/useAuth";
 import { getCurrentDeviceDate } from "../lib/time/deviceClock";
 import {
@@ -342,13 +343,11 @@ export function MyAiPage() {
           <GoalList items={memory.goalSuggestions} />
 
           {memory.insights.length === 0 ? (
-            <section className="empty-card">
-              <h2>Pas encore assez de données</h2>
-              <p>
-                Termine, annule ou planifie quelques activités — j'apprendrai
-                progressivement ton rythme naturel.
-              </p>
-            </section>
+            <EmptyState
+              aura="discovery"
+              title="Pas encore assez de données"
+              description="Termine, annule ou planifie quelques activités — j'apprendrai progressivement ton rythme naturel."
+            />
           ) : (
             <section className="my-ai-section">
               <header className="my-ai-section-header">

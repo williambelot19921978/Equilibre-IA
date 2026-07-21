@@ -1,9 +1,15 @@
-import { enrichAssistantWithLanguageMemory } from "../core/enrichAssistantWithMemory";
+import { enrichAssistantWithLanguageMemory, collectNewInsightIds } from "../core/enrichAssistantWithMemory";
 import {
   handlePendingLanguageConfirmation,
   shouldAttemptPersonalLanguageResolution,
   tryPersonalLanguageResolution,
 } from "../languageMemory/personalLanguageConversationBridge";
+import { handleConversationActionPending, proposeFatigueRescheduleAfterConfirmation } from "./handleConversationActionPending";
+import {
+  isStandaloneReschedulePhrase,
+  messageRequestsNonUrgentReschedule,
+  RESCHEDULE_AMBIGUOUS_PROMPT,
+} from "../../lib/nlp/conversationActionPending";
 import { parseUserMessage } from "./intentEngine";
 import {
   buildConfirmationPrompt,
@@ -87,10 +93,19 @@ async function finalizeExecutedTurn({
     message: rawAssistantMessage,
     intent: parseResult.intent,
     languageMemory: runtimeContext.languageMemory,
+    shownInsightIds: nextState.shownInsightIds ?? [],
+    skipProactiveHints: resolvedActions.every((action) => action.type === "NoOp"),
   });
 
   const stateWithReply = appendMessage(
-    { ...nextState, pending: undefined },
+    {
+      ...nextState,
+      pending: undefined,
+      shownInsightIds: collectNewInsightIds(
+        runtimeContext.languageMemory,
+        nextState.shownInsightIds ?? [],
+      ),
+    },
     createMessage("assistant", assistantMessage),
   );
 
@@ -151,6 +166,19 @@ async function processConversationTurnAsync({
   let nextState = appendMessage(state, createMessage("user", text.trim()));
   const explanation: string[] = [];
   const persistence = runtimeContext.personalLanguagePersistence;
+
+  if (state.pending?.kind === "conversation_action") {
+    const actionResult = await handleConversationActionPending({
+      text,
+      state: { ...state, messages: nextState.messages },
+      runtimeContext,
+      appendMessage,
+      createMessage,
+    });
+    if (actionResult) {
+      return actionResult;
+    }
+  }
 
   if (state.pending?.kind === "language_confirmation" && persistence) {
     const languageResult = await handlePendingLanguageConfirmation({
@@ -424,6 +452,36 @@ async function processConversationTurnAsync({
     if (languageResult) {
       return languageResult;
     }
+  }
+
+  if (
+    enrichedParseResult.intent === "unknown" &&
+    isStandaloneReschedulePhrase(text) &&
+    !state.pending
+  ) {
+    nextState = appendMessage(
+      nextState,
+      createMessage("assistant", RESCHEDULE_AMBIGUOUS_PROMPT),
+    );
+    return {
+      state: nextState,
+      actionsExecuted: [],
+      replanDates: [],
+      assistantMessage: RESCHEDULE_AMBIGUOUS_PROMPT,
+      explanation: ["reschedule_ambiguous"],
+    };
+  }
+
+  if (
+    enrichedParseResult.intent === "declare_fatigue" &&
+    !messageRequestsNonUrgentReschedule(text)
+  ) {
+    return proposeFatigueRescheduleAfterConfirmation({
+      state: { ...state, messages: nextState.messages },
+      runtimeContext,
+      appendMessage,
+      createMessage,
+    });
   }
 
   const clarification = detectClarificationNeeded(enrichedParseResult);

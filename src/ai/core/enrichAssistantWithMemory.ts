@@ -8,8 +8,6 @@ import {
 const ENRICHABLE_INTENTS = new Set<NlpIntent>([
   "ask_question",
   "request_suggestion",
-  "unknown",
-  "declare_fatigue",
 ]);
 
 export function shouldEnrichWithLanguageMemory(intent: NlpIntent): boolean {
@@ -20,16 +18,24 @@ export function enrichAssistantWithLanguageMemory({
   message,
   intent,
   languageMemory,
+  shownInsightIds = [],
+  skipProactiveHints = false,
 }: {
   message: string;
   intent: NlpIntent;
   languageMemory?: LanguageMemoryContext | null;
+  shownInsightIds?: string[];
+  skipProactiveHints?: boolean;
 }): string {
-  if (!shouldEnrichWithLanguageMemory(intent)) {
+  if (skipProactiveHints || !shouldEnrichWithLanguageMemory(intent)) {
     return message;
   }
 
-  const hints = selectLanguageMemoryHints(languageMemory);
+  if (/je n'ai pas reconnu cette demande/i.test(message)) {
+    return message;
+  }
+
+  const hints = selectLanguageMemoryHints(languageMemory, shownInsightIds);
   const prefix = formatLanguageMemoryPrefix(hints);
   if (!prefix) return message;
 
@@ -38,4 +44,12 @@ export function enrichAssistantWithLanguageMemory({
   }
 
   return `${prefix}\n\n${message}`;
+}
+
+export function collectNewInsightIds(
+  languageMemory: LanguageMemoryContext | null | undefined,
+  shownInsightIds: string[] = [],
+): string[] {
+  const hints = selectLanguageMemoryHints(languageMemory, shownInsightIds);
+  return [...shownInsightIds, ...hints.map((hint) => hint.id)];
 }

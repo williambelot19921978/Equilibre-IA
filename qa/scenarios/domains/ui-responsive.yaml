@@ -1,0 +1,203 @@
+domain: ui-responsive
+version: 1.0.0
+scenarios:
+  - id: QA-UI-001
+    domain: ui-responsive
+    title: home sur 375x667 mobile
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: any
+    steps:
+      - Ouvrir home
+      - Viewport 375x667 mobile
+      - Vérifier layout et interactions
+    expected: Page home utilisable sur 375x667 mobile, menu visible
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 1
+    tags:
+      - mobile
+      - responsive
+  - id: QA-UI-002
+    domain: ui-responsive
+    title: planning sur 768x1024 tablette
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: any
+    steps:
+      - Ouvrir planning
+      - Viewport 768x1024 tablette
+      - Vérifier layout et interactions
+    expected: Page planning utilisable sur 768x1024 tablette, menu visible
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 1
+    tags:
+      - mobile
+      - responsive
+  - id: QA-UI-003
+    domain: ui-responsive
+    title: conversation sur 1280x720 desktop
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: any
+    steps:
+      - Ouvrir conversation
+      - Viewport 1280x720 desktop
+      - Vérifier layout et interactions
+    expected: Page conversation utilisable sur 1280x720 desktop, menu visible
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 1
+    tags:
+      - mobile
+      - responsive
+  - id: QA-UI-004
+    domain: ui-responsive
+    title: profil sur 1440x900 large
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: any
+    steps:
+      - Ouvrir profil
+      - Viewport 1440x900 large
+      - Vérifier layout et interactions
+    expected: Page profil utilisable sur 1440x900 large, menu visible
+    criticality: medium
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 1
+    tags:
+      - mobile
+      - responsive
+  - id: QA-UI-005
+    domain: ui-responsive
+    title: onboarding sur 320x568 petit mobile
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: any
+    steps:
+      - Ouvrir onboarding
+      - Viewport 320x568 petit mobile
+      - Vérifier layout et interactions
+    expected: Page onboarding utilisable sur 320x568 petit mobile, menu visible
+    criticality: medium
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 1
+    tags:
+      - mobile
+      - responsive
+  - id: QA-UI-006
+    domain: ui-responsive
+    title: home sur 375x667 mobile
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: any
+    steps:
+      - Ouvrir home
+      - Viewport 375x667 mobile
+      - Vérifier layout et interactions
+    expected: Page home utilisable sur 375x667 mobile, menu visible
+    criticality: medium
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 1
+    tags:
+      - mobile
+      - responsive
+  - id: QA-UI-007
+    domain: ui-responsive
+    title: planning sur 768x1024 tablette
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: any
+    steps:
+      - Ouvrir planning
+      - Viewport 768x1024 tablette
+      - Vérifier layout et interactions
+    expected: Page planning utilisable sur 768x1024 tablette, menu visible
+    criticality: medium
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 1
+    tags:
+      - mobile
+      - responsive
+  - id: QA-UI-008
+    domain: ui-responsive
+    title: conversation sur 1280x720 desktop
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: any
+    steps:
+      - Ouvrir conversation
+      - Viewport 1280x720 desktop
+      - Vérifier layout et interactions
+    expected: Page conversation utilisable sur 1280x720 desktop, menu visible
+    criticality: medium
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 1
+    tags:
+      - mobile
+      - responsive
+  - id: QA-UI-009
+    domain: ui-responsive
+    title: profil sur 1440x900 large
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: any
+    steps:
+      - Ouvrir profil
+      - Viewport 1440x900 large
+      - Vérifier layout et interactions
+    expected: Page profil utilisable sur 1440x900 large, menu visible
+    criticality: medium
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 1
+    tags:
+      - mobile
+      - responsive
+  - id: QA-UI-010
+    domain: ui-responsive
+    title: onboarding sur 320x568 petit mobile
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: any
+    steps:
+      - Ouvrir onboarding
+      - Viewport 320x568 petit mobile
+      - Vérifier layout et interactions
+    expected: Page onboarding utilisable sur 320x568 petit mobile, menu visible
+    criticality: medium
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 1
+    tags:
+      - mobile
+      - responsive

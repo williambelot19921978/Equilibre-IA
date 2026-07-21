@@ -1,8 +1,12 @@
 import { useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../lib/supabase/client";
+import { mapSignupError } from "../lib/errors/userFacingError";
+import { trackInsightEvent } from "../auraInsights/eventStore";
 import { useAppNavigation } from "../hooks/useAppNavigation";
 import { AppRoutes } from "../lib/navigation/routes";
+import { Button } from "../components/ui/Button";
+import { FormField, Input } from "../components/ui/FormField";
 
 export function SignupPage() {
   const { goToResolvedRoute } = useAppNavigation();
@@ -56,20 +60,21 @@ export function SignupPage() {
         throw error;
       }
 
-      if (data.session) {
+      if (data.session?.user?.id) {
+        trackInsightEvent(data.session.user.id, "account_created", {});
         await goToResolvedRoute();
         return;
+      }
+
+      if (data.user?.id) {
+        trackInsightEvent(data.user.id, "account_created", {});
       }
 
       setSuccessMessage(
         "Ton compte a été créé. Consulte tes e-mails pour confirmer ton inscription.",
       );
     } catch (error) {
-      setErrorMessage(
-        error instanceof Error
-          ? error.message
-          : "Impossible de créer le compte.",
-      );
+      setErrorMessage(mapSignupError(error));
     } finally {
       setLoading(false);
     }
@@ -78,7 +83,7 @@ export function SignupPage() {
   return (
     <main className="auth-page">
       <section className="auth-card">
-        <p className="brand-name">Équilibre IA</p>
+        <p className="brand-name">Aura</p>
 
         <h1>Créer mon compte</h1>
 
@@ -87,31 +92,31 @@ export function SignupPage() {
         </p>
 
         <form onSubmit={handleSubmit} className="auth-form">
-          <label>
-            <span>Prénom</span>
-            <input
+          <FormField label="Prénom" htmlFor="signup-first-name" required>
+            <Input
+              id="signup-first-name"
               type="text"
               value={firstName}
               onChange={(event) => setFirstName(event.target.value)}
               autoComplete="given-name"
               required
             />
-          </label>
+          </FormField>
 
-          <label>
-            <span>Adresse e-mail</span>
-            <input
+          <FormField label="Adresse e-mail" htmlFor="signup-email" required>
+            <Input
+              id="signup-email"
               type="email"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               autoComplete="email"
               required
             />
-          </label>
+          </FormField>
 
-          <label>
-            <span>Mot de passe</span>
-            <input
+          <FormField label="Mot de passe" htmlFor="signup-password" required>
+            <Input
+              id="signup-password"
               type="password"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
@@ -119,11 +124,15 @@ export function SignupPage() {
               minLength={8}
               required
             />
-          </label>
+          </FormField>
 
-          <label>
-            <span>Confirmer le mot de passe</span>
-            <input
+          <FormField
+            label="Confirmer le mot de passe"
+            htmlFor="signup-password-confirm"
+            required
+          >
+            <Input
+              id="signup-password-confirm"
               type="password"
               value={passwordConfirmation}
               onChange={(event) =>
@@ -133,7 +142,7 @@ export function SignupPage() {
               minLength={8}
               required
             />
-          </label>
+          </FormField>
 
           {errorMessage && (
             <div className="message message-error">{errorMessage}</div>
@@ -143,9 +152,9 @@ export function SignupPage() {
             <div className="message message-success">{successMessage}</div>
           )}
 
-          <button type="submit" disabled={loading}>
+          <Button type="submit" fullWidth disabled={loading} loading={loading}>
             {loading ? "Création du compte..." : "Créer mon compte"}
-          </button>
+          </Button>
         </form>
 
         <p className="auth-footer">

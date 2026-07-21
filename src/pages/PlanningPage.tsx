@@ -8,11 +8,20 @@ import { DayTimeline } from "../components/planning/DayTimeline";
 import { EditBlockModal } from "../components/planning/EditBlockModal";
 import { LifeDebugPanel } from "../components/planning/LifeDebugPanel";
 import { FreeTimeSuggestionModal } from "../components/planning/FreeTimeSuggestionModal";
+import { StudySlotRecommendationCard } from "../components/recommendations/StudySlotRecommendationCard";
+import {
+  StudyRescheduleInfoCard,
+  StudyRescheduleProposalCard,
+} from "../components/rescheduling/StudyRescheduleProposalCard";
 import { RecentAchievementWidget } from "../components/home/RecentAchievementWidget";
+import { HouseholdPlanningPrefillBanner } from "../components/householdOverview/HouseholdPlanningPrefillBanner";
 import { Button } from "../components/ui/Button";
+import { EmptyState } from "../components/ui/EmptyState";
 import { useAppNavigation } from "../hooks/useAppNavigation";
 import { useAuth } from "../hooks/useAuth";
 import { useDayPlan } from "../hooks/useDayPlan";
+import { useStudySlotRecommendation } from "../hooks/useStudySlotRecommendation";
+import { useStudyRescheduleProposal } from "../hooks/useStudyRescheduleProposal";
 import { useNowClock } from "../hooks/useNowClock";
 import { isToday } from "../lib/time/deviceClock";
 import { formatDateLabel } from "../lib/navigation/urlDate";
@@ -25,8 +34,14 @@ import {
   loadPlanningContextWithLife,
 } from "../services/memoryContextService";
 import { acceptFreeTimeSuggestion } from "../services/suggestionAcceptanceService";
+import {
+  observePilotProposalAccepted,
+  getPilotProposalSession,
+} from "../ai/outcome/outcomeObservationBridge";
 import type { WorkoutSession } from "../types/workoutSession";
 import type { FreeTimeSuggestion } from "../types/freeTimeSuggestion";
+import { readHouseholdPlanningCollaborationDraft } from "../lib/householdCollaboration/householdCollaborationDraftStorage";
+import type { HouseholdPlanningCollaborationDraft } from "../types/householdCollaboration";
 
 function getWorkIncompleteMessage(incompleteData: string[]): string | null {
   const workMessage = incompleteData.find((item) =>
@@ -84,10 +99,13 @@ export function PlanningPage() {
   const [suggestionEntry, setSuggestionEntry] =
     useState<DayTimelineEntry | null>(null);
   const [savingSuggestion, setSavingSuggestion] = useState(false);
+  const [suggestionError, setSuggestionError] = useState<string | null>(null);
   const [planningContext, setPlanningContext] =
     useState<PlanningContext | null>(null);
   const [memoryContext, setMemoryContext] =
     useState<HouseholdMemoryContext | null>(null);
+  const [planningCollaborationDraft, setPlanningCollaborationDraft] =
+    useState<HouseholdPlanningCollaborationDraft | null>(null);
 
   const hasGenerated = hasGeneratedPlanning(timeline);
   const workIncompleteMessage = useMemo(
@@ -119,6 +137,43 @@ export function PlanningPage() {
     void loadContext();
   }, [user, selectedDate]);
 
+  useEffect(() => {
+    const draft = readHouseholdPlanningCollaborationDraft();
+    if (!draft) {
+      setPlanningCollaborationDraft(null);
+      return;
+    }
+
+    if (draft.date && draft.date !== selectedDate) {
+      return;
+    }
+
+    setPlanningCollaborationDraft(draft);
+  }, [selectedDate]);
+
+  const studyRecommendation = useStudySlotRecommendation({
+    userId: user?.id,
+    date: selectedDate,
+    timeline,
+    planningContext,
+    memoryContext,
+    onAccepted: (explanation) => {
+      setLastEditExplanation(explanation);
+      void loadPlan();
+    },
+  });
+
+  const studyReschedule = useStudyRescheduleProposal({
+    userId: user?.id,
+    date: selectedDate,
+    timeline,
+    planningContext,
+    onMoved: (explanation) => {
+      setLastEditExplanation(explanation);
+      void loadPlan();
+    },
+  });
+
   const handleAcceptSuggestion = useCallback(
     async (
       suggestion: FreeTimeSuggestion,
@@ -135,15 +190,19 @@ export function PlanningPage() {
           suggestion,
           content,
         });
+
+        const session = getPilotProposalSession(suggestion.id);
+        if (session) {
+          observePilotProposalAccepted(session);
+        }
+
         setSuggestionEntry(null);
         setLastEditExplanation(result.explanation);
         await loadPlan();
       } catch (acceptError) {
-        alert(
-          acceptError instanceof Error
+        setSuggestionError(acceptError instanceof Error
             ? acceptError.message
-            : "Impossible d’ajouter cette activité.",
-        );
+            : "Impossible d’ajouter cette activité.",);
       } finally {
         setSavingSuggestion(false);
       }
@@ -200,10 +259,53 @@ export function PlanningPage() {
           onDateChange={setSelectedDate}
         />
 
+        <HouseholdPlanningPrefillBanner
+          draft={planningCollaborationDraft}
+          onDismiss={() => setPlanningCollaborationDraft(null)}
+        />
+
         {error && <div className="message message-error">{error}</div>}
+
+        {suggestionError && (
+          <div className="message message-error">{suggestionError}</div>
+        )}
 
         {lastEditExplanation && (
           <div className="message message-success">{lastEditExplanation}</div>
+        )}
+
+        {studyRecommendation.visible && studyRecommendation.recommendation && (
+          <StudySlotRecommendationCard
+            message={studyRecommendation.recommendation.message}
+            accepting={studyRecommendation.accepting}
+            onStart={() => void studyRecommendation.accept()}
+            onLater={studyRecommendation.defer}
+            onDismiss={studyRecommendation.dismiss}
+          />
+        )}
+
+        {studyReschedule.proposal && (
+          <StudyRescheduleProposalCard
+            message={studyReschedule.proposal.message}
+            moving={studyReschedule.moving}
+            onMove={() => void studyReschedule.confirmMove()}
+            onKeep={studyReschedule.keepCurrentSchedule}
+            onDismiss={studyReschedule.dismissProposal}
+          />
+        )}
+
+        {studyReschedule.noSolutionMessage && (
+          <StudyRescheduleInfoCard
+            message={studyReschedule.noSolutionMessage}
+            onClose={studyReschedule.clearMessages}
+          />
+        )}
+
+        {studyReschedule.conflictMessage && (
+          <StudyRescheduleInfoCard
+            message={studyReschedule.conflictMessage}
+            onClose={studyReschedule.clearMessages}
+          />
         )}
 
         <RecentAchievementWidget
@@ -257,13 +359,15 @@ export function PlanningPage() {
         {loading ? (
           <p>Chargement du planning...</p>
         ) : !plan || timeline.length === 0 ? (
-          <div className="empty-card">
-            <h3>Ta journée n’est pas encore organisée.</h3>
-            <p>
-              Appuie sur « Générer ma journée » pour créer une première
-              proposition.
-            </p>
-          </div>
+          <EmptyState
+            aura="empty"
+            title="Ta journée n'est pas encore organisée."
+            description="Appuie sur « Générer ma journée » pour créer une première proposition."
+            primaryAction={{
+              label: "Générer ma journée",
+              onClick: () => void generatePlan(),
+            }}
+          />
         ) : (
           <>
             {(plan.contextAdaptations?.length ?? 0) > 0 && (
@@ -342,6 +446,12 @@ export function PlanningPage() {
                 }
                 onNoTimeEntry={(entry, choice) =>
                   void handleBlockAction({ entry, action: "no_time", choice })
+                }
+                onCannotDoNowEntry={(entry) =>
+                  studyReschedule.requestAlternative(entry)
+                }
+                canOfferSmartReschedule={(entry) =>
+                  studyReschedule.canOfferForEntry(entry)
                 }
                 completingEntryId={completingEntryId}
                 cancellingEntryId={cancellingEntryId}

@@ -1,4 +1,11 @@
-import { APP_BETA_LABEL, APP_VERSION } from "../../config/appVersion";
+import { AuraIllustration } from "../aura/AuraIllustration";
+import {
+  APP_VERSION,
+  formatDisplayVersion,
+  getChannelLabel,
+  getReleaseChannel,
+} from "../../release";
+import { stashErrorReport } from "../../release/errorReport";
 import { AppRoutes } from "../../lib/navigation/routes";
 import { Button } from "../ui/Button";
 
@@ -7,32 +14,36 @@ type AppErrorFallbackProps = {
   onRetry?: () => void;
   title?: string;
   description?: string;
+  userId?: string | null;
 };
 
 export function AppErrorFallback({
   error,
   onRetry,
-  title = "Une erreur inattendue s’est produite",
-  description = "L’application a rencontré un problème. Tu peux réessayer ou revenir à l’accueil.",
+  title = "Une erreur inattendue s'est produite",
+  description = "L'application a rencontré un problème. Tu peux réessayer ou revenir à l'accueil.",
+  userId = null,
 }: AppErrorFallbackProps) {
   const showDetails = import.meta.env.DEV && error?.message;
+  const channel = getChannelLabel(getReleaseChannel());
+
+  function handleReport() {
+    stashErrorReport(error ?? null, "error-fallback");
+    window.location.href = userId ? AppRoutes.TRUST_CENTER : AppRoutes.LOGIN;
+  }
 
   return (
-    <main className="auth-page app-error-page">
-      <section className="empty-card app-error-card">
-        <p className="card-label">{APP_BETA_LABEL}</p>
-        <h1>{title}</h1>
-        <p>{description}</p>
+    <main className="auth-page app-error-page" role="alert" aria-live="assertive">
+      <section className="empty-card app-error-card aura-glass">
+        <AuraIllustration kind="error" title={title} description={description} />
 
         {showDetails && (
-          <pre className="app-error-details" aria-live="polite">
-            {error?.message}
-          </pre>
+          <pre className="app-error-details">{error?.message}</pre>
         )}
 
         <div className="app-error-actions">
           {onRetry && (
-            <Button type="button" onClick={onRetry}>
+            <Button type="button" onClick={onRetry} data-testid="error-retry">
               Réessayer
             </Button>
           )}
@@ -42,12 +53,23 @@ export function AppErrorFallback({
             onClick={() => {
               window.location.href = AppRoutes.HOME;
             }}
+            data-testid="error-home"
           >
-            Revenir à l’accueil
+            Retour accueil
+          </Button>
+          <Button
+            type="button"
+            variant="ghost"
+            onClick={handleReport}
+            data-testid="error-report"
+          >
+            Signaler
           </Button>
         </div>
 
-        <small className="app-error-version">v{APP_VERSION}</small>
+        <small className="app-error-version">
+          {formatDisplayVersion(APP_VERSION)} · {channel}
+        </small>
       </section>
     </main>
   );

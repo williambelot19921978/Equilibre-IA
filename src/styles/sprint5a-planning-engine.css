@@ -1,0 +1,50 @@
+.planning-engine-diagnostics {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  max-width: 960px;
+}
+
+.planning-engine-diagnostics-header h1 {
+  margin: 0.25rem 0;
+}
+
+.planning-engine-diagnostics-eyebrow {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--color-text-muted, #64748b);
+}
+
+.planning-engine-diagnostics-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.75rem;
+}
+
+.planning-engine-diagnostics-metrics article {
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: var(--color-surface, #fff);
+}
+
+.planning-engine-diagnostics-metrics h2 {
+  margin: 0 0 0.25rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.planning-engine-diagnostics-metrics p {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.planning-engine-diagnostics-timeline li {
+  margin-bottom: 0.35rem;
+}
+
+.planning-engine-diagnostics-error {
+  color: #b91c1c;
+}

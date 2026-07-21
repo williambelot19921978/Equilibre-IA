@@ -1,0 +1,231 @@
+domain: regression-smoke
+version: 1.0.0
+scenarios:
+  - id: QA-REG-001
+    domain: regression-smoke
+    title: Smoke — login → home → logout
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: any
+    steps:
+      - Exécuter parcours smoke
+      - Vérifier succès
+    expected: "Régression absente: Smoke — login → home → logout"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 18
+    tags:
+      - smoke
+      - regression
+  - id: QA-REG-002
+    domain: regression-smoke
+    title: Smoke — création tâche → done
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: any
+    steps:
+      - Exécuter parcours smoke
+      - Vérifier succès
+    expected: "Régression absente: Smoke — création tâche → done"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 18
+    tags:
+      - smoke
+      - regression
+  - id: QA-REG-003
+    domain: regression-smoke
+    title: Smoke — conversation basique
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: any
+    steps:
+      - Exécuter parcours smoke
+      - Vérifier succès
+    expected: "Régression absente: Smoke — conversation basique"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 18
+    tags:
+      - smoke
+      - regression
+  - id: QA-REG-004
+    domain: regression-smoke
+    title: Smoke — planning s'affiche
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: any
+    steps:
+      - Exécuter parcours smoke
+      - Vérifier succès
+    expected: "Régression absente: Smoke — planning s'affiche"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 18
+    tags:
+      - smoke
+      - regression
+  - id: QA-REG-005
+    domain: regression-smoke
+    title: Smoke — menu toujours visible
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: any
+    steps:
+      - Exécuter parcours smoke
+      - Vérifier succès
+    expected: "Régression absente: Smoke — menu toujours visible"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 18
+    tags:
+      - smoke
+      - regression
+  - id: QA-REG-006
+    domain: regression-smoke
+    title: Smoke — IA conversation visible
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: any
+    steps:
+      - Exécuter parcours smoke
+      - Vérifier succès
+    expected: "Régression absente: Smoke — IA conversation visible"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 18
+    tags:
+      - smoke
+      - regression
+  - id: QA-REG-007
+    domain: regression-smoke
+    title: Smoke — calendrier fonctionnel
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: any
+    steps:
+      - Exécuter parcours smoke
+      - Vérifier succès
+    expected: "Régression absente: Smoke — calendrier fonctionnel"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 18
+    tags:
+      - smoke
+      - regression
+  - id: QA-REG-008
+    domain: regression-smoke
+    title: Smoke — pas régression bundle
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: any
+    steps:
+      - Exécuter parcours smoke
+      - Vérifier succès
+    expected: "Régression absente: Smoke — pas régression bundle"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 18
+    tags:
+      - smoke
+      - regression
+  - id: QA-REG-009
+    domain: regression-smoke
+    title: Smoke — build production
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: any
+    steps:
+      - Exécuter parcours smoke
+      - Vérifier succès
+    expected: "Régression absente: Smoke — build production"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 18
+    tags:
+      - smoke
+      - regression
+  - id: QA-REG-010
+    domain: regression-smoke
+    title: Smoke — lint clean
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: any
+    steps:
+      - Exécuter parcours smoke
+      - Vérifier succès
+    expected: "Régression absente: Smoke — lint clean"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 18
+    tags:
+      - smoke
+      - regression
+  - id: QA-REG-011
+    domain: regression-smoke
+    title: Smoke — vitest green
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: any
+    steps:
+      - Exécuter parcours smoke
+      - Vérifier succès
+    expected: "Régression absente: Smoke — vitest green"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 18
+    tags:
+      - smoke
+      - regression
+  - id: QA-REG-012
+    domain: regression-smoke
+    title: Smoke — playwright auth project
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: any
+    steps:
+      - Exécuter parcours smoke
+      - Vérifier succès
+    expected: "Régression absente: Smoke — playwright auth project"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 18
+    tags:
+      - smoke
+      - regression

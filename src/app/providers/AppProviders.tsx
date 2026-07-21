@@ -3,6 +3,8 @@ import { AuthProvider } from "../../contexts/AuthProvider";
 import { SidebarPreferencesProvider } from "../../contexts/SidebarPreferencesProvider";
 import { UserProgressProvider } from "../../contexts/UserProgressProvider";
 import { WorkoutPlayerProvider } from "../../contexts/WorkoutPlayerContext";
+import { AuraThemeProvider } from "../../design-system/aura/ThemeProvider";
+import { AuraInsightsProvider } from "../../auraInsights/AuraInsightsProvider";
 
 type AppProvidersProps = {
   children: ReactNode;
@@ -10,12 +12,16 @@ type AppProvidersProps = {
 
 export function AppProviders({ children }: AppProvidersProps) {
   return (
-    <AuthProvider>
-      <UserProgressProvider>
-        <SidebarPreferencesProvider>
-          <WorkoutPlayerProvider>{children}</WorkoutPlayerProvider>
-        </SidebarPreferencesProvider>
-      </UserProgressProvider>
-    </AuthProvider>
+    <AuraThemeProvider>
+      <AuthProvider>
+        <AuraInsightsProvider>
+          <UserProgressProvider>
+            <SidebarPreferencesProvider>
+              <WorkoutPlayerProvider>{children}</WorkoutPlayerProvider>
+            </SidebarPreferencesProvider>
+          </UserProgressProvider>
+        </AuraInsightsProvider>
+      </AuthProvider>
+    </AuraThemeProvider>
   );
 }

@@ -152,9 +152,11 @@ describe("ai-core-language-memory-v1", () => {
     expect(enriched).toBe(message);
   });
 
-  it("06 — shouldEnrichWithLanguageMemory couvre unknown et declare_fatigue", () => {
-    expect(shouldEnrichWithLanguageMemory("unknown")).toBe(true);
-    expect(shouldEnrichWithLanguageMemory("declare_fatigue")).toBe(true);
+  it("06 — shouldEnrichWithLanguageMemory couvre les questions ouvertes uniquement", () => {
+    expect(shouldEnrichWithLanguageMemory("unknown")).toBe(false);
+    expect(shouldEnrichWithLanguageMemory("declare_fatigue")).toBe(false);
+    expect(shouldEnrichWithLanguageMemory("ask_question")).toBe(true);
+    expect(shouldEnrichWithLanguageMemory("request_suggestion")).toBe(true);
     expect(shouldEnrichWithLanguageMemory("modify_sport")).toBe(false);
   });
 

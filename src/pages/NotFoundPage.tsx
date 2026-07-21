@@ -6,6 +6,7 @@ export function NotFoundPage() {
 
   return (
     <AppErrorFallback
+      userId={user?.id ?? null}
       title="Page introuvable"
       description={
         user

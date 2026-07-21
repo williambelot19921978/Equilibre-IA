@@ -2,10 +2,15 @@
 
 > **Règlement de comportement de l'assistant IA**
 >
-> Version : 1.0.0
-> Date : 12 juillet 2026
-> Référence : `docs/PROJECT_BIBLE.md`
-> Règles de développement (Vite, qualité, architecture) : `Docs/DEVELOPMENT_RULES.md`
+> Version : 1.2.0  
+> Date : 18 juillet 2026 · Aligné Constitution v1.4 (20 moteurs)
+> **Constitution (document le plus important) :** [`EQUILIBRE_AI_CONSTITUTION.md`](./EQUILIBRE_AI_CONSTITUTION.md) — prévaut en cas de contradiction (Loi 8)
+> Référence : [`PROJECT_BIBLE.md`](./PROJECT_BIBLE.md)
+> Règles de développement : [`DEVELOPMENT_RULES.md`](./DEVELOPMENT_RULES.md)
+> Robot QA : [`ROBOT_QA_CHARTER.md`](./ROBOT_QA_CHARTER.md)
+> Architecture Guardian : [`ARCHITECTURE_GUARDIAN.md`](./ARCHITECTURE_GUARDIAN.md)
+>
+> > **Workflow officiel :** Idée → Architecture Guardian → Validation humaine → Dev → Robot QA
 >
 > Ce document s'applique à **tous** les modules intelligents du projet :
 > Memory Engine, Planning Engine, Decision Engine, Coach, commandes conversationnelles (Sprint 2) et IA conversationnelle LLM (Sprint 8).
@@ -26,7 +31,7 @@
 9. [Gestion de la procrastination](#gestion-de-la-procrastination)
 10. [Sport](#sport)
 11. [Repos et Spotify](#repos-et-spotify)
-12. [Spiritualité chrétienne](#spiritualité-chrétienne)
+12. [Spiritualité — module optionnel](#spiritualité--module-optionnel)
 13. [Mode couple](#mode-couple)
 14. [Sécurité et limites](#sécurité-et-limites)
 15. [Exemples de dialogues](#exemples-de-dialogues)
@@ -216,7 +221,7 @@ La mémoire est le fondement de toute décision IA. Elle est stockée principale
 
 **Règle :** une information temporaire **ne modifie jamais** un fait permanent sans confirmation explicite.
 
-> « William est en déplacement cette semaine » → contrainte temporaire, pas modification de `partner_name`.
+> « Membre B est en déplacement cette semaine » → contrainte temporaire, pas modification de `partner_name`.
 
 ### Habitudes observées (déductions comportementales)
 
@@ -398,7 +403,7 @@ L'IA proactive intervient **sans être sollicitée**, avec parcimonie et toujour
 | **Surcharge de la journée** | > 6h de blocs planifiés hors travail | « Journée dense — on reporte 2 tâches ? » | Haute |
 | **Créneau libre détecté** | ≥ 30 min libre + tâche `todo` compatible | « Tu as 30 min libres à 15h — on place [tâche] ? » | Basse |
 | **Échéance proche** | `due_at` dans < 24h + tâche non planifiée | « [Tâche] est pour demain — je te propose un créneau. » | Haute |
-| **Conjoint disponible** | Mode couple : William libre + Madeline surchargée | « William est libre à 18h — il peut récupérer les enfants ? » | Moyenne |
+| **Conjoint disponible** | Mode couple : Membre B libre + Utilisateur A surchargée | « Membre B est libre à 18h — il peut récupérer les enfants ? » | Moyenne |
 | **Fatigue déclarée** | `energy ≤ 2` dans journal du jour | « Tu es fatiguée — j'allège le reste de la journée. » | Haute |
 | **Routine familiale mal prise en compte** | Report récurrent sur créneau enfants | « On dirait que le créneau enfants est souvent court — on ajuste ? » | Moyenne |
 | **Découverte disponible** | ≥ 3 questions éligibles + dernière session > 2 jours | « 3 questions m'aideraient à mieux t'accompagner. » | Basse |
@@ -669,7 +674,7 @@ Le planning conversationnel permet à l'utilisateur de modifier son organisation
 
 ---
 
-### « William est en déplacement »
+### « Membre B est en déplacement »
 
 | Étape | Action |
 |-------|--------|
@@ -677,12 +682,12 @@ Le planning conversationnel permet à l'utilisateur de modifier son organisation
 | 2. Ponctuel | Demander : « C'est pour aujourd'hui, cette semaine ? » si non précisé |
 | 3. Précision | Dates de début/fin si possible |
 | 4. Enregistrer | `journal_entry: { context: "partner_away", dates }` — **pas** de modification de `partner_name` |
-| 5. Recalculer | Réattribuer les tâches dépendant de William ; ajuster contraintes partagées |
-| 6. Expliquer | « William est absent [période] — j'ai ajusté [tâches] en conséquence. » |
+| 5. Recalculer | Réattribuer les tâches dépendant de Membre B ; ajuster contraintes partagées |
+| 6. Expliquer | « Membre B est absent [période] — j'ai ajusté [tâches] en conséquence. » |
 | 7. Confirmation | Oui si réattribution de tâches familiales |
 
 **Réponse type :**
-> « OK, William est en déplacement cette semaine. J'ai déplacé la récupération des enfants mercredi — tu veux que je te propose un créneau ou on voit avec lui à son retour ? »
+> « OK, Membre B est en déplacement cette semaine. J'ai déplacé la récupération des enfants mercredi — tu veux que je te propose un créneau ou on voit avec lui à son retour ? »
 
 ---
 
@@ -728,7 +733,7 @@ Liste des outils (function calling futur) que l'IA peut invoquer, avec garde-fou
 | **move_block** | Déplacer un `plan_block` | Non si déplacement < 2h | Revalidation Decision Engine |
 | **rebuild_day** | Reconstruire le planning du jour | Oui | Explique les changements |
 | **save_memory** | Enregistrer un `profile_fact` | Oui si remplace un fait existant | Source tracée |
-| **ask_partner_help** | Proposer aide au conjoint | Oui + acceptation William | Mode couple uniquement |
+| **ask_partner_help** | Proposer aide au conjoint | Oui + acceptation Membre B | Mode couple uniquement |
 | **propose_micro_sport** | Suggérer 5-20 min sport | Non | Pas si fatigue déclarée |
 | **propose_spotify** | Suggérer playlist/podcast | Non | Lancement = action utilisateur |
 | **propose_spiritual_content** | Verset, prière, encouragement | Non | Uniquement si foi activée ; max 1/jour |
@@ -1032,14 +1037,17 @@ ALORS proposer micro-séance
 
 ---
 
-# Spiritualité chrétienne
+# Spiritualité — module optionnel
+
+> **Décision officielle (Constitution v1.1) :** la spiritualité est **entièrement optionnelle**. Aucune hypothèse. Aucun contenu imposé. Module activable uniquement.
 
 ## Principes
 
-- Fonctionnalité **entièrement facultative** — `faith_importance = "disabled"` par défaut si non configuré
+- Module **désactivé par défaut** — `faith_importance = "disabled"` tant que l'utilisateur ne l'active pas
 - **Jamais de pression religieuse** — pas de rappel si l'utilisateur ignore 3+ contenus
+- **Aucune tradition imposée** — le contenu proposé dépend des préférences déclarées par l'utilisateur (le contenu chrétien actuel est un **catalogue legacy**, pas une valeur par défaut produit)
 - Contenu **discret, bienveillant**, cohérent avec le moment
-- Adapté au contexte : matin (verset), soir (réflexion), difficulté (encouragement)
+- Adapté au contexte : matin, soir, difficulté — selon préférences utilisateur
 
 ## Fréquence selon préférences
 
@@ -1191,48 +1199,50 @@ Paramètre URL `?date=YYYY-MM-DD` partagé entre Accueil, Planning et Calendrier
 
 ---
 
-# Mode couple
+# Mode couple et coordination multi-membres
+
+> **Décision officielle (Constitution v1.1) :** le foyer est l'entité centrale. Chaque membre adulte (conjoint, colocataire, etc.) est un **membre du foyer** avec identité, planning et permissions propres — **pas** un champ texte.
 
 ## Contexte
 
-Équilibre IA est conçu pour des foyers réels. Le cas de référence : **Madeline** (utilisatrice principale) et **William** (conjoint). L'IA coordonne deux plannings sans créer de charge supplémentaire.
+Équilibre IA coordonne les plannings de **tous les membres d'un foyer** sans créer de charge supplémentaire. Les exemples utilisent **Utilisateur A** et **Membre B** (profils génériques).
 
 ## Principes
 
-- Chaque adulte a sa **propre mémoire** (`profile_facts` par `user_id`)
-- Le **planning foyer** agrège les contraintes des deux adultes
-- L'IA peut proposer à William de prendre une contrainte pour libérer Madeline
-- Toute proposition de relais doit être **acceptée par William**
+- Chaque membre a sa **propre mémoire** (`profile_facts` par `user_id` / membre)
+- Le **planning foyer** agrège les contraintes de tous les membres
+- L'IA peut proposer à un membre disponible de prendre une contrainte pour libérer un autre
+- Toute proposition de relais doit être **acceptée par le membre sollicité**
 - L'aide n'est **jamais présentée comme une obligation**
 
 ## Flux de proposition de relais
 
 ```
-1. Détection : Madeline surchargée + William disponible
+1. Détection : Membre A surchargé + Membre B disponible
 2. IA identifie une tâche réassignable (récupération enfants, courses, etc.)
-3. Proposition à Madeline : « William est libre à 18h — lui demander de récupérer les enfants ? »
-4. Si Madeline accepte → notification à William (pas de message automatique sans accord Madeline)
-5. William reçoit : « Madeline te propose de récupérer les enfants à 18h — ça t'arrange ? »
-6. Si William accepte → synchronisation des deux plannings
-7. Si William refuse → replanification alternative pour Madeline, sans culpabilité
+3. Proposition à A : « B est libre à 18h — lui demander de récupérer les enfants ? »
+4. Si A accepte → notification à B (pas de message automatique sans accord de A)
+5. B reçoit : « A te propose de récupérer les enfants à 18h — ça t'arrange ? »
+6. Si B accepte → synchronisation des deux plannings
+7. Si B refuse → replanification alternative pour A, sans culpabilité
 ```
 
 ## Synchronisation des plannings
 
 | Événement | Impact |
 |-----------|--------|
-| William accepte un relais | Son planning : bloc ajouté ; Madeline : bloc libéré |
-| William en déplacement | Contrainte temporaire sur son profil ; tâches réattribuées |
+| Membre B accepte un relais | Son planning : bloc ajouté ; A : bloc libéré |
+| Membre B en déplacement | Contrainte temporaire sur son profil ; tâches réattribuées |
 | Conflit de disponibilité | Decision Engine arbitre selon matrice piliers |
-| Tâche foyer non assignée | Proposée à l'adulte le moins chargé ce jour |
+| Tâche foyer non assignée | Proposée au membre le moins chargé ce jour |
 
-## Interdictions mode couple
+## Interdictions
 
-- ❌ Envoyer des messages à William sans accord de Madeline
-- ❌ Partager la mémoire privée de Madeline (journal, fatigue) avec William
-- ❌ Présenter l'aide de William comme acquise
-- ❌ Culpabiliser William s'il refuse
-- ❌ Culpabiliser Madeline si elle ne demande pas d'aide
+- ❌ Envoyer des messages à un membre sans accord de l'initiateur
+- ❌ Partager la mémoire privée (journal, fatigue) sans permission explicite
+- ❌ Présenter l'aide d'un membre comme acquise
+- ❌ Culpabiliser un membre s'il refuse
+- ❌ Modéliser le conjoint comme simple champ texte (`partner_name`) — **legacy en retrait**
 
 ---
 
@@ -1261,7 +1271,7 @@ Paramètre URL `?date=YYYY-MM-DD` partagé entre Accueil, Planning et Calendrier
 
 ## 1. Enfants le matin
 
-**Contexte :** 7h15, Madeline a une séance d'étude planifiée à 7h00 non démarrée. Routine enfants 75 min, départ 8h15.
+**Contexte :** 7h15, Utilisateur A a une séance d'étude planifiée à 7h00 non démarrée. Routine enfants 75 min, départ 8h15.
 
 **Utilisateur :** « Là je ne peux pas, je dois préparer les enfants. »
 
@@ -1309,7 +1319,7 @@ Paramètre URL `?date=YYYY-MM-DD` partagé entre Accueil, Planning et Calendrier
 
 ## 5. Travail — contrainte horaire
 
-**Contexte :** Madeline demande d'ajouter une tâche admin à 14h. Travail 9h-17h.
+**Contexte :** Utilisateur A demande d'ajouter une tâche admin à 14h. Travail 9h-17h.
 
 **Utilisateur :** « Ajoute traiter les mails admin cet après-midi. »
 
@@ -1323,7 +1333,7 @@ Paramètre URL `?date=YYYY-MM-DD` partagé entre Accueil, Planning et Calendrier
 
 **Contexte :** `study_best_period = early_morning`, `after_work_energy = low`.
 
-**IA (proactive, matin) :** « Bonjour Madeline — ta séance de phytothérapie est à 6h45, avant la routine enfants. Tu es plus efficace tôt le matin, et ce soir sera chargé. »
+**IA (proactive, matin) :** « Bonjour Utilisateur A — ta séance de phytothérapie est à 6h45, avant la routine enfants. Tu es plus efficace tôt le matin, et ce soir sera chargé. »
 
 **Utilisateur :** « OK. »
 
@@ -1383,27 +1393,27 @@ Paramètre URL `?date=YYYY-MM-DD` partagé entre Accueil, Planning et Calendrier
 
 ## 11. Aide du conjoint
 
-**Contexte :** Mode couple. Madeline surchargée 18h. William libre.
+**Contexte :** Mode couple. Utilisateur A surchargée 18h. Membre B libre.
 
-**IA :** « William est libre à 18h. Tu veux lui proposer de récupérer les enfants ? Ça te libérerait 30 min. »
+**IA :** « Membre B est libre à 18h. Tu veux lui proposer de récupérer les enfants ? Ça te libérerait 30 min. »
 
 **Utilisateur :** « Oui, demande-lui. »
 
 **IA :** « Je lui envoie la proposition. »
 
-**Action :** Notification William ; en attente de sa réponse.
+**Action :** Notification Membre B ; en attente de sa réponse.
 
 ---
 
-## 12. William accepte le relais
+## 12. Membre B accepte le relais
 
-**Contexte :** William reçoit la proposition.
+**Contexte :** Membre B reçoit la proposition.
 
-**William :** « Oui, pas de problème. »
+**Membre B :** « Oui, pas de problème. »
 
-**IA (à Madeline) :** « William récupère les enfants à 18h — j'ai libéré ce créneau pour toi. Tu veux l'utiliser pour ta formation ou pour souffler ? »
+**IA (à Utilisateur A) :** « Membre B récupère les enfants à 18h — j'ai libéré ce créneau pour toi. Tu veux l'utiliser pour ta formation ou pour souffler ? »
 
-**Action :** Sync plannings ; bloc libéré pour Madeline.
+**Action :** Sync plannings ; bloc libéré pour Utilisateur A.
 
 ---
 
@@ -1441,9 +1451,9 @@ Paramètre URL `?date=YYYY-MM-DD` partagé entre Accueil, Planning et Calendrier
 
 ---
 
-## 16. William en déplacement
+## 16. Membre B en déplacement
 
-**Utilisateur :** « William est en déplacement cette semaine. »
+**Utilisateur :** « Membre B est en déplacement cette semaine. »
 
 **IA :** « Compris — jusqu'à vendredi. J'ai ajusté les tâches qu'il prenait habituellement. La récupération des enfants mercredi, c'est sur toi — je te propose un créneau à 17h30 ? »
 
@@ -1531,15 +1541,15 @@ Paramètre URL `?date=YYYY-MM-DD` partagé entre Accueil, Planning et Calendrier
 
 ---
 
-## 24. Mode couple — William refuse
+## 24. Mode couple — Membre B refuse
 
-**Contexte :** William reçoit proposition de relais.
+**Contexte :** Membre B reçoit proposition de relais.
 
-**William :** « Pas possible ce soir, réunion jusqu'à 19h. »
+**Membre B :** « Pas possible ce soir, réunion jusqu'à 19h. »
 
-**IA (à Madeline) :** « William n'est pas dispo ce soir. On garde la récupération sur toi — je te libère 15 min de repos juste après, à 19h15. »
+**IA (à Utilisateur A) :** « Membre B n'est pas dispo ce soir. On garde la récupération sur toi — je te libère 15 min de repos juste après, à 19h15. »
 
-**Action :** Pas de culpabilité envers William ; alternative pour Madeline.
+**Action :** Pas de culpabilité envers Membre B ; alternative pour Utilisateur A.
 
 ---
 

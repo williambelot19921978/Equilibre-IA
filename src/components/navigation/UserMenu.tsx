@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "../../hooks/useAuth";
 import { useAppNavigation } from "../../hooks/useAppNavigation";
@@ -13,6 +14,7 @@ export function UserMenu({ displayName }: UserMenuProps) {
   const initial = displayName.charAt(0).toUpperCase();
   const { signOut } = useAuth();
   const { goToRoute } = useAppNavigation();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -47,7 +49,8 @@ export function UserMenu({ displayName }: UserMenuProps) {
     closeMenu();
     clearPersistedWorkoutPlayer();
     await signOut();
-  }, [closeMenu, signOut]);
+    navigate(AppRoutes.LOGIN, { replace: true });
+  }, [closeMenu, navigate, signOut]);
 
   return (
     <div className="app-user-menu" ref={menuRef}>

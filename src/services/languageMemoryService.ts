@@ -74,6 +74,7 @@ export async function loadLanguageMemoryContext({
             coachPersonality: livingMemory.coachPersonality,
             insights: livingMemory.insights,
             dailyMissionTitle: livingMemory.dailyMission?.title ?? null,
+            dailyMissionDescription: livingMemory.dailyMission?.description ?? null,
           }
         : null,
       behavior: behavior.counts.total > 0 ? behavior : null,

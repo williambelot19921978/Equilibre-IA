@@ -1,3 +1,5 @@
+import { mapUserFacingError } from "../errors/userFacingError";
+
 type PostgrestLikeError = {
   message?: string;
   code?: string;
@@ -26,6 +28,19 @@ function extractPostgrestError(error: unknown): PostgrestLikeError | null {
   return null;
 }
 
+function toUserFacingError(technical: string): Error {
+  if (import.meta.env.DEV) {
+    return new Error(technical);
+  }
+
+  return new Error(
+    mapUserFacingError(
+      new Error(technical),
+      "Une erreur est survenue lors de l'opération.",
+    ),
+  );
+}
+
 export function formatSupabaseError({
   table,
   operation,
@@ -38,7 +53,7 @@ export function formatSupabaseError({
   const pgError = extractPostgrestError(error);
 
   if (!pgError) {
-    return new Error(
+    return toUserFacingError(
       `[${table}] ${operation} — erreur non reconnue: ${JSON.stringify(error)}`,
     );
   }
@@ -55,7 +70,7 @@ export function formatSupabaseError({
     pgError.code === "42P01" ||
     pgError.code === "PGRST205"
   ) {
-    return new Error(
+    return toUserFacingError(
       `[${table}] ${operation} — table ou colonne absente${suffix ? ` — ${suffix}` : ""}. Exécute les migrations Supabase.`,
     );
   }
@@ -67,12 +82,12 @@ export function formatSupabaseError({
     pgError.code === "42501" ||
     pgError.code === "23514"
   ) {
-    return new Error(
+    return toUserFacingError(
       `[${table}] ${operation} — ${message}${suffix ? ` — ${suffix}` : ""}`,
     );
   }
 
-  return new Error(
+  return toUserFacingError(
     `[${table}] ${operation} — ${message}${suffix ? ` — ${suffix}` : ""}`,
   );
 }

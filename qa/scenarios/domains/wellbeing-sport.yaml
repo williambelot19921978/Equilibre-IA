@@ -1,0 +1,155 @@
+domain: wellbeing-sport
+version: 1.0.0
+scenarios:
+  - id: QA-WEL-001
+    domain: wellbeing-sport
+    title: Séance sport planifiée selon énergie
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: celibataire
+    steps:
+      - Configurer contexte bien-être
+      - Demander suggestion
+      - Vérifier protection temps
+    expected: "Bien-être > productivité: Séance sport planifiée selon énergie"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 9
+      - 10
+    tags: []
+  - id: QA-WEL-002
+    domain: wellbeing-sport
+    title: Repos prioritaire si fatigue
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: couple_sans_enfant
+    steps:
+      - Configurer contexte bien-être
+      - Demander suggestion
+      - Vérifier protection temps
+    expected: "Bien-être > productivité: Repos prioritaire si fatigue"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 9
+      - 10
+    tags: []
+  - id: QA-WEL-003
+    domain: wellbeing-sport
+    title: Spotify repos optionnel
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: famille_avec_enfants
+    steps:
+      - Configurer contexte bien-être
+      - Demander suggestion
+      - Vérifier protection temps
+    expected: "Bien-être > productivité: Spotify repos optionnel"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 9
+      - 10
+    tags: []
+  - id: QA-WEL-004
+    domain: wellbeing-sport
+    title: Pas pression sport si surcharge
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: famille_monoparentale
+    steps:
+      - Configurer contexte bien-être
+      - Demander suggestion
+      - Vérifier protection temps
+    expected: "Bien-être > productivité: Pas pression sport si surcharge"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 9
+      - 10
+    tags: []
+  - id: QA-WEL-005
+    domain: wellbeing-sport
+    title: Récupération post nuit
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: garde_alternee
+    steps:
+      - Configurer contexte bien-être
+      - Demander suggestion
+      - Vérifier protection temps
+    expected: "Bien-être > productivité: Récupération post nuit"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 9
+      - 10
+    tags: []
+  - id: QA-WEL-006
+    domain: wellbeing-sport
+    title: Spiritualité optionnelle configurable
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: agriculteur
+    steps:
+      - Configurer contexte bien-être
+      - Demander suggestion
+      - Vérifier protection temps
+    expected: "Bien-être > productivité: Spiritualité optionnelle configurable"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 9
+      - 10
+    tags: []
+  - id: QA-WEL-007
+    domain: wellbeing-sport
+    title: Temps couple protégé
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: infirmier_nuit
+    steps:
+      - Configurer contexte bien-être
+      - Demander suggestion
+      - Vérifier protection temps
+    expected: "Bien-être > productivité: Temps couple protégé"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 9
+      - 10
+    tags: []
+  - id: QA-WEL-008
+    domain: wellbeing-sport
+    title: Temps enfants protégé
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: artisan
+    steps:
+      - Configurer contexte bien-être
+      - Demander suggestion
+      - Vérifier protection temps
+    expected: "Bien-être > productivité: Temps enfants protégé"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 9
+      - 10
+    tags: []

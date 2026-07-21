@@ -1,20 +1,26 @@
 import { useState, type FormEvent } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase/client";
+import { mapAuthError } from "../lib/errors/userFacingError";
 import { useAppNavigation } from "../hooks/useAppNavigation";
+import { useUserProgress } from "../hooks/useUserProgress";
 import { AppRoutes } from "../lib/navigation/routes";
+import { Button } from "../components/ui/Button";
+import { FormField, Input } from "../components/ui/FormField";
+
+type LoginLocationState = {
+  from?: { pathname?: string };
+  passwordResetSuccess?: string;
+};
 
 export function LoginPage() {
   const { goToResolvedRoute } = useAppNavigation();
+  const { refreshProgress, isCurrentRouteAllowed } = useUserProgress();
+  const navigate = useNavigate();
   const location = useLocation();
+  const state = (location.state ?? {}) as LoginLocationState;
   const passwordResetSuccess =
-    typeof location.state === "object" &&
-    location.state !== null &&
-    "passwordResetSuccess" in location.state &&
-    typeof (location.state as { passwordResetSuccess?: unknown })
-      .passwordResetSuccess === "string"
-      ? (location.state as { passwordResetSuccess: string }).passwordResetSuccess
-      : "";
+    typeof state.passwordResetSuccess === "string" ? state.passwordResetSuccess : "";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -39,13 +45,16 @@ export function LoginPage() {
         throw error;
       }
 
+      await refreshProgress();
+      const redirectPath = state.from?.pathname;
+      if (redirectPath && isCurrentRouteAllowed(redirectPath)) {
+        navigate(redirectPath, { replace: true });
+        return;
+      }
+
       await goToResolvedRoute();
     } catch (error) {
-      setErrorMessage(
-        error instanceof Error
-          ? error.message
-          : "Impossible de se connecter.",
-      );
+      setErrorMessage(mapAuthError(error));
     } finally {
       setLoading(false);
     }
@@ -54,7 +63,7 @@ export function LoginPage() {
   return (
     <main className="auth-page">
       <section className="auth-card">
-        <p className="brand-name">Équilibre IA</p>
+        <p className="brand-name">Aura</p>
 
         <h1>Bon retour</h1>
 
@@ -63,43 +72,47 @@ export function LoginPage() {
         </p>
 
         <form onSubmit={handleSubmit} className="auth-form">
-          <label>
-            <span>Adresse e-mail</span>
-            <input
+          <FormField label="Adresse e-mail" htmlFor="login-email" required>
+            <Input
+              id="login-email"
               type="email"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               autoComplete="email"
               required
             />
-          </label>
+          </FormField>
 
-          <label>
-            <span>Mot de passe</span>
-            <input
+          <FormField label="Mot de passe" htmlFor="login-password" required>
+            <Input
+              id="login-password"
               type="password"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
               autoComplete="current-password"
               required
             />
-          </label>
+          </FormField>
 
           <p className="auth-forgot-password">
             <Link to={AppRoutes.FORGOT_PASSWORD}>Mot de passe oublié ?</Link>
           </p>
 
           {errorMessage && (
-            <div className="message message-error">{errorMessage}</div>
+            <div className="message message-error" role="alert">
+              {errorMessage}
+            </div>
           )}
 
           {successMessage && (
-            <div className="message message-success">{successMessage}</div>
+            <div className="message message-success" role="status">
+              {successMessage}
+            </div>
           )}
 
-          <button type="submit" disabled={loading}>
-            {loading ? "Connexion..." : "Se connecter"}
-          </button>
+          <Button type="submit" fullWidth loading={loading}>
+            Se connecter
+          </Button>
         </form>
 
         <p className="auth-footer">

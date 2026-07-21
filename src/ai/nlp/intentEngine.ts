@@ -52,6 +52,14 @@ const INTENT_PATTERNS: IntentPattern[] = [
   {
     intent: "declare_fatigue",
     patterns: [
+      /\bfatigue\b.*\b(d[eé]cal\w*|report\w*)\b/u,
+      /\b(d[eé]cal\w*|report\w*)\b.*\b(pas\s+)?(urgent|importante?s?)\b/u,
+    ],
+    weight: 92,
+  },
+  {
+    intent: "declare_fatigue",
+    patterns: [
       /\bfatigue\b/,
       /\bfatiguee\b/,
       /\bfatiguée\b/,

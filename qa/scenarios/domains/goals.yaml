@@ -1,0 +1,231 @@
+domain: goals
+version: 1.0.0
+scenarios:
+  - id: QA-GOL-001
+    domain: goals
+    title: Objectif sommeil — priorisation
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: celibataire
+    steps:
+      - Activer objectif sommeil
+      - Créer conflit planning
+      - Vérifier arbitrage
+    expected: Objectif sommeil pris en compte sans sacrifier repos systématiquement
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 7
+      - 9
+    tags: []
+  - id: QA-GOL-002
+    domain: goals
+    title: Objectif sport — priorisation
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: couple_sans_enfant
+    steps:
+      - Activer objectif sport
+      - Créer conflit planning
+      - Vérifier arbitrage
+    expected: Objectif sport pris en compte sans sacrifier repos systématiquement
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 7
+      - 9
+    tags: []
+  - id: QA-GOL-003
+    domain: goals
+    title: Objectif études — priorisation
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: famille_avec_enfants
+    steps:
+      - Activer objectif études
+      - Créer conflit planning
+      - Vérifier arbitrage
+    expected: Objectif études pris en compte sans sacrifier repos systématiquement
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 7
+      - 9
+    tags: []
+  - id: QA-GOL-004
+    domain: goals
+    title: Objectif famille — priorisation
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: famille_monoparentale
+    steps:
+      - Activer objectif famille
+      - Créer conflit planning
+      - Vérifier arbitrage
+    expected: Objectif famille pris en compte sans sacrifier repos systématiquement
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 7
+      - 9
+    tags: []
+  - id: QA-GOL-005
+    domain: goals
+    title: Objectif couple — priorisation
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: garde_alternee
+    steps:
+      - Activer objectif couple
+      - Créer conflit planning
+      - Vérifier arbitrage
+    expected: Objectif couple pris en compte sans sacrifier repos systématiquement
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 7
+      - 9
+    tags: []
+  - id: QA-GOL-006
+    domain: goals
+    title: Objectif repos — priorisation
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: agriculteur
+    steps:
+      - Activer objectif repos
+      - Créer conflit planning
+      - Vérifier arbitrage
+    expected: Objectif repos pris en compte sans sacrifier repos systématiquement
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 7
+      - 9
+    tags: []
+  - id: QA-GOL-007
+    domain: goals
+    title: Objectif carrière — priorisation
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: infirmier_nuit
+    steps:
+      - Activer objectif carrière
+      - Créer conflit planning
+      - Vérifier arbitrage
+    expected: Objectif carrière pris en compte sans sacrifier repos systématiquement
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 7
+      - 9
+    tags: []
+  - id: QA-GOL-008
+    domain: goals
+    title: Objectif spiritualité — priorisation
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: artisan
+    steps:
+      - Activer objectif spiritualité
+      - Créer conflit planning
+      - Vérifier arbitrage
+    expected: Objectif spiritualité pris en compte sans sacrifier repos systématiquement
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 7
+      - 9
+    tags: []
+  - id: QA-GOL-009
+    domain: goals
+    title: Objectif santé — priorisation
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: etudiant
+    steps:
+      - Activer objectif santé
+      - Créer conflit planning
+      - Vérifier arbitrage
+    expected: Objectif santé pris en compte sans sacrifier repos systématiquement
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 7
+      - 9
+    tags: []
+  - id: QA-GOL-010
+    domain: goals
+    title: Objectif loisirs — priorisation
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: retraite
+    steps:
+      - Activer objectif loisirs
+      - Créer conflit planning
+      - Vérifier arbitrage
+    expected: Objectif loisirs pris en compte sans sacrifier repos systématiquement
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 7
+      - 9
+    tags: []
+  - id: QA-GOL-011
+    domain: goals
+    title: Objectif finances — priorisation
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: routier
+    steps:
+      - Activer objectif finances
+      - Créer conflit planning
+      - Vérifier arbitrage
+    expected: Objectif finances pris en compte sans sacrifier repos systématiquement
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 7
+      - 9
+    tags: []
+  - id: QA-GOL-012
+    domain: goals
+    title: Objectif temps personnel — priorisation
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: cadre
+    steps:
+      - Activer objectif temps personnel
+      - Créer conflit planning
+      - Vérifier arbitrage
+    expected: Objectif temps personnel pris en compte sans sacrifier repos systématiquement
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 7
+      - 9
+    tags: []

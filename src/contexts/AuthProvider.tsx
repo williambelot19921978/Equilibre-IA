@@ -6,6 +6,7 @@ import {
 } from "react";
 import type { Session, User } from "@supabase/supabase-js";
 import { supabase } from "../lib/supabase/client";
+import { secureSignOut } from "../mobileReliability";
 import { AuthContext } from "./authContext";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -50,14 +51,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   async function signOut() {
+    const userId = user?.id;
     setSession(null);
     setUser(null);
     setLoading(false);
-
-    const { error: localError } = await supabase.auth.signOut({ scope: "local" });
-    if (localError) {
-      throw localError;
-    }
+    await secureSignOut(userId);
   }
 
   const value = useMemo(

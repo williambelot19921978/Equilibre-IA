@@ -38,6 +38,7 @@ export type NlpActionType =
   | "QuietEvening"
   | "RebuildDay"
   | "ExplainDay"
+  | "RescheduleNonUrgentTasks"
   | "NoOp";
 
 export type NlpEntity = {
@@ -113,11 +114,17 @@ export type ConversationPendingState =
       normalizedExpression: string;
       originalText: string;
       contextFingerprint: import("../ai/languageMemory/types").LanguageContextFingerprint;
+    }
+  | {
+      kind: "conversation_action";
+      action: import("../lib/nlp/conversationActionPending").ConversationActionPending;
+      prompt: string;
     };
 
 export type ConversationState = {
   messages: ConversationMessage[];
   pending?: ConversationPendingState;
+  shownInsightIds?: string[];
 };
 
 export type ConversationTurnResult = {

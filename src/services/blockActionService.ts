@@ -12,6 +12,47 @@ import { formatSupabaseError } from "../lib/supabase/formatError";
 import { buildManualBlockAdjustment } from "../lib/planning/blockAdjustmentHelpers";
 import type { AchievementFeedback } from "../types/achievementFeedback";
 import { PlanningGenerationError } from "../types/planningGenerationError";
+import {
+  observePilotTaskCompleted,
+  observePilotTaskRescheduled,
+  observePilotTaskSkipped,
+  resolvePilotContextForEntry,
+} from "../ai/outcome/outcomeObservationBridge";
+import { getCurrentHouseholdId } from "./householdService";
+
+async function observeTaskOutcomeSafely({
+  userId,
+  taskId,
+  calendarItemId,
+  type,
+}: {
+  userId: string;
+  taskId?: string | null;
+  calendarItemId?: string | null;
+  type: "task.completed" | "task.skipped" | "task.rescheduled";
+}): Promise<void> {
+  try {
+    const householdId = await getCurrentHouseholdId(userId).catch(() => null);
+    if (!householdId) return;
+
+    const context = resolvePilotContextForEntry({
+      userId,
+      householdId,
+      taskId: taskId ?? undefined,
+      calendarItemId: calendarItemId ?? undefined,
+    });
+
+    if (type === "task.completed") {
+      observePilotTaskCompleted(context);
+    } else if (type === "task.skipped") {
+      observePilotTaskSkipped(context);
+    } else {
+      observePilotTaskRescheduled(context);
+    }
+  } catch {
+    // fail-open — observation must never break block actions
+  }
+}
 
 function buildEditInput({
   entry,
@@ -207,6 +248,13 @@ export async function applyBlockAction({
       allowEarlyCompletion: true,
     });
 
+    void observeTaskOutcomeSafely({
+      userId,
+      taskId: task?.id,
+      calendarItemId: entry.calendarItemId,
+      type: "task.completed",
+    });
+
     return {
       explanation: result.explanation,
       timeline: result.timeline,
@@ -221,6 +269,13 @@ export async function applyBlockAction({
       date,
       entry,
       task,
+    });
+
+    void observeTaskOutcomeSafely({
+      userId,
+      taskId: task?.id,
+      calendarItemId: entry.calendarItemId,
+      type: "task.skipped",
     });
 
     return {
@@ -246,6 +301,13 @@ export async function applyBlockAction({
       calendarItemId: entry.calendarItemId,
       eventType: "cancelled",
       metadata: { title: entry.title, choice },
+    });
+
+    void observeTaskOutcomeSafely({
+      userId,
+      taskId: task?.id,
+      calendarItemId: entry.calendarItemId,
+      type: "task.skipped",
     });
 
     const displayed = await applyTimelineEditAndReplan({
@@ -294,6 +356,13 @@ export async function applyBlockAction({
       calendarItemId: entry.calendarItemId,
       eventType: choice?.startsWith("shorten") ? "shortened" : "moved",
       metadata: { from: entry.startsAt, to: startsAt, choice, option },
+    });
+
+    void observeTaskOutcomeSafely({
+      userId,
+      taskId: task?.id,
+      calendarItemId: entry.calendarItemId,
+      type: "task.rescheduled",
     });
 
     const displayed = await applyTimelineEditAndReplan({

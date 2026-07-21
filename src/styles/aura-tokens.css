@@ -1,0 +1,94 @@
+/**
+ * EPIC 7C — Aura Design System tokens.
+ * Deep night blue · violet→blue gradient · subtle gold · off-white text
+ */
+
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+
+  /* Surfaces */
+  --aura-bg-deep: #0b1020;
+  --aura-bg-primary: #f4f6fb;
+  --aura-bg-elevated: rgba(255, 255, 255, 0.72);
+  --aura-bg-glass: rgba(255, 255, 255, 0.55);
+
+  /* Accents */
+  --aura-accent-start: #7c3aed;
+  --aura-accent-end: #3b82f6;
+  --aura-accent-gold: #c9a962;
+  --aura-accent-gold-soft: rgba(201, 169, 98, 0.35);
+
+  /* Text */
+  --aura-text-primary: #f8f7f4;
+  --aura-text-body: #1a2235;
+  --aura-text-muted: #64748b;
+  --aura-text-caption: #94a3b8;
+
+  /* Semantic mapping → existing DS vars */
+  --color-surface: var(--aura-bg-primary);
+  --color-surface-raised: #ffffff;
+  --color-surface-sunken: #e8edf5;
+  --color-border: rgba(100, 116, 139, 0.18);
+  --color-border-strong: rgba(100, 116, 139, 0.32);
+  --color-text: var(--aura-text-body);
+  --color-text-secondary: #334155;
+  --color-text-muted: var(--aura-text-muted);
+  --color-brand-500: var(--aura-accent-end);
+  --brand-primary: var(--aura-accent-end);
+
+  /* Glass */
+  --aura-glass-blur: 16px;
+  --aura-glass-border: rgba(255, 255, 255, 0.45);
+  --aura-glass-shadow: 0 8px 32px rgba(11, 16, 32, 0.08);
+
+  /* Motion */
+  --aura-duration-fast: 150ms;
+  --aura-duration-normal: 220ms;
+  --aura-duration-slow: 300ms;
+  --aura-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Typography scale */
+  --aura-font-display: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --aura-text-h1: clamp(1.75rem, 4vw, 2.25rem);
+  --aura-text-h2: clamp(1.35rem, 3vw, 1.65rem);
+  --aura-text-h3: 1.125rem;
+  --aura-text-body-size: 1rem;
+  --aura-text-caption-size: 0.8125rem;
+  --aura-text-button-size: 0.9375rem;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --aura-bg-primary: #0b1020;
+  --aura-bg-elevated: rgba(18, 24, 42, 0.75);
+  --aura-bg-glass: rgba(18, 24, 42, 0.55);
+
+  --color-surface: var(--aura-bg-primary);
+  --color-surface-raised: #12182a;
+  --color-surface-sunken: #080c18;
+  --color-border: rgba(148, 163, 184, 0.14);
+  --color-border-strong: rgba(148, 163, 184, 0.28);
+  --color-text: #f1f5f9;
+  --color-text-secondary: #cbd5e1;
+  --color-text-muted: #94a3b8;
+
+  --aura-glass-border: rgba(148, 163, 184, 0.12);
+  --aura-glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+}
+
+[data-theme="dark"] body,
+[data-theme="dark"] .authenticated-app-layout {
+  background: radial-gradient(ellipse at 20% 0%, rgba(124, 58, 237, 0.12), transparent 50%),
+    radial-gradient(ellipse at 80% 100%, rgba(59, 130, 246, 0.1), transparent 45%),
+    var(--aura-bg-primary);
+  color: var(--color-text);
+}
+
+[data-theme="light"] body,
+[data-theme="light"] .authenticated-app-layout {
+  background: radial-gradient(ellipse at 10% 0%, rgba(124, 58, 237, 0.06), transparent 45%),
+    radial-gradient(ellipse at 90% 80%, rgba(59, 130, 246, 0.05), transparent 40%),
+    var(--aura-bg-primary);
+}

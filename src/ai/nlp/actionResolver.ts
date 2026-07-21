@@ -1,6 +1,7 @@
 import { addDaysToDate } from "../../lib/time/deviceClock";
 import { expandDateRange } from "../../lib/planning/expandDateRange";
 import { proposeHalfDayFreedActivity } from "../../lib/life/proposeHalfDayFreedActivity";
+import { messageRequestsNonUrgentReschedule } from "../../lib/nlp/conversationActionPending";
 import type {
   NlpAction,
   NlpEntity,
@@ -445,7 +446,28 @@ export function resolveActions({
       };
     }
 
-    case "declare_fatigue":
+    case "declare_fatigue": {
+      if (messageRequestsNonUrgentReschedule(rawText)) {
+        return {
+          actions: [
+            {
+              type: "ReduceFillRatio",
+              payload: { date, maxFillRatio: 0.4, reason: "fatigue" },
+              requiresConfirmation: false,
+              explanation: "Journée allégée — charge réduite.",
+              reason: "Fatigue déclarée avec demande de décalage explicite.",
+            },
+            {
+              type: "RescheduleNonUrgentTasks",
+              payload: { date },
+              requiresConfirmation: false,
+              explanation: "Tâches non urgentes décalées.",
+              reason: "Seules les tâches déplaçables non urgentes sont reportées.",
+            },
+          ],
+        };
+      }
+
       return {
         actions: [
           {
@@ -464,6 +486,7 @@ export function resolveActions({
           },
         ],
       };
+    }
 
     case "quiet_evening":
       return {
@@ -818,6 +841,11 @@ export function formatAssistantReply({
   }
 
   if (intent === "unknown") {
+    const onlyNoOp =
+      actions.length === 1 && actions[0]?.type === "NoOp";
+    if (onlyNoOp) {
+      return actions[0]?.explanation ?? "Je n'ai pas compris.";
+    }
     return actions[0]?.explanation ?? "Je n'ai pas compris.";
   }
 
@@ -850,7 +878,10 @@ export function formatAssistantReply({
     .filter(Boolean)
     .slice(0, 2);
 
-  if (reasons.length === 0) {
+  const onlyNoOp =
+    actions.length === 1 && actions[0]?.type === "NoOp";
+
+  if (reasons.length === 0 || onlyNoOp) {
     return [intro, body].filter(Boolean).join(intro ? "\n\n" : "");
   }
 

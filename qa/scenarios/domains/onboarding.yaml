@@ -1,0 +1,368 @@
+domain: onboarding
+version: 1.0.0
+scenarios:
+  - id: QA-ONB-001
+    domain: onboarding
+    title: Création foyer sans enfants obligatoires
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: couple_sans_enfant
+    steps:
+      - Démarrer onboarding
+      - Ignorer ou sauter étape enfants
+    expected: Accès produit sans bloquer sur childrenCount > 0
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 5
+      - 6
+    tags: []
+  - id: QA-ONB-002
+    domain: onboarding
+    title: Célibataire sans conjoint ni enfant
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: celibataire
+    steps:
+      - Onboarding complet en personne seule
+    expected: Foyer valide à un membre, pas de champs conjoint forcés
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 5
+      - 6
+    tags: []
+  - id: QA-ONB-003
+    domain: onboarding
+    title: Famille avec 2 enfants
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: famille_avec_enfants
+    steps:
+      - Ajouter 2 enfants avec prénoms et horaires
+    expected: Enfants enregistrés, visibles dans profil foyer
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 5
+    tags: []
+  - id: QA-ONB-004
+    domain: onboarding
+    title: Métier saisi librement (infirmier nuit)
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: infirmier_nuit
+    steps:
+      - Saisir métier personnalisé et horaires atypiques
+    expected: Métier stocké sans template William/Madeline
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 4
+      - 6
+    tags: []
+  - id: QA-ONB-005
+    domain: onboarding
+    title: Agriculteur saison haute
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: agriculteur
+    steps:
+      - Décrire période récolte et contraintes
+    expected: Contraintes saisonnières mémorisées ou planifiables
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 4
+      - 8
+    tags: []
+  - id: QA-ONB-006
+    domain: onboarding
+    title: Étudiant avec examens
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: etudiant
+    steps:
+      - Déclarer période examens
+    expected: Life event examens reconnu pour adaptation planning
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 8
+    tags: []
+  - id: QA-ONB-007
+    domain: onboarding
+    title: Retraité sans emploi imposé
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: retraite
+    steps:
+      - Compléter onboarding sans champ travail obligatoire
+    expected: Profil valide sans métier professionnel
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 4
+      - 6
+    tags: []
+  - id: QA-ONB-008
+    domain: onboarding
+    title: Garde alternée déclarée
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: garde_alternee
+    steps:
+      - Configurer semaines avec/sans enfants
+    expected: Planning tient compte des semaines alternées
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 5
+      - 8
+    tags: []
+  - id: QA-ONB-009
+    domain: onboarding
+    title: Foyer multigénérationnel
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: foyer_multigen
+    steps:
+      - Ajouter grand-parent et parent
+    expected: Plusieurs adultes avec profils distincts
+    criticality: medium
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 5
+    tags: []
+  - id: QA-ONB-010
+    domain: onboarding
+    title: Onboarding progressif sans mega-formulaire
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: any
+    steps:
+      - Parcourir étapes une par une
+    expected: Étapes courtes, possibilité de reprendre plus tard
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 6
+    tags: []
+  - id: QA-ONB-011
+    domain: onboarding
+    title: Choix niveau autonomie IA
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: any
+    steps:
+      - Sélectionner niveau 1 à 4
+    expected: Préférence enregistrée et respectée en conversation
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 16
+    tags: []
+  - id: QA-ONB-012
+    domain: onboarding
+    title: Choix ton communication IA
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: any
+    steps:
+      - Choisir ton formel ou familier
+    expected: Réponses IA adaptées au ton choisi
+    criticality: medium
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 11
+    tags: []
+  - id: QA-ONB-013
+    domain: onboarding
+    title: Spiritualité optionnelle ignorée
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: celibataire
+    steps:
+      - Passer étape spiritualité
+    expected: Aucune spiritualité imposée ni rappel intrusif
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 6
+      - 10
+    tags: []
+  - id: QA-ONB-014
+    domain: onboarding
+    title: Rejoindre foyer existant via invitation
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: couple_sans_enfant
+    steps:
+      - Utiliser lien/code invitation
+    expected: Membre ajouté avec permissions par défaut
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 5
+      - 17
+    tags: []
+  - id: QA-ONB-015
+    domain: onboarding
+    title: Abandon mid-onboarding et reprise
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: any
+    steps:
+      - Quitter mid-flow
+      - Se reconnecter
+    expected: Reprise à la bonne étape sans perte totale
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 6
+    tags: []
+  - id: QA-ONB-016
+    domain: onboarding
+    title: Ajout animal de compagnie
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: famille_avec_enfants
+    steps:
+      - Ajouter chien avec promenade quotidienne
+    expected: Contrainte animale intégrée au planning si supporté
+    criticality: low
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 5
+    tags: []
+  - id: QA-ONB-017
+    domain: onboarding
+    title: Sans emploi — pas de culpabilisation
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: sans_emploi
+    steps:
+      - Indiquer sans emploi
+    expected: Ton bienveillant, pas de push productivité
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 1
+      - 11
+    tags: []
+  - id: QA-ONB-018
+    domain: onboarding
+    title: Routier avec déplacements
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: routier
+    steps:
+      - Saisir jours sur route et retours
+    expected: Contraintes mobilité reflétées au planning
+    criticality: medium
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 4
+    tags: []
+  - id: QA-ONB-019
+    domain: onboarding
+    title: Artisan horaires variables
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: artisan
+    steps:
+      - Décrire semaines irrégulières
+    expected: Pas de planning rigide 9h-17h imposé
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 4
+    tags: []
+  - id: QA-ONB-020
+    domain: onboarding
+    title: Indépendant télétravail mixte
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: independant
+    steps:
+      - Télétravail 3j + déplacements 2j
+    expected: Disponibilités différenciées par jour
+    criticality: medium
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 4
+    tags: []
+  - id: QA-ONB-021
+    domain: onboarding
+    title: Famille monoparentale
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: famille_monoparentale
+    steps:
+      - Créer foyer parent seul + enfants
+    expected: Pas de champ conjoint obligatoire
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 5
+      - 6
+    tags: []
+  - id: QA-ONB-022
+    domain: onboarding
+    title: Mobile onboarding 375px
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: any
+    steps:
+      - Parcourir onboarding sur mobile
+    expected: UI utilisable, pas de débordement horizontal
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 6
+    tags:
+      - mobile

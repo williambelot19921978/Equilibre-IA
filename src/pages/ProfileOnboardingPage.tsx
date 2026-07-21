@@ -1,7 +1,14 @@
 import { useState, type FormEvent } from "react";
+
+import { Button } from "../components/ui/Button";
+import { ErrorState } from "../components/ui/ErrorState";
+import { FormField, Input } from "../components/ui/FormField";
+import { OnboardingLayout } from "../components/onboarding/OnboardingLayout";
 import { useAuth } from "../hooks/useAuth";
 import { useAppNavigation } from "../hooks/useAppNavigation";
+import { patchOnboardingUxProgress } from "../lib/onboarding/onboardingProgressStore";
 import { saveBaseProfileFacts } from "../services/profileService";
+import { AppRoutes } from "../lib/navigation/routes";
 
 export function ProfileOnboardingPage() {
   const { user } = useAuth();
@@ -12,9 +19,7 @@ export function ProfileOnboardingPage() {
   const [workEnd, setWorkEnd] = useState("");
   const [wakeTime, setWakeTime] = useState("");
   const [bedTime, setBedTime] = useState("");
-  const [mainPriority, setMainPriority] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
   const [saving, setSaving] = useState(false);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -26,7 +31,6 @@ export function ProfileOnboardingPage() {
     }
 
     setErrorMessage("");
-    setSuccessMessage("");
 
     try {
       setSaving(true);
@@ -38,18 +42,16 @@ export function ProfileOnboardingPage() {
         workEnd,
         wakeTime,
         bedTime,
-        mainPriority,
+        mainPriority: "",
       });
 
-      setSuccessMessage("Profil familial enregistré.");
-      setTimeout(() => {
-        void goToResolvedRoute();
-      }, 700);
+      patchOnboardingUxProgress(user.id, { profileBasicsDone: true });
+      await goToResolvedRoute();
     } catch (error) {
       setErrorMessage(
         error instanceof Error
           ? error.message
-          : "Impossible d’enregistrer le profil.",
+          : "Impossible d'enregistrer le profil.",
       );
     } finally {
       setSaving(false);
@@ -57,93 +59,63 @@ export function ProfileOnboardingPage() {
   }
 
   return (
-    <main className="auth-page">
-      <section className="auth-card">
-        <p className="brand-name">Équilibre IA</p>
+    <OnboardingLayout
+      title="Votre profil"
+      subtitle="Quelques repères pour personnaliser votre journée type."
+      stepRoute={AppRoutes.PROFILE}
+    >
+      <form onSubmit={handleSubmit} className="onboarding-form">
+        <FormField label="Prénom du conjoint (facultatif)" htmlFor="partner-name">
+          <Input
+            id="partner-name"
+            type="text"
+            value={partnerName}
+            onChange={(event) => setPartnerName(event.target.value)}
+          />
+        </FormField>
 
-        <h1>Mieux te connaître</h1>
+        <FormField label="Heure habituelle de début de travail" htmlFor="work-start">
+          <Input
+            id="work-start"
+            type="time"
+            value={workStart}
+            onChange={(event) => setWorkStart(event.target.value)}
+          />
+        </FormField>
 
-        <p className="auth-intro">
-          Ces premières informations permettront de proposer des journées plus
-          cohérentes.
-        </p>
+        <FormField label="Heure habituelle de fin de travail" htmlFor="work-end">
+          <Input
+            id="work-end"
+            type="time"
+            value={workEnd}
+            onChange={(event) => setWorkEnd(event.target.value)}
+          />
+        </FormField>
 
-        <form onSubmit={handleSubmit} className="auth-form">
-          <label>
-            <span>Prénom du conjoint, facultatif</span>
-            <input
-              type="text"
-              value={partnerName}
-              onChange={(event) => setPartnerName(event.target.value)}
-            />
-          </label>
+        <FormField label="Heure habituelle de réveil" htmlFor="wake-time">
+          <Input
+            id="wake-time"
+            type="time"
+            value={wakeTime}
+            onChange={(event) => setWakeTime(event.target.value)}
+          />
+        </FormField>
 
-          <label>
-            <span>Heure habituelle de début de travail</span>
-            <input
-              type="time"
-              value={workStart}
-              onChange={(event) => setWorkStart(event.target.value)}
-            />
-          </label>
+        <FormField label="Heure idéale de coucher" htmlFor="bed-time">
+          <Input
+            id="bed-time"
+            type="time"
+            value={bedTime}
+            onChange={(event) => setBedTime(event.target.value)}
+          />
+        </FormField>
 
-          <label>
-            <span>Heure habituelle de fin de travail</span>
-            <input
-              type="time"
-              value={workEnd}
-              onChange={(event) => setWorkEnd(event.target.value)}
-            />
-          </label>
+        {errorMessage && <ErrorState kind="error" title={errorMessage} />}
 
-          <label>
-            <span>Heure habituelle de réveil</span>
-            <input
-              type="time"
-              value={wakeTime}
-              onChange={(event) => setWakeTime(event.target.value)}
-            />
-          </label>
-
-          <label>
-            <span>Heure idéale de coucher</span>
-            <input
-              type="time"
-              value={bedTime}
-              onChange={(event) => setBedTime(event.target.value)}
-            />
-          </label>
-
-          <label>
-            <span>Priorité principale actuelle</span>
-            <select
-              value={mainPriority}
-              onChange={(event) => setMainPriority(event.target.value)}
-              required
-            >
-              <option value="">Choisir</option>
-              <option value="family">Famille</option>
-              <option value="study">Études ou formation</option>
-              <option value="sleep">Sommeil</option>
-              <option value="sport">Sport</option>
-              <option value="personal_time">Temps personnel</option>
-              <option value="work">Travail</option>
-            </select>
-          </label>
-
-          {errorMessage && (
-            <div className="message message-error">{errorMessage}</div>
-          )}
-
-          {successMessage && (
-            <div className="message message-success">{successMessage}</div>
-          )}
-
-          <button type="submit" disabled={saving}>
-            {saving ? "Enregistrement..." : "Enregistrer mon profil"}
-          </button>
-        </form>
-      </section>
-    </main>
+        <Button type="submit" fullWidth loading={saving} data-testid="onboarding-profile-submit">
+          Enregistrer mon profil
+        </Button>
+      </form>
+    </OnboardingLayout>
   );
 }

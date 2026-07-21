@@ -1,0 +1,432 @@
+/* EPIC 7A — Product Polish design system extensions */
+
+/* — Badges — */
+.ds-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.ds-badge-default {
+  background: var(--color-surface-muted, #eef2f7);
+  color: var(--color-text, #1e293b);
+}
+
+.ds-badge-success {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.ds-badge-warning {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.ds-badge-info {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.ds-badge-muted {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+/* — Skeletons — */
+@keyframes ds-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.ds-skeleton {
+  background: linear-gradient(90deg, #eef2f7 25%, #f8fafc 50%, #eef2f7 75%);
+  background-size: 200% 100%;
+  animation: ds-shimmer 1.4s ease-in-out infinite;
+  border-radius: 10px;
+}
+
+.ds-skeleton-rounded {
+  border-radius: 14px;
+}
+
+.ds-skeleton-line {
+  margin-bottom: 10px;
+}
+
+.ds-skeleton-text {
+  display: grid;
+  gap: 8px;
+}
+
+.ds-skeleton-card {
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid var(--color-border, #e2e8f0);
+}
+
+/* — Empty / Error states — */
+.ds-empty-state,
+.ds-error-state {
+  text-align: center;
+  padding: 24px 16px;
+  border-radius: 16px;
+  border: 1px dashed var(--color-border, #cbd5e1);
+  background: var(--color-surface-elevated, #fff);
+}
+
+.ds-empty-state-icon,
+.ds-error-state-icon {
+  display: block;
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.ds-empty-state h3,
+.ds-error-state h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+
+.ds-empty-state p,
+.ds-error-state p {
+  margin: 0 0 16px;
+  color: var(--color-text-muted, #64748b);
+}
+
+.ds-empty-state-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+/* — Progress stepper — */
+.ds-progress-stepper {
+  margin-bottom: 16px;
+}
+
+.ds-progress-stepper-track {
+  height: 6px;
+  border-radius: 999px;
+  background: #e2e8f0;
+  overflow: hidden;
+}
+
+.ds-progress-stepper-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--brand-primary, #2563eb), #60a5fa);
+  transition: width 0.35s ease;
+}
+
+.ds-progress-stepper-label {
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: var(--color-text-muted, #64748b);
+}
+
+/* — Form fields — */
+.ds-form-field {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.ds-form-field-label {
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.ds-form-field-hint {
+  font-size: 13px;
+  color: var(--color-text-muted, #64748b);
+}
+
+.ds-form-field-error {
+  color: #b91c1c;
+  font-size: 13px;
+}
+
+.ds-input,
+.ds-select,
+.ds-textarea {
+  min-height: 44px;
+  border-radius: 12px;
+  border: 2px solid var(--color-border, #cbd5e1);
+  padding: 10px 12px;
+  font: inherit;
+  background: #fff;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ds-input:focus-visible,
+.ds-select:focus-visible,
+.ds-textarea:focus-visible {
+  outline: none;
+  border-color: var(--brand-primary, #2563eb);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.ds-input-full,
+.ds-select-full,
+.ds-textarea-full {
+  width: 100%;
+}
+
+.ds-textarea {
+  min-height: 96px;
+  resize: vertical;
+}
+
+/* — Micro-interactions — */
+@keyframes ds-fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ds-animate-in {
+  animation: ds-fade-in-up 0.35s ease both;
+}
+
+/* — Onboarding — */
+.onboarding-page {
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: 24px 16px;
+  background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+}
+
+.onboarding-card {
+  width: min(100%, 520px);
+  padding: 24px;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.08);
+  border: 1px solid #e2e8f0;
+}
+
+.onboarding-header h1 {
+  margin: 12px 0 8px;
+  font-size: clamp(24px, 4vw, 30px);
+}
+
+.onboarding-subtitle,
+.onboarding-muted {
+  color: #64748b;
+  line-height: 1.5;
+}
+
+.onboarding-form,
+.onboarding-actions-stack {
+  display: grid;
+  gap: 12px;
+}
+
+.onboarding-hero {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.onboarding-hero-icon {
+  font-size: 40px;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.onboarding-highlights {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px;
+  display: grid;
+  gap: 10px;
+}
+
+.onboarding-highlights li .ds-card {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.onboarding-info-box {
+  padding: 14px;
+  border-radius: 14px;
+  background: #f8fafc;
+  margin-bottom: 16px;
+}
+
+.onboarding-list {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0;
+  display: grid;
+  gap: 8px;
+}
+
+.onboarding-success {
+  color: #166534;
+  font-weight: 600;
+}
+
+/* — Home premium dashboard — */
+.home-premium-dashboard {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.home-premium-hero h2 {
+  margin: 4px 0 12px;
+  font-size: clamp(22px, 4vw, 28px);
+}
+
+.home-premium-hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.home-premium-grid {
+  display: grid;
+  gap: 12px;
+}
+
+@media (min-width: 768px) {
+  .home-premium-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.home-premium-panel h3 {
+  margin: 0 0 8px;
+  font-size: 16px;
+}
+
+.home-premium-muted {
+  color: #64748b;
+}
+
+.home-premium-link {
+  margin-top: 8px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--brand-primary, #2563eb);
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* — Settings — */
+.settings-sections {
+  display: grid;
+  gap: 12px;
+}
+
+.settings-section-card h2 {
+  margin: 0 0 6px;
+  font-size: 18px;
+}
+
+.settings-section-card p {
+  margin: 0 0 12px;
+  color: #64748b;
+}
+
+.settings-link-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.settings-link-list a {
+  color: var(--brand-primary, #2563eb);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.settings-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+/* — Demo mode — */
+.demo-mode-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 16px;
+  background: #fef3c7;
+  border-bottom: 1px solid #fcd34d;
+  color: #78350f;
+}
+
+.demo-mode-banner p {
+  margin: 4px 0 0;
+  font-size: 13px;
+}
+
+/* — Daily check-in polish — */
+.daily-checkin-flow {
+  display: grid;
+  gap: 16px;
+}
+
+.daily-checkin-mood-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 8px;
+}
+
+.daily-checkin-mood-btn {
+  min-height: 48px;
+  border-radius: 12px;
+  border: 2px solid #e2e8f0;
+  background: #fff;
+  cursor: pointer;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.daily-checkin-mood-btn.selected {
+  border-color: var(--brand-primary, #2563eb);
+  transform: scale(1.02);
+}
+
+.daily-checkin-range {
+  width: 100%;
+}
+
+.daily-checkin-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: space-between;
+}
+
+.daily-checkin-binary {
+  display: flex;
+  gap: 8px;
+}
+
+.daily-checkin-estimate {
+  color: #64748b;
+  font-size: 14px;
+}

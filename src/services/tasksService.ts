@@ -21,7 +21,9 @@ const TASK_SELECT = `
   splittable,
   status,
   skip_count,
-  created_at
+  created_at,
+  updated_at,
+  last_completed_at
 `;
 
 export async function getUserTasks(userId: string): Promise<TaskRecord[]> {

@@ -1,8 +1,13 @@
 import { useEffect, useMemo, useState, type FormEvent } from "react";
 
 import { Button } from "../components/ui/Button";
+import { EmptyState } from "../components/ui/EmptyState";
 import { useAuth } from "../hooks/useAuth";
 import { useAppNavigation } from "../hooks/useAppNavigation";
+import {
+  clearHouseholdTaskCollaborationDraft,
+  readHouseholdTaskCollaborationDraft,
+} from "../lib/householdCollaboration/householdCollaborationDraftStorage";
 
 import {
   createTask,
@@ -24,6 +29,10 @@ const categories = [
   { value: "spirituality", label: "Spiritualité" },
   { value: "other", label: "Autre" },
 ];
+
+function getCategoryLabel(value: string): string {
+  return categories.find((category) => category.value === value)?.label ?? value;
+}
 
 function getPriorityLabel(priority: number) {
   if (priority >= 5) return "Très importante";
@@ -60,6 +69,7 @@ export function TasksPage() {
 
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [collaborationDraftLoaded, setCollaborationDraftLoaded] = useState(false);
 
   const activeTasks = useMemo(
     () =>
@@ -97,6 +107,27 @@ export function TasksPage() {
 
     void loadTasks();
   }, [user]);
+
+  useEffect(() => {
+    const draft = readHouseholdTaskCollaborationDraft();
+    if (!draft) return;
+
+    setTitle(draft.title);
+    setDescription(draft.description);
+    setCategory(draft.category);
+    setEstimatedMinutes(String(draft.estimatedMinutes));
+    setPriority(String(draft.priority));
+    setSplittable(draft.splittable);
+    if (draft.dueDate) {
+      setDueAt(`${draft.dueDate}T12:00`);
+    }
+    setCollaborationDraftLoaded(true);
+  }, []);
+
+  function dismissCollaborationDraft() {
+    clearHouseholdTaskCollaborationDraft();
+    setCollaborationDraftLoaded(false);
+  }
 
   async function handleCreateTask(
     event: FormEvent<HTMLFormElement>,
@@ -144,6 +175,9 @@ export function TasksPage() {
       setDueAt("");
       setPriority("3");
       setSplittable(true);
+
+      clearHouseholdTaskCollaborationDraft();
+      setCollaborationDraftLoaded(false);
 
       setSuccessMessage("Tâche ajoutée avec succès.");
     } catch (error) {
@@ -209,7 +243,7 @@ export function TasksPage() {
       <section className="dashboard-container">
         <header className="dashboard-header">
           <div>
-            <p className="brand-name">Équilibre IA</p>
+            <p className="brand-name">Aura</p>
             <h1>Mes tâches</h1>
             <p>
               Ajoute ce que tu dois faire. Le futur planning
@@ -226,6 +260,22 @@ export function TasksPage() {
             Retour
           </Button>
         </header>
+
+        {collaborationDraftLoaded && (
+          <section className="household-collaboration-prefill-banner">
+            <div>
+              <p className="card-label">Suggestion du foyer</p>
+              <h2>Brouillon préparé</h2>
+              <p>
+                Un brouillon de tâche collaborative a été préparé — validez ou
+                modifiez le formulaire ci-dessous avant de créer la tâche.
+              </p>
+            </div>
+            <Button variant="secondary" size="sm" onClick={dismissCollaborationDraft}>
+              Compris
+            </Button>
+          </section>
+        )}
 
         <section className="task-form-card">
           <p className="card-label">Nouvelle tâche</p>
@@ -366,13 +416,11 @@ export function TasksPage() {
           {loading ? (
             <p>Chargement des tâches...</p>
           ) : activeTasks.length === 0 ? (
-            <div className="empty-card">
-              <h3>Aucune tâche en attente</h3>
-              <p>
-                Ajoute ta première tâche avec le formulaire
-                ci-dessus.
-              </p>
-            </div>
+            <EmptyState
+              aura="empty"
+              title="Aucune tâche en attente"
+              description="Ajoute ta première tâche avec le formulaire ci-dessus."
+            />
           ) : (
             <div className="task-list">
               {activeTasks.map((task) => (
@@ -380,7 +428,7 @@ export function TasksPage() {
                   <div className="task-card-header">
                     <div>
                       <span className="task-category">
-                        {task.category}
+                        {getCategoryLabel(task.category)}
                       </span>
                       <h3>{task.title}</h3>
                     </div>

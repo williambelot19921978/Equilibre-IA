@@ -14,6 +14,27 @@ import {
 import { loadPlanningContextForDate } from "./memoryContextService";
 import { addLeisureActivityToPlanning } from "./leisurePlanningService";
 import { PlanningGenerationError } from "../types/planningGenerationError";
+import {
+  getPilotProposalSession,
+  registerPilotProposalCorrelation,
+} from "../ai/outcome/outcomeObservationBridge";
+
+function linkAcceptedSuggestionCorrelation(params: {
+  suggestionId: string;
+  taskId?: string | null;
+  calendarItemId?: string | null;
+}): void {
+  const session = getPilotProposalSession(params.suggestionId);
+  if (!session?.traceId || !session?.correlationId) return;
+
+  registerPilotProposalCorrelation({
+    proposalId: params.suggestionId,
+    traceId: session.traceId,
+    correlationId: session.correlationId,
+    taskId: params.taskId ?? undefined,
+    calendarItemId: params.calendarItemId ?? undefined,
+  });
+}
 
 const CALENDAR_SELECT = `
   id,
@@ -149,6 +170,12 @@ async function acceptStudyRevisionSuggestion({
 
   const displayed = await loadDisplayedDayPlan({ userId, date });
   const timeLabel = formatTimeRangeLabel(startsAt, endsAt);
+
+  linkAcceptedSuggestionCorrelation({
+    suggestionId: suggestion.id,
+    taskId: data.task_id,
+    calendarItemId: data.id,
+  });
 
   return {
     explanation: `Révision ajoutée de ${timeLabel}.`,
@@ -296,20 +323,26 @@ export async function acceptFreeTimeSuggestion({
     updated_at: new Date().toISOString(),
   });
 
-  const { error } = await supabase
+  const { data: insertedItem, error } = await supabase
     .from("calendar_items")
     .insert(payload)
     .select(CALENDAR_SELECT)
     .single();
 
-  if (error) {
+  if (error || !insertedItem) {
     throw PlanningGenerationError.fromSupabase({
       table: "calendar_items",
       operation: "INSERT",
-      error,
+      error: error ?? { message: "No row returned" },
       step: "save",
     });
   }
+
+  linkAcceptedSuggestionCorrelation({
+    suggestionId: suggestion.id,
+    taskId: insertedItem.task_id,
+    calendarItemId: insertedItem.id,
+  });
 
   await deleteAutoProposalsForDate({
     householdId: planningContext.householdId,

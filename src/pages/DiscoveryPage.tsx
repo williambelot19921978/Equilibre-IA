@@ -186,7 +186,7 @@ export function DiscoveryPage() {
     return (
       <main className="auth-page">
         <section className="auth-card">
-          <p className="brand-name">Équilibre IA</p>
+          <p className="brand-name">Aura</p>
 
           <h1>Je te connais déjà mieux</h1>
 

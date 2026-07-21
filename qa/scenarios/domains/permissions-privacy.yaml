@@ -1,0 +1,275 @@
+domain: permissions-privacy
+version: 1.0.0
+scenarios:
+  - id: QA-PRV-001
+    domain: permissions-privacy
+    title: RLS — accès own data only
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: celibataire
+    steps:
+      - Configurer permissions
+      - Tenter accès non autorisé
+      - Vérifier blocage
+    expected: "Confidentialité respectée: RLS — accès own data only"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 17
+    tags: []
+  - id: QA-PRV-002
+    domain: permissions-privacy
+    title: Pas lecture tâches autre membre sans droit
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: couple_sans_enfant
+    steps:
+      - Configurer permissions
+      - Tenter accès non autorisé
+      - Vérifier blocage
+    expected: "Confidentialité respectée: Pas lecture tâches autre membre sans droit"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 17
+    tags: []
+  - id: QA-PRV-003
+    domain: permissions-privacy
+    title: Suppression données — confirmation
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: famille_avec_enfants
+    steps:
+      - Configurer permissions
+      - Tenter accès non autorisé
+      - Vérifier blocage
+    expected: "Confidentialité respectée: Suppression données — confirmation"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 17
+    tags: []
+  - id: QA-PRV-004
+    domain: permissions-privacy
+    title: Consentement explicite partage
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: famille_monoparentale
+    steps:
+      - Configurer permissions
+      - Tenter accès non autorisé
+      - Vérifier blocage
+    expected: "Confidentialité respectée: Consentement explicite partage"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 17
+    tags: []
+  - id: QA-PRV-005
+    domain: permissions-privacy
+    title: Minimisation données collectées
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: garde_alternee
+    steps:
+      - Configurer permissions
+      - Tenter accès non autorisé
+      - Vérifier blocage
+    expected: "Confidentialité respectée: Minimisation données collectées"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 17
+    tags: []
+  - id: QA-PRV-006
+    domain: permissions-privacy
+    title: Pas tracking caché
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: agriculteur
+    steps:
+      - Configurer permissions
+      - Tenter accès non autorisé
+      - Vérifier blocage
+    expected: "Confidentialité respectée: Pas tracking caché"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 17
+    tags: []
+  - id: QA-PRV-007
+    domain: permissions-privacy
+    title: Historique actions sensibles
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: infirmier_nuit
+    steps:
+      - Configurer permissions
+      - Tenter accès non autorisé
+      - Vérifier blocage
+    expected: "Confidentialité respectée: Historique actions sensibles"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 17
+    tags: []
+  - id: QA-PRV-008
+    domain: permissions-privacy
+    title: Token session sécurisé
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: artisan
+    steps:
+      - Configurer permissions
+      - Tenter accès non autorisé
+      - Vérifier blocage
+    expected: "Confidentialité respectée: Token session sécurisé"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 17
+    tags: []
+  - id: QA-PRV-009
+    domain: permissions-privacy
+    title: Erreur 403 message clair
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: etudiant
+    steps:
+      - Configurer permissions
+      - Tenter accès non autorisé
+      - Vérifier blocage
+    expected: "Confidentialité respectée: Erreur 403 message clair"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 17
+    tags: []
+  - id: QA-PRV-010
+    domain: permissions-privacy
+    title: Export RGPD-like
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: retraite
+    steps:
+      - Configurer permissions
+      - Tenter accès non autorisé
+      - Vérifier blocage
+    expected: "Confidentialité respectée: Export RGPD-like"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 17
+    tags: []
+  - id: QA-PRV-011
+    domain: permissions-privacy
+    title: Suppression compte
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: routier
+    steps:
+      - Configurer permissions
+      - Tenter accès non autorisé
+      - Vérifier blocage
+    expected: "Confidentialité respectée: Suppression compte"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 17
+    tags: []
+  - id: QA-PRV-012
+    domain: permissions-privacy
+    title: Séparation journal privé
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: cadre
+    steps:
+      - Configurer permissions
+      - Tenter accès non autorisé
+      - Vérifier blocage
+    expected: "Confidentialité respectée: Séparation journal privé"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 17
+    tags: []
+  - id: QA-PRV-013
+    domain: permissions-privacy
+    title: Pas fuite email autre membre
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: independant
+    steps:
+      - Configurer permissions
+      - Tenter accès non autorisé
+      - Vérifier blocage
+    expected: "Confidentialité respectée: Pas fuite email autre membre"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 17
+    tags: []
+  - id: QA-PRV-014
+    domain: permissions-privacy
+    title: Audit log action planning
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: teletravail
+    steps:
+      - Configurer permissions
+      - Tenter accès non autorisé
+      - Vérifier blocage
+    expected: "Confidentialité respectée: Audit log action planning"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 17
+    tags: []
+  - id: QA-PRV-015
+    domain: permissions-privacy
+    title: Aucune fuite inter-foyer via Universal Learning
+    preconditions:
+      - "AnonymizationGate contract présent"
+      - "Contrats Dual Memory Sprint A2"
+    profile: celibataire
+    steps:
+      - Vérifier GatePassedUniversalSignal requis pour ULE
+      - Vérifier OutcomeObservation n'écrit pas directement ULE
+      - Exécuter tests QA-PRV-015 et verify:contracts
+    expected: "Aucune PII dans pipeline Universal — gate obligatoire"
+    criticality: critical
+    status: pending
+    automated_test: src/ai/contracts/contracts.test.ts
+    last_run: null
+    constitution_refs:
+      - 17
+      - 22
+    tags: [dual-memory, anonymization-gate, sprint-a2]

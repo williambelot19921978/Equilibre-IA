@@ -26,7 +26,7 @@ describe("Sprint 2.6 — feature flags", () => {
 
 describe("Sprint 2.6 — app version", () => {
   it("exposes beta version label", () => {
-    expect(APP_VERSION).toBe("0.1.0-beta");
+    expect(APP_VERSION).toBe("1.0.0-beta.1");
     expect(APP_BETA_LABEL).toContain("bêta");
   });
 });

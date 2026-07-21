@@ -102,7 +102,7 @@ export function AppDrawer({ open, onClose }: AppDrawerProps) {
         </nav>
 
         <footer className="app-drawer-footer">
-          <p className="app-drawer-version">Équilibre IA — {APP_VERSION}</p>
+          <p className="app-drawer-version">Aura — {APP_VERSION}</p>
           <Button variant="ghost" fullWidth onClick={() => void signOut()}>
             Se déconnecter
           </Button>

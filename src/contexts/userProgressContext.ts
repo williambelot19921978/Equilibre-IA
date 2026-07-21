@@ -6,6 +6,7 @@ export type UserProgressContextValue = {
   progress: UserProgressState;
   resolvedRoute: AppRoute;
   loading: boolean;
+  progressError: string | null;
   refreshProgress: () => Promise<UserProgressState>;
   isCurrentRouteAllowed: (pathname: string) => boolean;
 };

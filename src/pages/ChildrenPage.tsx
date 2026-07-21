@@ -1,8 +1,17 @@
 import { useEffect, useState, type FormEvent } from "react";
+
+import { Button } from "../components/ui/Button";
+import { Card } from "../components/ui/Card";
+import { ErrorState } from "../components/ui/ErrorState";
+import { FormField, Input } from "../components/ui/FormField";
+import { SkeletonCard } from "../components/ui/Skeleton";
+import { OnboardingLayout } from "../components/onboarding/OnboardingLayout";
 import { useAuth } from "../hooks/useAuth";
 import { useAppNavigation } from "../hooks/useAppNavigation";
+import { patchOnboardingUxProgress } from "../lib/onboarding/onboardingProgressStore";
 import { addChild, getChildrenByHousehold } from "../services/childrenService";
 import { getHouseholdMembership } from "../services/householdService";
+import { AppRoutes } from "../lib/navigation/routes";
 import type { ChildRecord } from "../types";
 
 export function ChildrenPage() {
@@ -26,7 +35,7 @@ export function ChildrenPage() {
         const membership = await getHouseholdMembership(user.id);
 
         if (!membership) {
-          setErrorMessage("Aucun foyer n’a été trouvé.");
+          setErrorMessage("Aucun foyer n'a été trouvé.");
           setLoading(false);
           return;
         }
@@ -58,12 +67,12 @@ export function ChildrenPage() {
     setSuccessMessage("");
 
     if (!householdId) {
-      setErrorMessage("Le foyer n’est pas encore disponible.");
+      setErrorMessage("Le foyer n'est pas encore disponible.");
       return;
     }
 
     if (!firstName.trim()) {
-      setErrorMessage("Indique le prénom de l’enfant.");
+      setErrorMessage("Indiquez le prénom de l'enfant.");
       return;
     }
 
@@ -84,103 +93,85 @@ export function ChildrenPage() {
       setErrorMessage(
         error instanceof Error
           ? error.message
-          : "Impossible d’ajouter l’enfant.",
+          : "Impossible d'ajouter l'enfant.",
       );
     } finally {
       setSaving(false);
     }
   }
 
-  async function handleFinish() {
-    setErrorMessage("");
-
-    try {
-      await goToResolvedRoute();
-    } catch (error) {
-      setErrorMessage(
-        error instanceof Error
-          ? error.message
-          : "Impossible de terminer la configuration.",
-      );
+  async function finishStep() {
+    if (user?.id) {
+      patchOnboardingUxProgress(user.id, { childrenStepDone: true });
     }
+    await goToResolvedRoute();
   }
 
   if (loading) {
     return (
-      <main className="auth-page">
-        <p>Chargement du foyer...</p>
-      </main>
+      <OnboardingLayout title="Les enfants du foyer" showProgress={false}>
+        <SkeletonCard />
+      </OnboardingLayout>
     );
   }
 
   return (
-    <main className="auth-page">
-      <section className="auth-card">
-        <p className="brand-name">Équilibre IA</p>
+    <OnboardingLayout
+      title="Les enfants du foyer"
+      subtitle="Facultatif — ajoutez les enfants pour affiner l'organisation familiale."
+      stepRoute={AppRoutes.CHILDREN}
+    >
+      <form onSubmit={handleAddChild} className="onboarding-form">
+        <FormField label="Prénom de l'enfant" htmlFor="child-first-name">
+          <Input
+            id="child-first-name"
+            type="text"
+            value={firstName}
+            onChange={(event) => setFirstName(event.target.value)}
+          />
+        </FormField>
 
-        <h1>Les enfants du foyer</h1>
+        <FormField label="Date de naissance (facultatif)" htmlFor="child-birth-date">
+          <Input
+            id="child-birth-date"
+            type="date"
+            value={birthDate}
+            onChange={(event) => setBirthDate(event.target.value)}
+          />
+        </FormField>
 
-        <p className="auth-intro">
-          Ajoute les enfants pour que l’application puisse mieux comprendre
-          l’organisation familiale.
-        </p>
-
-        <form onSubmit={handleAddChild} className="auth-form">
-          <label>
-            <span>Prénom de l’enfant</span>
-            <input
-              type="text"
-              value={firstName}
-              onChange={(event) => setFirstName(event.target.value)}
-              required
-            />
-          </label>
-
-          <label>
-            <span>Date de naissance, facultative</span>
-            <input
-              type="date"
-              value={birthDate}
-              onChange={(event) => setBirthDate(event.target.value)}
-            />
-          </label>
-
-          {errorMessage && (
-            <div className="message message-error">{errorMessage}</div>
-          )}
-
-          {successMessage && (
-            <div className="message message-success">{successMessage}</div>
-          )}
-
-          <button type="submit" disabled={saving}>
-            {saving ? "Ajout..." : "Ajouter l’enfant"}
-          </button>
-        </form>
-
-        {children.length > 0 && (
-          <div style={{ marginTop: 24 }}>
-            <h2>Enfants ajoutés</h2>
-
-            <ul>
-              {children.map((child) => (
-                <li key={child.id}>
-                  {child.first_name}
-                  {child.birth_date
-                    ? ` — ${new Date(child.birth_date).toLocaleDateString(
-                        "fr-FR",
-                      )}`
-                    : ""}
-                </li>
-              ))}
-            </ul>
-          </div>
+        {errorMessage && <ErrorState kind="error" title={errorMessage} />}
+        {successMessage && (
+          <p className="onboarding-success" role="status">
+            {successMessage}
+          </p>
         )}
 
-        <button type="button" onClick={handleFinish}>
-          Terminer la configuration
-        </button>
-      </section>
-    </main>
+        <Button type="submit" fullWidth loading={saving}>
+          Ajouter l&apos;enfant
+        </Button>
+      </form>
+
+      {children.length > 0 && (
+        <ul className="onboarding-list">
+          {children.map((child) => (
+            <li key={child.id}>
+              <Card variant="ghost">
+                {child.first_name}
+                {child.birth_date
+                  ? ` — ${new Date(child.birth_date).toLocaleDateString("fr-FR")}`
+                  : ""}
+              </Card>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <div className="onboarding-actions-stack">
+        <Button fullWidth onClick={() => void finishStep()} data-testid="onboarding-children-finish">
+          {children.length > 0 ? "Continuer" : "Je n'ai pas d'enfant — continuer"}
+        </Button>
+      </div>
+    </OnboardingLayout>
   );
 }

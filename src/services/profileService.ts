@@ -92,3 +92,25 @@ export async function saveBaseProfileFacts({
     throw error;
   }
 }
+
+/** EPIC 7A — save priority only (onboarding step). */
+export async function saveMainPriorityFact(
+  userId: string,
+  mainPriority: string,
+): Promise<void> {
+  const householdId = await getCurrentHouseholdId(userId);
+
+  const { error } = await supabase.from("profile_facts").upsert(
+    {
+      household_id: householdId,
+      user_id: userId,
+      fact_key: "main_priority",
+      fact_value: { value: mainPriority || null },
+    },
+    { onConflict: "user_id,fact_key" },
+  );
+
+  if (error) {
+    throw error;
+  }
+}

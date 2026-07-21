@@ -12,24 +12,30 @@ const HINT_PRIORITY = {
 
 export function selectLanguageMemoryHints(
   context: LanguageMemoryContext | null | undefined,
+  shownInsightIds: string[] = [],
 ): LanguageMemoryHint[] {
   if (!context?.hasSufficientData) return [];
 
+  const shown = new Set(shownInsightIds);
   const candidates: LanguageMemoryHint[] = [];
 
-  if (context.living?.dailyMissionTitle) {
+  const missionText =
+    context.living?.dailyMissionDescription ?? context.living?.dailyMissionTitle;
+  if (missionText && !shown.has("mission-daily")) {
     candidates.push({
       id: "mission-daily",
       type: "mission",
-      message: `Mission du jour : ${context.living.dailyMissionTitle}.`,
+      message: `Mission du jour : ${missionText}`,
       reason: "Mission générée par la mémoire comportementale.",
       priority: HINT_PRIORITY.mission,
     });
   }
 
   for (const insight of context.living?.topInsights ?? []) {
+    const insightId = `insight-${insight.id}`;
+    if (shown.has(insightId)) continue;
     candidates.push({
-      id: `insight-${insight.id}`,
+      id: insightId,
       type: "living_insight",
       message: `J'ai remarqué : ${insight.label.toLowerCase()} — ${insight.detail}`,
       reason: `Insight comportemental (confiance ${Math.round(insight.confidence * 100)} %).`,
@@ -84,6 +90,7 @@ export function selectLanguageMemoryHints(
   return candidates
     .sort((a, b) => a.priority - b.priority)
     .filter((hint) => {
+      if (shown.has(hint.id)) return false;
       const key = `${hint.type}:${hint.message.slice(0, 48)}`;
       if (seen.has(key)) return false;
       seen.add(key);

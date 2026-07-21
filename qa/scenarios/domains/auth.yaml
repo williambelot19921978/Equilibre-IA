@@ -1,0 +1,206 @@
+domain: auth
+version: 1.0.0
+scenarios:
+  - id: QA-AUTH-001
+    domain: auth
+    title: Inscription avec email valide
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: celibataire
+    steps:
+      - Ouvrir /signup
+      - Remplir email et mot de passe valides
+      - Soumettre
+    expected: Compte créé, redirection vers onboarding ou home sans erreur
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 6
+      - 17
+    tags: []
+  - id: QA-AUTH-002
+    domain: auth
+    title: Inscription email déjà utilisé
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: couple_sans_enfant
+    steps:
+      - Tenter inscription avec email existant
+    expected: Message clair sans fuite d'information sensible
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 17
+    tags: []
+  - id: QA-AUTH-003
+    domain: auth
+    title: Connexion identifiants valides
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: famille_avec_enfants
+    steps:
+      - Ouvrir /login
+      - Saisir identifiants valides
+      - Soumettre
+    expected: Session établie, accès au tableau de bord
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 6
+    tags: []
+  - id: QA-AUTH-004
+    domain: auth
+    title: Connexion mot de passe incorrect
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: etudiant
+    steps:
+      - Saisir email valide et mauvais mot de passe
+    expected: Erreur générique, pas de session
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 17
+    tags: []
+  - id: QA-AUTH-005
+    domain: auth
+    title: Déconnexion depuis menu utilisateur
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: any
+    steps:
+      - Se connecter
+      - Ouvrir menu utilisateur
+      - Cliquer déconnexion
+    expected: Session terminée, redirection login, données session effacées
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 17
+    tags:
+      - regression
+  - id: QA-AUTH-006
+    domain: auth
+    title: Accès route protégée sans session
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: celibataire
+    steps:
+      - Visiter /home sans être connecté
+    expected: Redirection vers login
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 17
+    tags: []
+  - id: QA-AUTH-007
+    domain: auth
+    title: Persistance session après refresh
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: teletravail
+    steps:
+      - Se connecter
+      - Rafraîchir la page
+    expected: Utilisateur reste connecté
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 6
+    tags: []
+  - id: QA-AUTH-008
+    domain: auth
+    title: Expiration session gérée proprement
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: cadre
+    steps:
+      - Simuler token expiré
+      - Naviguer
+    expected: Redirection login avec message compréhensible
+    criticality: medium
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 17
+    tags: []
+  - id: QA-AUTH-009
+    domain: auth
+    title: Double soumission formulaire login
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: any
+    steps:
+      - Double-clic sur bouton connexion
+    expected: Une seule requête, pas de double session
+    criticality: medium
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs: []
+    tags: []
+  - id: QA-AUTH-010
+    domain: auth
+    title: Mot de passe trop faible refusé
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: celibataire
+    steps:
+      - Inscription avec mot de passe trivial
+    expected: Validation côté client/serveur, message explicite
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 17
+    tags: []
+  - id: QA-AUTH-011
+    domain: auth
+    title: Aucune donnée fondateur après signup
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: celibataire
+    steps:
+      - Créer nouveau compte
+      - Inspecter profil et foyer
+    expected: Aucun prénom, métier ou structure familiale pré-remplie
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 6
+    tags: []
+  - id: QA-AUTH-012
+    domain: auth
+    title: Console sans erreur au login
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: any
+    steps:
+      - Parcours login complet
+      - Inspecter console
+    expected: Aucune erreur non gérée
+    criticality: medium
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs: []
+    tags:
+      - console

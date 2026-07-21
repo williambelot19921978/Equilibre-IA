@@ -4,8 +4,14 @@ import { AppDrawer } from "./AppDrawer";
 import { AppSidebar } from "./AppSidebar";
 import { BottomNav } from "./BottomNav";
 import { ConversationHeaderTrigger } from "../conversation/FloatingConversationBar";
+import { NotificationBell } from "../mobile/NotificationBell";
+import { SyncStatusIndicator } from "../mobile/SyncStatusIndicator";
+import { BetaFeedbackWidget } from "../trust/BetaFeedbackWidget";
 import { UserMenu } from "./UserMenu";
 import { Button } from "../ui/Button";
+import { AuraHeaderMark } from "../aura/AuraLogo";
+import { ReleaseVersionBadge } from "../release/ReleaseVersionBadge";
+import { appConfig } from "../../config/app";
 import { useAuth } from "../../hooks/useAuth";
 import { useSidebarPreferences } from "../../hooks/useSidebarPreferences";
 
@@ -48,10 +54,9 @@ export function AppShell({ children, title, headerActions }: AppShellProps) {
           </Button>
 
           <div className="app-header-brand">
-            <span className="app-header-logo" aria-hidden="true">
-              ◎
-            </span>
-            <span className="app-header-brand-name">Équilibre IA</span>
+            <AuraHeaderMark />
+            <span className="app-header-brand-name">{appConfig.name}</span>
+            <ReleaseVersionBadge compact />
           </div>
         </div>
 
@@ -62,15 +67,15 @@ export function AppShell({ children, title, headerActions }: AppShellProps) {
 
           <ConversationHeaderTrigger />
 
-          <button
-            type="button"
-            className="app-header-notifications"
-            aria-label="Notifications (bientôt disponible)"
-            disabled
-            title="Notifications — bientôt disponible"
-          >
-            🔔
-          </button>
+          <SyncStatusIndicator />
+
+          {user?.id && (
+            <span className="app-header-feedback">
+              <BetaFeedbackWidget userId={user.id} compact context="app-header" />
+            </span>
+          )}
+
+          <NotificationBell />
 
           <UserMenu displayName={displayName} />
         </div>

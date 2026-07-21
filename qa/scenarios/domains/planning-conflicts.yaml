@@ -1,0 +1,283 @@
+domain: planning-conflicts
+version: 1.0.0
+scenarios:
+  - id: QA-PLC-001
+    domain: planning-conflicts
+    title: Conflit deux tâches même créneau
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: celibataire
+    steps:
+      - Créer situation conflit
+      - Demander résolution
+      - Vérifier outcome
+    expected: "Conflit géré de façon déterministe et explicable: Conflit deux tâches même créneau"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 9
+      - 12
+    tags: []
+  - id: QA-PLC-002
+    domain: planning-conflicts
+    title: Conflit tâche vs RDV fixe
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: couple_sans_enfant
+    steps:
+      - Créer situation conflit
+      - Demander résolution
+      - Vérifier outcome
+    expected: "Conflit géré de façon déterministe et explicable: Conflit tâche vs RDV fixe"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 9
+      - 12
+    tags: []
+  - id: QA-PLC-003
+    domain: planning-conflicts
+    title: Conflit enfant vs études
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: famille_avec_enfants
+    steps:
+      - Créer situation conflit
+      - Demander résolution
+      - Vérifier outcome
+    expected: "Conflit géré de façon déterministe et explicable: Conflit enfant vs études"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 9
+      - 12
+    tags: []
+  - id: QA-PLC-004
+    domain: planning-conflicts
+    title: Conflit sport vs récupération
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: famille_monoparentale
+    steps:
+      - Créer situation conflit
+      - Demander résolution
+      - Vérifier outcome
+    expected: "Conflit géré de façon déterministe et explicable: Conflit sport vs récupération"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 9
+      - 12
+    tags: []
+  - id: QA-PLC-005
+    domain: planning-conflicts
+    title: Conflit couple vs surcharge
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: garde_alternee
+    steps:
+      - Créer situation conflit
+      - Demander résolution
+      - Vérifier outcome
+    expected: "Conflit géré de façon déterministe et explicable: Conflit couple vs surcharge"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 9
+      - 12
+    tags: []
+  - id: QA-PLC-006
+    domain: planning-conflicts
+    title: Proposition déplacement tâche non urgente
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: agriculteur
+    steps:
+      - Créer situation conflit
+      - Demander résolution
+      - Vérifier outcome
+    expected: "Conflit géré de façon déterministe et explicable: Proposition déplacement tâche non urgente"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 9
+      - 12
+    tags: []
+  - id: QA-PLC-007
+    domain: planning-conflicts
+    title: Refus déplacement contrainte dure
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: infirmier_nuit
+    steps:
+      - Créer situation conflit
+      - Demander résolution
+      - Vérifier outcome
+    expected: "Conflit géré de façon déterministe et explicable: Refus déplacement contrainte dure"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 9
+      - 12
+    tags: []
+  - id: QA-PLC-008
+    domain: planning-conflicts
+    title: Chevauchement garde alternée
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: artisan
+    steps:
+      - Créer situation conflit
+      - Demander résolution
+      - Vérifier outcome
+    expected: "Conflit géré de façon déterministe et explicable: Chevauchement garde alternée"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 9
+      - 12
+    tags: []
+  - id: QA-PLC-009
+    domain: planning-conflicts
+    title: Surcharge semaine détectée
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: etudiant
+    steps:
+      - Créer situation conflit
+      - Demander résolution
+      - Vérifier outcome
+    expected: "Conflit géré de façon déterministe et explicable: Surcharge semaine détectée"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 9
+      - 12
+    tags: []
+  - id: QA-PLC-010
+    domain: planning-conflicts
+    title: Alerte suppression seule soirée libre
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: retraite
+    steps:
+      - Créer situation conflit
+      - Demander résolution
+      - Vérifier outcome
+    expected: "Conflit géré de façon déterministe et explicable: Alerte suppression seule soirée libre"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 9
+      - 12
+    tags: []
+  - id: QA-PLC-011
+    domain: planning-conflicts
+    title: Double réservation même action
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: routier
+    steps:
+      - Créer situation conflit
+      - Demander résolution
+      - Vérifier outcome
+    expected: "Conflit géré de façon déterministe et explicable: Double réservation même action"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 9
+      - 12
+    tags: []
+  - id: QA-PLC-012
+    domain: planning-conflicts
+    title: Conflit permissions membre
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: cadre
+    steps:
+      - Créer situation conflit
+      - Demander résolution
+      - Vérifier outcome
+    expected: "Conflit géré de façon déterministe et explicable: Conflit permissions membre"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 9
+      - 12
+    tags: []
+  - id: QA-PLC-013
+    domain: planning-conflicts
+    title: Latence réseau replanification
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: independant
+    steps:
+      - Créer situation conflit
+      - Demander résolution
+      - Vérifier outcome
+    expected: "Conflit géré de façon déterministe et explicable: Latence réseau replanification"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 9
+      - 12
+    tags: []
+  - id: QA-PLC-014
+    domain: planning-conflicts
+    title: Erreur Supabase replan — message utilisateur
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: teletravail
+    steps:
+      - Créer situation conflit
+      - Demander résolution
+      - Vérifier outcome
+    expected: "Conflit géré de façon déterministe et explicable: Erreur Supabase replan — message utilisateur"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 3
+      - 9
+      - 12
+    tags: []

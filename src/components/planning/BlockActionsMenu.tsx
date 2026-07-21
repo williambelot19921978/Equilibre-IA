@@ -14,6 +14,8 @@ type BlockActionsMenuProps = {
   entry: DayTimelineEntry;
   onReschedule: (option: RescheduleOption) => void;
   onNoTime: (choice: NoTimeChoice) => void;
+  onCannotDoNow?: () => void;
+  showSmartReschedule?: boolean;
   onModify: () => void;
   canModify?: boolean;
   showCompleteButton?: boolean;
@@ -36,6 +38,8 @@ export function BlockActionsMenu({
   entry,
   onReschedule,
   onNoTime,
+  onCannotDoNow,
+  showSmartReschedule = false,
   onModify,
   canModify = true,
   showCompleteButton = true,
@@ -104,6 +108,13 @@ export function BlockActionsMenu({
         label="Décaler"
         onClick={() => setRescheduleOpen((value) => !value)}
       />
+      {showSmartReschedule && onCannotDoNow && (
+        <BlockActionButton
+          icon="↻"
+          label="Je ne peux pas maintenant"
+          onClick={onCannotDoNow}
+        />
+      )}
       <BlockActionButton
         icon="⏳"
         label="Je n'ai pas le temps"

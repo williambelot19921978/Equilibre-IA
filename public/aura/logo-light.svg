@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" fill="none">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="80" y2="80">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#3b82f6"/>
+    </linearGradient>
+    <linearGradient id="text" x1="90" y1="20" x2="300" y2="60">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#3b82f6"/>
+    </linearGradient>
+  </defs>
+  <path d="M40 8 L52 36 L80 36 L58 54 L68 78 L40 62 L12 78 L22 54 L0 36 L28 36 Z" fill="url(#g)" stroke="#c9a962" stroke-width="1.5"/>
+  <text x="92" y="52" font-family="Segoe UI, system-ui, sans-serif" font-size="36" font-weight="700" fill="url(#text)">Aura</text>
+</svg>

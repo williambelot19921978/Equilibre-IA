@@ -1,0 +1,307 @@
+domain: ia-memory
+version: 1.0.0
+scenarios:
+  - id: QA-MEM-001
+    domain: ia-memory
+    title: Apprentissage expression personnelle
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: celibataire
+    steps:
+      - Interagir pour créer mémoire
+      - Vérifier stockage
+      - Tester correction/suppression
+    expected: "Mémoire transparente et progressive: Apprentissage expression personnelle"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 4
+      - 13
+    tags: []
+  - id: QA-MEM-002
+    domain: ia-memory
+    title: Confirmation avant fait certain
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: couple_sans_enfant
+    steps:
+      - Interagir pour créer mémoire
+      - Vérifier stockage
+      - Tester correction/suppression
+    expected: "Mémoire transparente et progressive: Confirmation avant fait certain"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 4
+      - 13
+    tags: []
+  - id: QA-MEM-003
+    domain: ia-memory
+    title: Correction utilisateur prise en compte
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: famille_avec_enfants
+    steps:
+      - Interagir pour créer mémoire
+      - Vérifier stockage
+      - Tester correction/suppression
+    expected: "Mémoire transparente et progressive: Correction utilisateur prise en compte"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 4
+      - 13
+    tags: []
+  - id: QA-MEM-004
+    domain: ia-memory
+    title: Oubli info obsolète
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: famille_monoparentale
+    steps:
+      - Interagir pour créer mémoire
+      - Vérifier stockage
+      - Tester correction/suppression
+    expected: "Mémoire transparente et progressive: Oubli info obsolète"
+    criticality: critical
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 4
+      - 13
+    tags: []
+  - id: QA-MEM-005
+    domain: ia-memory
+    title: Vue mémoire utilisateur
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: garde_alternee
+    steps:
+      - Interagir pour créer mémoire
+      - Vérifier stockage
+      - Tester correction/suppression
+    expected: "Mémoire transparente et progressive: Vue mémoire utilisateur"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 4
+      - 13
+    tags: []
+  - id: QA-MEM-006
+    domain: ia-memory
+    title: Suppression fait mémorisé
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: agriculteur
+    steps:
+      - Interagir pour créer mémoire
+      - Vérifier stockage
+      - Tester correction/suppression
+    expected: "Mémoire transparente et progressive: Suppression fait mémorisé"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 4
+      - 13
+    tags: []
+  - id: QA-MEM-007
+    domain: ia-memory
+    title: Hypothèse non présentée comme fait
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: infirmier_nuit
+    steps:
+      - Interagir pour créer mémoire
+      - Vérifier stockage
+      - Tester correction/suppression
+    expected: "Mémoire transparente et progressive: Hypothèse non présentée comme fait"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 4
+      - 13
+    tags: []
+  - id: QA-MEM-008
+    domain: ia-memory
+    title: Niveau confiance visible
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: artisan
+    steps:
+      - Interagir pour créer mémoire
+      - Vérifier stockage
+      - Tester correction/suppression
+    expected: "Mémoire transparente et progressive: Niveau confiance visible"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 4
+      - 13
+    tags: []
+  - id: QA-MEM-009
+    domain: ia-memory
+    title: Personal language — mission sans duplication
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: etudiant
+    steps:
+      - Interagir pour créer mémoire
+      - Vérifier stockage
+      - Tester correction/suppression
+    expected: "Mémoire transparente et progressive: Personal language — mission sans duplication"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 4
+      - 13
+    tags: []
+  - id: QA-MEM-010
+    domain: ia-memory
+    title: Pas hint sur intent unknown
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: retraite
+    steps:
+      - Interagir pour créer mémoire
+      - Vérifier stockage
+      - Tester correction/suppression
+    expected: "Mémoire transparente et progressive: Pas hint sur intent unknown"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 4
+      - 13
+    tags: []
+  - id: QA-MEM-011
+    domain: ia-memory
+    title: Mémoire métier non figée
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: routier
+    steps:
+      - Interagir pour créer mémoire
+      - Vérifier stockage
+      - Tester correction/suppression
+    expected: "Mémoire transparente et progressive: Mémoire métier non figée"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 4
+      - 13
+    tags: []
+  - id: QA-MEM-012
+    domain: ia-memory
+    title: Deux profils même métier différenciés
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: cadre
+    steps:
+      - Interagir pour créer mémoire
+      - Vérifier stockage
+      - Tester correction/suppression
+    expected: "Mémoire transparente et progressive: Deux profils même métier différenciés"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 4
+      - 13
+    tags: []
+  - id: QA-MEM-013
+    domain: ia-memory
+    title: Import expressions batch
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: independant
+    steps:
+      - Interagir pour créer mémoire
+      - Vérifier stockage
+      - Tester correction/suppression
+    expected: "Mémoire transparente et progressive: Import expressions batch"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 4
+      - 13
+    tags: []
+  - id: QA-MEM-014
+    domain: ia-memory
+    title: Export mémoire utilisateur
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: teletravail
+    steps:
+      - Interagir pour créer mémoire
+      - Vérifier stockage
+      - Tester correction/suppression
+    expected: "Mémoire transparente et progressive: Export mémoire utilisateur"
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 4
+      - 13
+    tags: []
+  - id: QA-MEM-015
+    domain: ia-memory
+    title: Séparation Dual Memory au niveau contrats TypeScript
+    preconditions:
+      - "Contrats Sprint A2 présents dans src/ai/contracts/"
+    profile: celibataire
+    steps:
+      - Vérifier PersonalSignal.__memoryTier === personal
+      - Vérifier UniversalSignal sans memberId
+      - Exécuter tests contracts.test.ts QA-MEM-015
+    expected: "Personal Memory et Universal Learning incompatibles au typage — pas de chemin direct"
+    criticality: critical
+    status: pending
+    automated_test: src/ai/contracts/contracts.test.ts
+    last_run: null
+    constitution_refs:
+      - 14
+      - 22
+    tags: [dual-memory, sprint-a2]
+  - id: QA-MEM-016
+    domain: ia-memory
+    title: OutcomeObservation route sans stocker le contenu de vie
+    preconditions:
+      - "Taxonomie outcome events versionnée"
+    profile: couple_sans_enfant
+    steps:
+      - Vérifier OUTCOME_EVENT_TYPES minimal
+      - Vérifier proposalTrace refs sans dump conversation
+      - Exécuter tests QA-MEM-016
+    expected: "Observation structurée — tracer la décision, pas recopier la vie"
+    criticality: critical
+    status: pending
+    automated_test: src/ai/contracts/contracts.test.ts
+    last_run: null
+    constitution_refs:
+      - 14
+      - 22
+    tags: [outcome-observation, sprint-a2]

@@ -450,8 +450,7 @@ describe("Sprint 4.1 — conversation fiable", () => {
     });
 
     if (import.meta.env.DEV) {
-      expect(result.debug?.detectedIntent).toBe("declare_fatigue");
-      expect(result.debug?.normalizedText).toBeTruthy();
+      expect(result.state.pending?.kind).toBe("conversation_action");
     } else {
       expect(result.debug).toBeUndefined();
     }

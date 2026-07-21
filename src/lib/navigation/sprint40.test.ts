@@ -41,7 +41,8 @@ describe("Sprint 4.0 — Design System & Shell Premium", () => {
     expect(shell).toContain("BottomNav");
     expect(shell).toContain("UserMenu");
     expect(readSrc("components/navigation/UserMenu.tsx")).toContain("app-header-avatar");
-    expect(shell).toContain("app-header-notifications");
+    expect(shell).toContain("NotificationBell");
+    expect(shell).toContain("SyncStatusIndicator");
   });
 
   it("D. AppDrawer — menu avancé via appNavigationItems", () => {

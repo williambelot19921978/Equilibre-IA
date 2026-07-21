@@ -1,0 +1,235 @@
+/* EPIC 8A — Trust Center & privacy UX */
+
+.trust-center-page {
+  display: grid;
+  gap: 24px;
+}
+
+.trust-center-intro {
+  padding: 20px;
+}
+
+.trust-center-quick-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 0;
+}
+
+.trust-center-quick-links a {
+  font-weight: 600;
+}
+
+.trust-dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 0;
+}
+
+.trust-dashboard-card {
+  padding: 14px 16px;
+  display: grid;
+  gap: 6px;
+}
+
+.trust-dashboard-label {
+  font-size: var(--aura-text-caption-size);
+  color: var(--color-text-muted);
+}
+
+.trust-toggle-list {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 0;
+  display: grid;
+  gap: 10px;
+}
+
+.trust-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 16px;
+}
+
+.trust-toggle-row p {
+  margin: 4px 0 0;
+  font-size: var(--aura-text-caption-size);
+  color: var(--color-text-muted);
+}
+
+.trust-export-actions,
+.trust-security-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.trust-security-list {
+  list-style: none;
+  padding: 16px;
+  margin: 12px 0 0;
+  display: grid;
+  gap: 10px;
+}
+
+.trust-security-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.trust-deletion-scopes {
+  display: grid;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.trust-deletion-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.trust-deletion-confirm {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 12px;
+  font-size: var(--aura-text-caption-size);
+}
+
+.trust-deletion-confirm input {
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.trust-faq-list {
+  display: grid;
+  gap: 8px;
+}
+
+.trust-faq-item {
+  padding: 12px 16px;
+}
+
+.trust-faq-item summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.beta-feedback-widget {
+  padding: 16px;
+}
+
+.beta-feedback-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.beta-feedback-form {
+  display: grid;
+  gap: 10px;
+}
+
+.beta-feedback-form textarea {
+  width: 100%;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  padding: 8px 12px;
+}
+
+.beta-feedback-form-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.why-recommendation-panel {
+  margin-top: 10px;
+  padding: 14px 16px;
+  display: grid;
+  gap: 10px;
+}
+
+.why-recommendation-panel h4 {
+  margin: 0 0 6px;
+  font-size: var(--aura-text-caption-size);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.why-recommendation-confidence,
+.why-recommendation-goal,
+.why-recommendation-ignore {
+  font-size: var(--aura-text-caption-size);
+  margin: 0;
+}
+
+/* Life Knowledge enhanced */
+.life-knowledge-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.life-knowledge-toolbar input,
+.life-knowledge-toolbar select {
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  min-height: 40px;
+}
+
+.life-knowledge-item-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.how-aura-works {
+  display: grid;
+  gap: 16px;
+}
+
+.how-aura-works-hero {
+  text-align: center;
+  padding: 28px 20px;
+}
+
+.how-aura-works-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.how-aura-works-card {
+  padding: 18px 20px;
+}
+
+.life-knowledge-history {
+  margin-top: 8px;
+  font-size: var(--aura-text-caption-size);
+  color: var(--color-text-muted);
+}
+
+.app-header-feedback {
+  margin-right: 4px;
+}
+
+@media (max-width: 640px) {
+  .trust-toggle-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

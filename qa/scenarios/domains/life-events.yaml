@@ -1,0 +1,173 @@
+domain: life-events
+version: 1.0.0
+scenarios:
+  - id: QA-LEV-001
+    domain: life-events
+    title: "Transition: déménagement"
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: celibataire
+    steps:
+      - Déclarer déménagement
+      - Vérifier adaptation IA/planning
+    expected: Comportement adapté pendant déménagement, pas de recommandations inadaptées
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 8
+    tags: []
+  - id: QA-LEV-002
+    domain: life-events
+    title: "Transition: mariage"
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: couple_sans_enfant
+    steps:
+      - Déclarer mariage
+      - Vérifier adaptation IA/planning
+    expected: Comportement adapté pendant mariage, pas de recommandations inadaptées
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 8
+    tags: []
+  - id: QA-LEV-003
+    domain: life-events
+    title: "Transition: grossesse"
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: famille_avec_enfants
+    steps:
+      - Déclarer grossesse
+      - Vérifier adaptation IA/planning
+    expected: Comportement adapté pendant grossesse, pas de recommandations inadaptées
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 8
+    tags: []
+  - id: QA-LEV-004
+    domain: life-events
+    title: "Transition: naissance"
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: famille_monoparentale
+    steps:
+      - Déclarer naissance
+      - Vérifier adaptation IA/planning
+    expected: Comportement adapté pendant naissance, pas de recommandations inadaptées
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 8
+    tags: []
+  - id: QA-LEV-005
+    domain: life-events
+    title: "Transition: séparation"
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: garde_alternee
+    steps:
+      - Déclarer séparation
+      - Vérifier adaptation IA/planning
+    expected: Comportement adapté pendant séparation, pas de recommandations inadaptées
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 8
+    tags: []
+  - id: QA-LEV-006
+    domain: life-events
+    title: "Transition: examens"
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: agriculteur
+    steps:
+      - Déclarer examens
+      - Vérifier adaptation IA/planning
+    expected: Comportement adapté pendant examens, pas de recommandations inadaptées
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 8
+    tags: []
+  - id: QA-LEV-007
+    domain: life-events
+    title: "Transition: changement poste"
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: infirmier_nuit
+    steps:
+      - Déclarer changement poste
+      - Vérifier adaptation IA/planning
+    expected: Comportement adapté pendant changement poste, pas de recommandations inadaptées
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 8
+    tags: []
+  - id: QA-LEV-008
+    domain: life-events
+    title: "Transition: maladie"
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: artisan
+    steps:
+      - Déclarer maladie
+      - Vérifier adaptation IA/planning
+    expected: Comportement adapté pendant maladie, pas de recommandations inadaptées
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 8
+    tags: []
+  - id: QA-LEV-009
+    domain: life-events
+    title: "Transition: vacances"
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: etudiant
+    steps:
+      - Déclarer vacances
+      - Vérifier adaptation IA/planning
+    expected: Comportement adapté pendant vacances, pas de recommandations inadaptées
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 8
+    tags: []
+  - id: QA-LEV-010
+    domain: life-events
+    title: "Transition: deuil"
+    preconditions:
+      - "Application accessible sur http://localhost:5173"
+    profile: retraite
+    steps:
+      - Déclarer deuil
+      - Vérifier adaptation IA/planning
+    expected: Comportement adapté pendant deuil, pas de recommandations inadaptées
+    criticality: high
+    status: pending
+    automated_test: null
+    last_run: null
+    constitution_refs:
+      - 8
+    tags: []

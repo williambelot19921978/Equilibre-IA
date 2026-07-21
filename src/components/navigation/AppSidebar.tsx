@@ -86,7 +86,7 @@ export function AppSidebar({
       </nav>
 
       <div className="app-sidebar-footer">
-        <p className="app-sidebar-tagline">Équilibre IA</p>
+        <p className="app-sidebar-tagline">Aura</p>
         <p className="app-sidebar-version">Version bêta</p>
       </div>
     </aside>

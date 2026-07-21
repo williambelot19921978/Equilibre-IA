@@ -9,7 +9,9 @@ export type SpaceId =
   | "leisure"
   | "profile"
   | "family"
+  | "household"
   | "tasks"
+  | "goals"
   | "daily-routine"
   | "statistics"
   | "my-ai";
@@ -22,7 +24,9 @@ export function resolveSpaceFromPath(pathname: string): SpaceId {
   if (pathname.startsWith(AppRoutes.LEISURE)) return "leisure";
   if (pathname.startsWith(AppRoutes.USER_PROFILE)) return "profile";
   if (pathname.startsWith(AppRoutes.FAMILY_CONTEXT)) return "family";
+  if (pathname.startsWith(AppRoutes.HOUSEHOLD_OVERVIEW)) return "household";
   if (pathname.startsWith(AppRoutes.TASKS)) return "tasks";
+  if (pathname.startsWith(AppRoutes.GOALS)) return "goals";
   if (pathname.startsWith(AppRoutes.DAILY_ROUTINE)) return "daily-routine";
   if (pathname.startsWith(AppRoutes.STATISTICS)) return "statistics";
   if (pathname.startsWith(AppRoutes.MY_AI)) return "my-ai";

@@ -7,6 +7,8 @@ import {
   PASSWORD_RESET_SUCCESS_MESSAGE,
   validateNewPassword,
 } from "../lib/auth/passwordRecovery";
+import { Button } from "../components/ui/Button";
+import { FormField, Input } from "../components/ui/FormField";
 import { AppRoutes } from "../lib/navigation/routes";
 import { supabase } from "../lib/supabase/client";
 import {
@@ -50,23 +52,19 @@ export function ResetPasswordPage() {
     void supabase.auth.getSession().then(({ data: { session } }) => {
       if (!active || resolved) return;
 
-      if (
-        session &&
-        isPasswordRecoveryCallback(window.location)
-      ) {
+      if (session && isPasswordRecoveryCallback(window.location)) {
         markReady();
+        return;
+      }
+
+      if (!isPasswordRecoveryCallback(window.location)) {
+        markExpired();
       }
     });
-
-    const timeoutId = window.setTimeout(() => {
-      if (!active || resolved) return;
-      markExpired();
-    }, 4000);
 
     return () => {
       active = false;
       subscription.unsubscribe();
-      window.clearTimeout(timeoutId);
     };
   }, []);
 
@@ -102,7 +100,7 @@ export function ResetPasswordPage() {
     return (
       <main className="auth-page">
         <section className="auth-card">
-          <p className="brand-name">Équilibre IA</p>
+          <p className="brand-name">Aura</p>
           <h1>Vérification du lien</h1>
           <p className="auth-intro">Patiente quelques instants…</p>
         </section>
@@ -114,7 +112,7 @@ export function ResetPasswordPage() {
     return (
       <main className="auth-page">
         <section className="auth-card">
-          <p className="brand-name">Équilibre IA</p>
+          <p className="brand-name">Aura</p>
           <h1>Lien expiré</h1>
           <p className="auth-intro">
             Ce lien de réinitialisation n&apos;est plus valide. Demande un
@@ -138,7 +136,7 @@ export function ResetPasswordPage() {
     return (
       <main className="auth-page">
         <section className="auth-card">
-          <p className="brand-name">Équilibre IA</p>
+          <p className="brand-name">Aura</p>
           <h1>Mot de passe mis à jour</h1>
           <div className="message message-success">
             {PASSWORD_RESET_SUCCESS_MESSAGE}
@@ -152,18 +150,18 @@ export function ResetPasswordPage() {
   return (
     <main className="auth-page">
       <section className="auth-card">
-        <p className="brand-name">Équilibre IA</p>
+        <p className="brand-name">Aura</p>
 
         <h1>Nouveau mot de passe</h1>
 
         <p className="auth-intro">
-          Choisis un nouveau mot de passe pour ton compte Équilibre IA.
+          Choisis un nouveau mot de passe pour ton compte Aura.
         </p>
 
         <form onSubmit={handleSubmit} className="auth-form">
-          <label>
-            <span>Nouveau mot de passe</span>
-            <input
+          <FormField label="Nouveau mot de passe" htmlFor="reset-password" required>
+            <Input
+              id="reset-password"
               type="password"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
@@ -171,11 +169,11 @@ export function ResetPasswordPage() {
               minLength={8}
               required
             />
-          </label>
+          </FormField>
 
-          <label>
-            <span>Confirmer le mot de passe</span>
-            <input
+          <FormField label="Confirmer le mot de passe" htmlFor="reset-password-confirm" required>
+            <Input
+              id="reset-password-confirm"
               type="password"
               value={passwordConfirmation}
               onChange={(event) => setPasswordConfirmation(event.target.value)}
@@ -183,15 +181,17 @@ export function ResetPasswordPage() {
               minLength={8}
               required
             />
-          </label>
+          </FormField>
 
           {errorMessage && (
-            <div className="message message-error">{errorMessage}</div>
+            <div className="message message-error" role="alert">
+              {errorMessage}
+            </div>
           )}
 
-          <button type="submit" disabled={loading}>
-            {loading ? "Enregistrement..." : "Enregistrer le mot de passe"}
-          </button>
+          <Button type="submit" fullWidth loading={loading}>
+            Enregistrer le mot de passe
+          </Button>
         </form>
 
         <p className="auth-footer">

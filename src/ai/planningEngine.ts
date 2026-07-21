@@ -28,7 +28,7 @@ import {
 } from "../lib/time/daySchedule";
 import { resolveWorkFromPlanningContext } from "../lib/work/resolveWorkFromContext";
 import { getEffectiveWorkHours } from "./lifeEngine";
-import { validatePlannedBlock } from "./decisionEngine";
+import { validatePlannedBlockViaPort } from "./adapters/decision/decisionEnginePort";
 import { computeEveningRoutineWindow } from "../lib/planning/eveningRoutine";
 import { buildMorningRoutineConstraints } from "../lib/planning/buildMorningRoutineConstraints";
 import { placeDinner } from "../lib/planning/mealPlacement";
@@ -1018,7 +1018,7 @@ export function generateDayPlan({
         }
 
         const taskBlock = buildTaskBlock(segment, slot, context);
-        const validation = validatePlannedBlock({
+        const validation = validatePlannedBlockViaPort({
           block: taskBlock,
           context,
           existingBlocks: placedBlocks,
