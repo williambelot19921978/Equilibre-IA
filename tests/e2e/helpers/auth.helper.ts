@@ -25,11 +25,7 @@ export async function signupGuardianUser(
     page.getByRole("heading", { name: /créer mon compte/i }),
   ).toBeVisible();
 
-  await page
-    .locator("label")
-    .filter({ hasText: /^Prénom$/ })
-    .locator("input")
-    .fill(persona.firstName);
+  await page.locator("#signup-first-name").fill(persona.firstName);
   await page.locator('input[type="email"]').fill(resolvedEmail);
   await page.locator('input[type="password"]').first().fill(persona.password);
   await page.locator('input[type="password"]').nth(1).fill(persona.password);
@@ -84,11 +80,20 @@ export async function loginGuardianUser(
   await page.locator('input[type="password"]').fill(credentials.password);
   await page.getByRole("button", { name: /se connecter/i }).click();
 
-  await page.waitForURL(/\/(home|onboarding|discovery|tasks|planning|household)/, {
-    timeout: 30_000,
-  });
+  await page.waitForURL(
+    /\/(home|daily-check-in|onboarding|discovery|tasks|planning|household)/,
+    {
+      timeout: 30_000,
+    },
+  );
 
   await expect(page).not.toHaveURL(/\/login$/);
+
+  const skip = page.getByTestId("daily-checkin-skip");
+  if (await skip.isVisible({ timeout: 3_000 }).catch(() => false)) {
+    await skip.click();
+    await expect(page).toHaveURL(/\/home/, { timeout: 15_000 });
+  }
 }
 
 export async function loginStablePrimaryUser(page: Page): Promise<void> {
@@ -125,14 +130,24 @@ export async function clearDailyBriefPresentation(page: Page): Promise<void> {
 }
 
 export async function dismissDailyBriefIfVisible(page: Page): Promise<void> {
-  await clearDailyBriefPresentation(page);
-
   const backdrop = page.locator(".daily-brief-modal-backdrop");
-  if (await backdrop.isVisible().catch(() => false)) {
-    await backdrop
-      .locator(".daily-brief-modal")
-      .getByRole("button", { name: /^Compris$/i })
-      .click();
+
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    if (!(await backdrop.isVisible({ timeout: 1_500 }).catch(() => false))) {
+      return;
+    }
+
+    const compris = backdrop.getByRole("button", { name: /^Compris$/i });
+    const fermer = backdrop.getByRole("button", { name: /^Fermer$/i });
+
+    if (await compris.isVisible().catch(() => false)) {
+      await compris.click();
+    } else if (await fermer.isVisible().catch(() => false)) {
+      await fermer.click();
+    } else {
+      return;
+    }
+
     await backdrop.waitFor({ state: "hidden", timeout: 10_000 }).catch(() => undefined);
   }
 }

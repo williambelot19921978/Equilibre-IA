@@ -66,6 +66,20 @@ async function stabilizePageForSnapshot(
       element.textContent = "Foyer";
     }
 
+    if (name === "home") {
+      for (const element of document.querySelectorAll(".aura-h2")) {
+        element.textContent = "Bonjour Test";
+      }
+      for (const element of document.querySelectorAll(".home-premium-hero-meta .ui-badge, .home-premium-hero-meta .badge")) {
+        element.textContent = "Meta";
+      }
+      for (const element of document.querySelectorAll(".home-premium-panel")) {
+        if (element instanceof HTMLElement) {
+          element.style.visibility = "hidden";
+        }
+      }
+    }
+
     if (name === "household-overview") {
       for (const element of document.querySelectorAll(
         ".household-workload-metrics dd, .household-workload-header span",
@@ -117,8 +131,10 @@ function buildVisualMasks(page: Page, name: string) {
     masks.push(
       page.locator(".home-widgets-stack"),
       page.locator(".daily-brief-section"),
+      page.locator(".daily-brief-modal-backdrop"),
       page.locator(".proactive-coach-banner"),
       page.locator(".daily-mission-banner"),
+      page.locator(".home-premium-panel"),
     );
   }
 
@@ -177,5 +193,6 @@ export async function assertVisualRegression(
     ...(options?.scope || name === "household-overview" ? {} : { fullPage: true }),
   };
 
+  await dismissDailyBriefIfVisible(page);
   await expect(target).toHaveScreenshot(screenshotName, screenshotOptions);
 }

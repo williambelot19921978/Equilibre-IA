@@ -105,5 +105,10 @@ export default defineConfig({
         url: baseURL,
         reuseExistingServer: !process.env.CI,
         timeout: 120_000,
+        env: {
+          ...process.env,
+          VITE_DAILY_STATE_ENGINE: process.env.VITE_DAILY_STATE_ENGINE ?? "true",
+          VITE_PERSONAL_COACH_ENGINE: process.env.VITE_PERSONAL_COACH_ENGINE ?? "true",
+        },
       },
 });

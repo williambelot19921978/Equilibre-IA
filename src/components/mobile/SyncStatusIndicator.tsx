@@ -11,27 +11,29 @@ const STATUS_LABELS = {
 export function SyncStatusIndicator() {
   const { sync, refreshSync, connectivity } = useMobileReliability();
 
-  if (!sync) return null;
+  // Keep offline indicator visible even if sync snapshot briefly clears (e.g. auth refresh).
+  if (!sync && connectivity !== "offline") return null;
 
-  const label = STATUS_LABELS[sync.status];
+  const status = sync?.status ?? "offline";
+  const label = STATUS_LABELS[status];
 
   return (
     <button
       type="button"
-      className={`sync-status-indicator sync-status-${sync.status}`}
+      className={`sync-status-indicator sync-status-${status}`}
       onClick={refreshSync}
       aria-live="polite"
       data-testid="sync-status-indicator"
       title={
-        sync.lastSyncedAt
+        sync?.lastSyncedAt
           ? `Dernière sync : ${new Date(sync.lastSyncedAt).toLocaleString("fr-FR")}`
           : label
       }
     >
       <span className="sync-status-dot" aria-hidden="true" />
       <span>{label}</span>
-      {sync.pendingCount > 0 && (
-        <span className="sync-status-badge">{sync.pendingCount}</span>
+      {(sync?.pendingCount ?? 0) > 0 && (
+        <span className="sync-status-badge">{sync?.pendingCount}</span>
       )}
       {connectivity === "offline" && <span className="sr-only"> — connexion perdue</span>}
     </button>

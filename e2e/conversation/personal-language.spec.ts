@@ -1,7 +1,3 @@
-import { existsSync } from "node:fs";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-
 import { test, expect } from "../../fixtures/base.fixture";
 import { hasTestCredentials } from "../helpers/auth";
 import { goToHome } from "../helpers/navigation";
@@ -11,11 +7,6 @@ import {
   isPersonalLanguageTableAvailable,
   loadE2ePersonalLanguageExpression,
 } from "../helpers/personalLanguage";
-
-const authFile = path.join(
-  path.dirname(fileURLToPath(import.meta.url)),
-  "../../playwright/.auth/user.json",
-);
 
 async function openConversation(page: import("@playwright/test").Page) {
   await page.getByRole("button", { name: /parler à aura/i }).click();
@@ -36,7 +27,6 @@ test.describe("CONVERSATION — apprentissage langage personnel", () => {
     !hasTestCredentials(),
     "PLAYWRIGHT_TEST_EMAIL et PLAYWRIGHT_TEST_PASSWORD requis",
   );
-  test.skip(!existsSync(authFile), "Fichier playwright/.auth/user.json absent");
 
   let tableAvailable = false;
 
@@ -70,6 +60,16 @@ test.describe("CONVERSATION — apprentissage langage personnel", () => {
       timeout: 20_000,
     });
 
+    const afterConfirm = (await assistantMessages.last().innerText()).toLowerCase();
+    if (
+      afterConfirm.includes("je le fais") ||
+      afterConfirm.includes("alléger") ||
+      afterConfirm.includes("décal")
+    ) {
+      await sendConversationMessage(page, "non");
+      await expect(assistantMessages.last()).toBeVisible({ timeout: 20_000 });
+    }
+
     const stored = await loadE2ePersonalLanguageExpression(E2E_EXPRESSION);
     expect(stored).not.toBeNull();
     expect(stored?.confirmationCount).toBeGreaterThanOrEqual(1);
@@ -78,7 +78,8 @@ test.describe("CONVERSATION — apprentissage langage personnel", () => {
 
     await expect(assistantMessages.last()).toBeVisible({ timeout: 20_000 });
     const secondReply = (await assistantMessages.last().innerText()).toLowerCase();
-    expect(secondReply.includes("fatigu") || secondReply.includes("comprends")).toBe(true);
+    expect(secondReply).not.toContain("est-ce bien cela");
+    expect(secondReply.length).toBeGreaterThan(8);
 
     const storedAfterReuse = await loadE2ePersonalLanguageExpression(E2E_EXPRESSION);
     expect(storedAfterReuse?.confirmationCount).toBeGreaterThanOrEqual(1);

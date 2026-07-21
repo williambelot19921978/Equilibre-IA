@@ -101,7 +101,10 @@ export function AppRouter() {
         <Route path={AppRoutes.ONBOARDING_GOALS} element={withPageSuspense(<OnboardingGoalsPage />)} />
         <Route path={AppRoutes.DISCOVERY} element={withPageSuspense(<DiscoveryPage />)} />
 
-        <Route path={AppRoutes.DAILY_CHECK_IN} element={withPageSuspense(<DailyCheckinPage />)} />
+        {/* Check-in hors DailyCheckinGate (évite boucle) mais dans le shell authentifié. */}
+        <Route element={<AuthenticatedAppLayout />}>
+          <Route path={AppRoutes.DAILY_CHECK_IN} element={withPageSuspense(<DailyCheckinPage />)} />
+        </Route>
 
         <Route
           element={

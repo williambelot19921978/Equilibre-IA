@@ -1,7 +1,3 @@
-import { existsSync } from "node:fs";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-
 import { expect, test, type Page } from "../../fixtures/base.fixture";
 import { hasTestCredentials } from "../helpers/auth";
 import { goToPlanning } from "../helpers/navigation";
@@ -11,11 +7,6 @@ import {
   fetchE2eSportSession,
   type E2eSportSession,
 } from "../helpers/sportSession";
-
-const authFile = path.join(
-  path.dirname(fileURLToPath(import.meta.url)),
-  "../../playwright/.auth/user.json",
-);
 
 async function openWorkoutPlayer(page: Page, sessionTitle: string) {
   await goToPlanning(page);
@@ -53,7 +44,6 @@ test.describe("SPORT — player de séance", () => {
     !hasTestCredentials(),
     "PLAYWRIGHT_TEST_EMAIL et PLAYWRIGHT_TEST_PASSWORD requis",
   );
-  test.skip(!existsSync(authFile), "Fichier playwright/.auth/user.json absent");
 
   let e2eSession: E2eSportSession;
 

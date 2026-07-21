@@ -82,7 +82,10 @@ export async function completeMinimalOnboarding(
       continue;
     }
 
-    if (await finishChildrenButton.isVisible().catch(() => false)) {
+    if (
+      onboardingPathname(page) === "/onboarding/children" &&
+      (await finishChildrenButton.isVisible().catch(() => false))
+    ) {
       const childNameInput = page
         .locator("label")
         .filter({ hasText: /prénom de l.enfant/i })
@@ -248,11 +251,34 @@ export async function completeMinimalOnboarding(
   }
 }
 
+export async function dismissDailyCheckinIfPresent(page: Page): Promise<void> {
+  const checkinPage = page.getByTestId("daily-checkin-page");
+  const skip = page.getByTestId("daily-checkin-skip");
+
+  const onCheckin =
+    /\/daily-check-in/.test(page.url()) ||
+    (await checkinPage.isVisible().catch(() => false));
+
+  if (!onCheckin) return;
+
+  await expect(skip).toBeVisible({ timeout: 10_000 });
+  await skip.click();
+  await expect(page).toHaveURL(/\/home(?:\?|$)/, { timeout: 15_000 });
+}
+
 export async function goToHome(page: Page): Promise<void> {
   await page.goto("/home");
-  await expect(page.locator("main.home-page-clean, main.dashboard-page")).toBeVisible({
-    timeout: 30_000,
-  });
+
+  const home = page.locator("main.home-page-clean, main.dashboard-page");
+  const checkin = page.getByTestId("daily-checkin-page");
+
+  await Promise.race([
+    home.waitFor({ state: "visible", timeout: 30_000 }),
+    checkin.waitFor({ state: "visible", timeout: 30_000 }),
+  ]);
+
+  await dismissDailyCheckinIfPresent(page);
+  await expect(home).toBeVisible({ timeout: 30_000 });
 }
 
 export async function goToTasks(page: Page): Promise<void> {

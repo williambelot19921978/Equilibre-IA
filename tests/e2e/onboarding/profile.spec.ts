@@ -7,9 +7,13 @@ test.describe("ONBOARDING — création profil", () => {
   test("accès au profil utilisateur depuis l'application", async ({ page, networkGuardian }) => {
     networkGuardian.setStep("home");
     await goToHome(page);
+    await dismissDailyBriefIfVisible(page);
+    await expect(
+      page.locator("[data-testid='home-premium-dashboard'] .home-premium-hero"),
+    ).toBeVisible({ timeout: 15_000 });
     await assertVisualRegression(page, "home", {
       dismissDailyBrief: true,
-      scope: ".home-compact-header",
+      scope: "[data-testid='home-premium-dashboard'] .home-premium-hero",
     });
     await dismissDailyBriefIfVisible(page);
 

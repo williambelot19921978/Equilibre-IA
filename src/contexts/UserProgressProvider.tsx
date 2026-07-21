@@ -41,6 +41,10 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
       return nextProgress;
     } catch {
       const fallback = { ...EMPTY_USER_PROGRESS };
+      // Keep last known progress when already loaded (offline / flaky network).
+      if (loadedUserId === user.id) {
+        return progress;
+      }
       setProgress(fallback);
       setLoadedUserId(user.id);
       setProgressError(
@@ -48,7 +52,7 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
       );
       return fallback;
     }
-  }, [user?.id]);
+  }, [user?.id, loadedUserId, progress]);
 
   useEffect(() => {
     if (authLoading) {
@@ -56,9 +60,12 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
     }
 
     if (!user) {
-      setProgress(EMPTY_USER_PROGRESS);
-      setLoadedUserId(null);
-      setProgressError(null);
+      // Avoid wiping a healthy session during transient offline auth flicker.
+      if (!authLoading) {
+        setProgress(EMPTY_USER_PROGRESS);
+        setLoadedUserId(null);
+        setProgressError(null);
+      }
       return;
     }
 
@@ -78,6 +85,10 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
       })
       .catch(() => {
         if (!cancelled) {
+          // Already loaded: preserve session UX while offline instead of blocking shell.
+          if (loadedUserId === user.id) {
+            return;
+          }
           setProgress({ ...EMPTY_USER_PROGRESS });
           setLoadedUserId(user.id);
           setProgressError(

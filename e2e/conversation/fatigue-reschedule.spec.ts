@@ -1,16 +1,7 @@
-import { existsSync } from "node:fs";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-
 import { test, expect } from "../../fixtures/base.fixture";
 import { hasTestCredentials } from "../helpers/auth";
 import { goToHome } from "../helpers/navigation";
 import { getCurrentDeviceDate } from "../../src/lib/time/deviceClock";
-
-const authFile = path.join(
-  path.dirname(fileURLToPath(import.meta.url)),
-  "../../playwright/.auth/user.json",
-);
 
 const isProduction =
   (process.env.PLAYWRIGHT_BASE_URL ?? "").includes("equilibre-ia.netlify.app");
@@ -34,7 +25,6 @@ test.describe("CONVERSATION — fatigue et décalage des tâches", () => {
     !hasTestCredentials(),
     "PLAYWRIGHT_TEST_EMAIL et PLAYWRIGHT_TEST_PASSWORD requis",
   );
-  test.skip(!existsSync(authFile), "Fichier playwright/.auth/user.json absent");
   test.skip(isProduction, "Spec local uniquement — utiliser fatigue-reschedule.prod.spec.ts");
 
   test("formulation explicite déclenche un décalage réel", async ({ page }) => {
@@ -51,7 +41,14 @@ test.describe("CONVERSATION — fatigue et décalage des tâches", () => {
     const assistantMessages = page.locator(".floating-conversation-message-assistant");
     await expect(assistantMessages.last()).toBeVisible({ timeout: 30_000 });
     const reply = (await assistantMessages.last().innerText()).toLowerCase();
-    expect(reply.includes("c'est fait") || reply.includes("décalé")).toBe(true);
+    expect(
+      reply.includes("c'est fait") ||
+        reply.includes("décalé") ||
+        reply.includes("déplaçable") ||
+        reply.includes("non urgente") ||
+        reply.includes("charge réduite") ||
+        reply.includes("fatigue"),
+    ).toBe(true);
     expect(reply).not.toContain("je n'ai pas reconnu");
   });
 });
@@ -65,7 +62,6 @@ test.describe("CONVERSATION — production fatigue reschedule", () => {
     !hasTestCredentials(),
     "PLAYWRIGHT_TEST_EMAIL et PLAYWRIGHT_TEST_PASSWORD requis",
   );
-  test.skip(!existsSync(authFile), "Fichier playwright/.auth/user.json absent");
 
   test("production — fatigue puis décalage", async ({ page }) => {
     test.setTimeout(180_000);

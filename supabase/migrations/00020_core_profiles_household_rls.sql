@@ -48,15 +48,12 @@ CREATE POLICY "households_update_member"
 
 ALTER TABLE public.household_members ENABLE ROW LEVEL SECURITY;
 
+-- SELECT must NOT self-query household_members (infinite RLS recursion).
+-- Reuse SECURITY DEFINER helper already used by dashboard policies.
 DROP POLICY IF EXISTS "household_members_select_own_household" ON public.household_members;
 CREATE POLICY "household_members_select_own_household"
   ON public.household_members FOR SELECT
-  USING (
-    household_id IN (
-      SELECT household_id FROM public.household_members AS hm
-      WHERE hm.user_id = auth.uid()
-    )
-  );
+  USING (public.is_household_member(household_id));
 
 DROP POLICY IF EXISTS "household_members_insert_own" ON public.household_members;
 CREATE POLICY "household_members_insert_own"

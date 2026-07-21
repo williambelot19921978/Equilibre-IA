@@ -19,5 +19,14 @@ setup("authentifier le compte de test", async ({ page }) => {
   }
 
   await loginWithTestAccount(page);
+  // S'assurer d'être sur l'accueil (skip check-in déjà géré dans login).
+  if (!page.url().includes("/home")) {
+    await page.goto("/home");
+    const skip = page.getByTestId("daily-checkin-skip");
+    if (await skip.isVisible({ timeout: 3_000 }).catch(() => false)) {
+      await skip.click();
+      await page.waitForURL(/\/home/, { timeout: 15_000 });
+    }
+  }
   await page.context().storageState({ path: authFile });
 });

@@ -55,6 +55,8 @@ export function createErrorMonitor(
         text.includes("JWT issued at future") ||
         text.includes("status of 429") ||
         (text.includes("429") && /auth\/v1/i.test(text)) ||
+        text.includes("ERR_INTERNET_DISCONNECTED") ||
+        text.includes("ERR_NETWORK_CHANGED") ||
         (logoutStartedAt !== null &&
           text.includes("Failed to fetch") &&
           text.includes("signOut"))
@@ -72,7 +74,9 @@ export function createErrorMonitor(
     if (
       failureText.includes("ERR_ABORTED") ||
       failureText.includes("NS_BINDING_ABORTED") ||
-      failureText.includes("net::ERR_FAILED")
+      failureText.includes("net::ERR_FAILED") ||
+      failureText.includes("ERR_INTERNET_DISCONNECTED") ||
+      failureText.includes("ERR_NETWORK_CHANGED")
     ) {
       return;
     }

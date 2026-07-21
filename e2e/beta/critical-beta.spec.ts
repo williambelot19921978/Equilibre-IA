@@ -12,7 +12,7 @@ const CRITICAL_ROUTES = [
   { path: "/settings/trust", testId: "trust-center-page", heading: /confiance|confidentialité/i },
   { path: "/settings/notifications", testId: null, heading: /notification/i },
   { path: "/planning", testId: null, heading: /planning/i },
-  { path: "/daily-check-in", testId: null, heading: /check-in|ressenti/i },
+  { path: "/daily-check-in", testId: "daily-checkin-page", heading: /check-in|ressenti/i },
   { path: "/organization/personal-coach", testId: null, heading: /coach/i },
   { path: "/goals", testId: null, heading: /objectif/i },
   { path: "/daily-state/history", testId: null, heading: /historique|ressenti/i },
@@ -38,8 +38,8 @@ test.describe("BETA — parcours critiques", () => {
   test("Trust Center — panneaux export et suppression visibles", async ({ page }) => {
     await page.goto("/settings/trust");
     await expect(page.getByTestId("trust-center-page")).toBeVisible();
-    await expect(page.getByRole("heading", { name: /export/i }).first()).toBeVisible();
-    await expect(page.getByRole("heading", { name: /suppression|effacer/i }).first()).toBeVisible();
+    await expect(page.getByTestId("trust-export")).toBeVisible();
+    await expect(page.getByTestId("trust-deletion")).toBeVisible();
   });
 
   test("page d'erreur 404 avec actions", async ({ page }) => {
@@ -50,10 +50,14 @@ test.describe("BETA — parcours critiques", () => {
 
   test("mode hors ligne — indicateur sync visible", async ({ page, context }) => {
     await page.goto("/home");
+    await expect(page.getByTestId("sync-status-indicator")).toBeVisible({
+      timeout: 15_000,
+    });
     await context.setOffline(true);
     await expect(page.getByTestId("sync-status-indicator")).toBeVisible({
       timeout: 15_000,
     });
+    await expect(page.getByText(/hors ligne|synchronisé|en attente|erreur sync/i).first()).toBeVisible();
     await context.setOffline(false);
   });
 });
@@ -85,8 +89,9 @@ test.describe("BETA — check-in direct sans boucle", () => {
   test("navigation directe /daily-check-in reste sur check-in", async ({ page }) => {
     await page.goto("/daily-check-in");
     await expect(page).toHaveURL(/\/daily-check-in/);
-    await expect(page.getByRole("heading", { name: /check-in|ressenti/i }).first()).toBeVisible({
+    await expect(page.getByTestId("daily-checkin-page")).toBeVisible({
       timeout: 15_000,
     });
+    await expect(page.getByRole("heading", { name: /check-in/i }).first()).toBeVisible();
   });
 });

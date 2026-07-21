@@ -12,7 +12,7 @@ test.describe("GOALS — cycle de vie objectif", () => {
     await goToGoals(page);
     await assertVisualRegression(page, "goals", { scope: ".dashboard-header" });
 
-    await page.getByRole("button", { name: /créer un objectif/i }).click();
+    await page.getByRole("button", { name: /créer un objectif/i }).first().click();
     await page
       .locator(".goal-form")
       .locator("label")
